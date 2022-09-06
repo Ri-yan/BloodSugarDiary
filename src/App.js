@@ -30,13 +30,13 @@ function App() {
        <div className="App">
        <NavBar/>
         <Routes>
-         <Route path="/welcome/" element={<WelcomePage/>}></Route>
+         <Route path="/" element={<WelcomePage/>}></Route>
         </Routes>
         <Routes>
          <Route path="/routine_record/" element={<><h1>Blood Sugar Report</h1><Table/><ChartList/></>}></Route>
         </Routes>
         <Routes>
-         <Route path="/random_record/" element={<><h1>Random Blood Sugar Report</h1><RandomTable/><RandomPieChart/><h1>Blood Sugar Report</h1></>}></Route>
+         <Route path="/random_record/" element={<><h1>Random Blood Sugar Report</h1><RandomTable/><RandomPieChart/></>}></Route>
         </Routes>
        <Footer/>
       </div> 
