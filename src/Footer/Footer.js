@@ -28,7 +28,7 @@ export const Footer = () => {
           </CDBBox>
           <CDBBox>
             <p className="h5 mb-4" style={{ fontWeight: '600' }}>
-              Devwares
+              More
             </p>
             <CDBBox display="flex" flex="column" style={{ cursor: 'pointer' }}>
               <CDBFooterLink href="/">Resources</CDBFooterLink>
@@ -39,12 +39,12 @@ export const Footer = () => {
           </CDBBox>
           <CDBBox>
             <p className="h5 mb-4" style={{ fontWeight: '600' }}>
-              Products
+              Functions
             </p>
             <CDBBox display="flex" flex="column" style={{ cursor: 'pointer' }}>
-              <CDBFooterLink href="/">Windframe</CDBFooterLink>
-              <CDBFooterLink href="/">Loop</CDBFooterLink>
-              <CDBFooterLink href="/">Contrast</CDBFooterLink>
+              <CDBFooterLink href="/">Add direct reading</CDBFooterLink>
+              <CDBFooterLink href="/">View records</CDBFooterLink>
+              <CDBFooterLink href="/">Graphs</CDBFooterLink>
             </CDBBox>
           </CDBBox>
           <CDBBox>

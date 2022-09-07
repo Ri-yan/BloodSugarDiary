@@ -12,7 +12,7 @@ const NavBar = () => {
     <NavCom>
         <Navbar sticky="top" className='nav'  collapseOnSelect expand="lg" bg="light" variant="light">
         <Container>
-            <Navbar.Brand  href="/"><Link  to='/'className='title'>Blood Sugar Diary</Link></Navbar.Brand>
+            <Navbar.Brand  href="/"><Link  to='/' className='title'>Blood Sugar Diary</Link></Navbar.Brand>
             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
             <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="me-auto">
@@ -31,7 +31,7 @@ const NavBar = () => {
                 </NavDropdown>
             </Nav>
             <Nav>
-                <Nav.Link href="#deets">Profile</Nav.Link>
+                <Nav.Link href="#deets"><Link  to='/profile' >Profile</Link></Nav.Link>
                 
                 <Button variant="primary"> Logout</Button>
                 
@@ -58,6 +58,9 @@ a{
     font-variant-caps: petite-caps;
     font-weight: bolder;
 }
+@media (max-width: 350px) {
+    .title{font-size: large;}
+  }
 .nav{
     background: linear-gradient(13deg, rgb(106, 251, 249), rgb(241, 254, 254));
     background: linear-gradient(271deg, rgb(106, 251, 249), rgb(241, 254, 254));

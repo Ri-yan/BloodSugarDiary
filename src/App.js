@@ -11,6 +11,7 @@ import {
   Routes,
   Route,
 } from "react-router-dom";
+import { Profile } from './Profile/Profile';
 function App() {
   return (
 //     <div className="App">
@@ -37,6 +38,9 @@ function App() {
         </Routes>
         <Routes>
          <Route path="/random_record/" element={<><h1>Random Blood Sugar Report</h1><RandomTable/><RandomPieChart/></>}></Route>
+        </Routes>
+        <Routes>
+         <Route path="/profile/" element={<><Profile/></>}></Route>
         </Routes>
        <Footer/>
       </div> 
