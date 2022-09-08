@@ -1,0 +1,12 @@
+export{ default as WelcomePage } from './Welcome/WelcomePage'
+export{ default as ReadingAdd } from './AddReadings/ReadingAdd'
+export{ default as ChartList } from './Charts/ChartList'
+export{ default as Graphs } from './Graphs/Graphs'
+export{ default as NavBar } from './Navigation/NavBar'
+export{ default as Profile } from './Profile/Profile'
+export{ default as RandomTable } from './RandomTable/RandomTable'
+export{ default as RoutineTable } from './RoutineTable/RoutineTable'
+export{ default as RandomPieChart } from './RandomTable/RandomPieChart'
+export{ default as Footer } from './Footer/Footer'
+export{ default as RecordList } from './RecordList/RecordList'
+

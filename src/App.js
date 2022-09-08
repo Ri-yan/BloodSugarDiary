@@ -1,32 +1,15 @@
 import './App.css';
-import Table from './RoutineTable/Table';
-import ChartList from './Charts/ChartList';
-import RandomTable from './RandomTable/RandomTable';
-import RandomPieChart from './RandomTable/RandomPieChart';
-import NavBar from './Navigation/NavBar';
-import { Footer } from './Footer/Footer';
-import WelcomePage from './Welcome/WelcomePage';
 import {
   BrowserRouter,
   Routes,
   Route,
 } from "react-router-dom";
-import { Profile } from './Profile/Profile';
+import {WelcomePage, Profile ,ReadingAdd ,
+  RecordList,Graphs,Footer,NavBar,RoutineTable,ChartList,RandomTable,
+  RandomPieChart} from './components';
+
 function App() {
   return (
-//     <div className="App">
-// <NavBar/>
-
-// <WelcomePage/>
-//       <h1>Random Blood Sugar Report</h1>
-//       <RandomTable/>
-//       <RandomPieChart/>
-//       <h1>Blood Sugar Report</h1>
-//       <Table/>
-//       <ChartList/>
-//       <Footer/>
-      
-//     </div>
 <BrowserRouter>
        <div className="App">
        <NavBar/>
@@ -34,13 +17,22 @@ function App() {
          <Route path="/" element={<WelcomePage/>}></Route>
         </Routes>
         <Routes>
-         <Route path="/routine_record/" element={<><h1>Blood Sugar Report</h1><Table/><ChartList/></>}></Route>
+         <Route path="/routine_record/" element={<><h1>Blood Sugar Report</h1><RoutineTable/><ChartList/></>}></Route>
         </Routes>
         <Routes>
          <Route path="/random_record/" element={<><h1>Random Blood Sugar Report</h1><RandomTable/><RandomPieChart/></>}></Route>
         </Routes>
         <Routes>
          <Route path="/profile/" element={<><Profile/></>}></Route>
+        </Routes>
+        <Routes>
+         <Route path="/addreadings/" element={<><ReadingAdd/></>}></Route>
+        </Routes>
+        <Routes>
+         <Route path="/listrecords/" element={<><RecordList/></>}></Route>
+        </Routes>
+        <Routes>
+         <Route path="/graphs/" element={<><Graphs/></>}></Route>
         </Routes>
        <Footer/>
       </div> 
