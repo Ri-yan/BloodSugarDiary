@@ -9,6 +9,7 @@ import {WelcomePage, Profile ,ReadingAdd ,
   RandomPieChart,Login,Signup} from './components';
 import LOG from './LOG';
 import LOG2 from './LOG2';
+import SignUP2 from './SignUP2';
 
 function App() {
   return (
@@ -18,8 +19,10 @@ function App() {
        {/* <LOG/>
        <LOG2/> */}
        <Routes>
-          <Route path="/signup" element={<><Signup/></>} />
-          <Route path="/login" element={<><Login/></>} />
+          {/* <Route path="/signup" element={<><Signup/></>} />
+          <Route path="/login" element={<><Login/></>} /> */}
+          <Route path="/login" element={<><LOG/></>} />
+          <Route path="/signup" element={<><SignUP2/></>} />
        </Routes>
         <Routes>
          <Route path="/" element={<WelcomePage/>}></Route>

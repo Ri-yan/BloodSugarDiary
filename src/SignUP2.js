@@ -5,7 +5,7 @@ import Carousel from 'react-bootstrap/Carousel';
 import { Form, Button, Card, Alert } from "react-bootstrap"
 // import { useAuth } from "../contexts/AuthContext"
 import { Link, useNavigate } from "react-router-dom"
-const LOG = () => {
+const SignUP2 = () => {
   return (
     <Log><section className="body">
     <div className="container">
@@ -17,40 +17,9 @@ const LOG = () => {
                     </div>
                 </div>
             </div>
+
             <div className="row">
-                <div className="col-sm-6">
-                    <br/>
-                    <div>
-                        <Card className='card'>
-                            <Card.Body>
-                            <h2 className="text-center mb-4">Log In</h2>
-                            <Form >
-                                <Form.Group id="email">
-                                <Form.Label>Email</Form.Label>
-                                <Form.Control type="email" data-testid="email"  required />
-                                </Form.Group>
-                                <Form.Group id="password">
-                                <Form.Label>Password</Form.Label>
-                                <Form.Control data-testid="password" type="password" required />
-                                </Form.Group>
-                                <Button  data-testid='submit' id='btnLogin' className="w-100 mt-3" type="submit">
-                                Log In
-                                </Button>
-                            </Form>
-                            <div className="w-100 text-center mt-3">
-                                <Link to="/forgot-password">Forgot Password?</Link>
-                            </div>
-                            {/* <div className="mx-auto my-3 ">
-                                <GoogleButton className='g-btn mx-auto ' type='dark'  onClick={handleGoogleSignIn}/>
-                            </div> */}
-                            </Card.Body>
-                        </Card>
-                        <div className="w-100 text-center mt-2">
-                            Need an account? <Link to="/signup">Sign Up</Link>
-                        </div>
-                        </div>
-                </div>
-                <div className="col-sm-6 hide-on-mobile">
+            <div className="col-sm-6 hide-on-mobile">
                     <div id="demo" className="carousel slide" data-ride="carousel">
                                         <Carousel variant="dark">
                                     <Carousel.Item interval={1000}>
@@ -92,6 +61,37 @@ const LOG = () => {
                         </Carousel>
                     </div>
                 </div>
+                <div className="col-sm-6">
+                    <br/>
+                    <div>
+                    <Card>
+        <Card.Body>
+          <h2 className="text-center mb-4">Sign Up</h2>
+          <Form >
+            <Form.Group id="email">
+              <Form.Label>Email</Form.Label>
+              <Form.Control type="email" data-testid="Reg_email"  required />
+            </Form.Group>
+            <Form.Group id="password">
+              <Form.Label>Password</Form.Label>
+              <Form.Control type="password" data-testid="Reg_password"  required />
+            </Form.Group>
+            <Form.Group id="password-confirm">
+              <Form.Label>Password Confirmation</Form.Label>
+              <Form.Control type="password" data-testid="Reg_passwordConfirm"  required />
+            </Form.Group>
+            <Button className="w-100 mt-3" type="submit">
+              Sign Up
+            </Button>
+          </Form>
+        </Card.Body>
+      </Card>
+      <div className="w-100 text-center mt-2">
+        Already have an account? <Link to="/login">Log In</Link>
+      </div>
+                        </div>
+                </div>
+                
             </div>
         </div>
     </div>
@@ -99,7 +99,7 @@ const LOG = () => {
   )
 }
 
-export default LOG
+export default SignUP2
 
 const Log = styled.div`
 .img{

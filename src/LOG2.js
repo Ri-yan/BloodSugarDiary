@@ -1,45 +1,26 @@
 import React from 'react'
 import styled from 'styled-components'
+import { Button, Col, Container, Row } from 'react-bootstrap'
+import { join,login,add_post } from './assets';
 import Carousel from 'react-bootstrap/Carousel';
+import { Login } from './components';
 const LOG2 = () => {
   return (
-    <Log><section className="body">
-    <div className="container">
+    <Log>
         <div className="login-box">
-            <div className="row">
-                <div className="col-sm-6">
-                    <div className="logo">
-                        <span className="logo-font">Go</span>Snippets
-                    </div>
-                </div>
-            </div>
-            <div className="row">
-                <div className="col-sm-6">
-                    <br/>
-                    <h3 className="header-title">LOGIN</h3>
-                    <form className="login-form">
-                        <div className="form-group">
-                            <input type="text" className="form-control" placeholder="Email or UserName"/>
-                        </div>
-                        <div className="form-group">
-                            <input type="Password" className="form-control" placeholder="Password"/>
-                            <a href="#!" className="forgot-password">Forgot Password?</a>
-                        </div>
-                        <div className="form-group">
-                            <button className="btn btn-primary btn-block">LOGIN</button>
-                        </div>
-                        <div className="form-group">
-                            <div className="text-center">New Member? <a href="#!">Sign up Now</a></div>
-                        </div>
-                    </form>
-                </div>
-                <div className="col-sm-6 hide-on-mobile">
-                <Carousel>
+        <Container fluid>
+            <Row className='border border-primary h-90' style={{disply:'flex', justifyContent:'flex-end'}}>
+                <Col className='border border-primary' >
+                    <Login/>
+                </Col>
+                <Col className='border border-primary d-none d-sm-none d-md-block' xs={0}>
+                    <Container>
+            <Carousel>
       <Carousel.Item interval={1000}>
+        
         <img
-          className="d-block w-100"
-          height={400}
-          src="https://i.imgur.com/YMn8Xo1.png"
+          className="d-block w-100 img"
+          src={join}
           alt="First slide"
         />
         <Carousel.Caption>
@@ -49,8 +30,8 @@ const LOG2 = () => {
       </Carousel.Item>
       <Carousel.Item interval={500}>
         <img
-          className="d-block w-100"
-          src="https://i.imgur.com/YMn8Xo1.png"
+          className="d-block w-100 img"
+          src={login}
           alt="Second slide"
         />
         <Carousel.Caption>
@@ -60,8 +41,8 @@ const LOG2 = () => {
       </Carousel.Item>
       <Carousel.Item>
         <img
-          className="d-block w-100"
-          src="https://i.imgur.com/YMn8Xo1.png"
+          className="d-block w-100 img"
+          src={add_post}
           alt="Third slide"
         />
         <Carousel.Caption>
@@ -72,46 +53,30 @@ const LOG2 = () => {
         </Carousel.Caption>
       </Carousel.Item>
     </Carousel>
-                    <div id="demo" className="carousel slide" data-ride="carousel">
-                        <ul className="carousel-indicators">
-                            <li data-target="#demo" data-slide-to="0" className="active"></li>
-                            <li data-target="#demo" data-slide-to="1"></li>
-                        </ul>
-                        <div className="carousel-inner">
-                            <div className="carousel-item active">
-                                <div className="slider-feature-card">
-                                    <img src="https://i.imgur.com/YMn8Xo1.png" alt=""/>
-                                    <h3 className="slider-title">Title Here</h3>
-                                    <p className="slider-description">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iure, odio!</p>
-                                </div>
-                            </div>
-                            <div className="carousel-item">
-                                <div className="slider-feature-card">
-                                    <img src="https://i.imgur.com/Yi5KXKM.png" alt=""/>
-                                    <h3 className="slider-title">Title Here</h3>
-                                    <p className="slider-description">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ratione, debitis?</p>
-                                </div>
-                            </div>
-                        </div>
-                        <a className="carousel-control-prev" href="#demo" data-slide="prev">
-                            <span className="carousel-control-prev-icon"></span>
-                        </a>
-                        <a className="carousel-control-next" href="#demo" data-slide="next">
-                            <span className="carousel-control-next-icon"></span>
-                        </a>
-                    </div>
-                </div>
-            </div>
+                    </Container>
+                
+                </Col>
+            </Row>
+        </Container>
         </div>
-    </div>
-</section></Log>
+    </Log>
   )
 }
 
 export default LOG2
 
 const Log = styled.div`
+padding:25px;
 width: 100%;
+.img{
+    display: flex;
+    border: 7px solid #a0e6ff;
+    background: #fff;
+    height: 25em !important;
+}
+.carousel-caption{
+    color: black !important;
+}
 @import url(https://fonts.googleapis.com/css?family=Roboto:300,400,700&display=swap);
 
 body {

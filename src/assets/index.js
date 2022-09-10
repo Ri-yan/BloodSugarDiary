@@ -13,6 +13,7 @@ export{ default as performance_overview } from './WelcomePageSVG/performance_ove
 export{ default as portfolio_update } from './WelcomePageSVG/portfolio_update.svg'
 export{ default as random_thoughts } from './WelcomePageSVG/random_thoughts.svg'
 export{ default as throw_away } from './WelcomePageSVG/throw_away.svg'
-export{ default as web_search } from './WelcomePageSVG/web_search.svg'
+export{ default as login } from './WelcomePageSVG/login.svg'
+export{ default as join } from './WelcomePageSVG/join.svg'
 
 //////////////////////////////////////////
