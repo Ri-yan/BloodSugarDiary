@@ -1,5 +1,5 @@
 import React from 'react';
-import { CDBFooter, CDBFooterLink, CDBBtn, CDBIcon, CDBContainer } from 'cdbreact';
+import { CDBFooter, CDBFooterLink, CDBBtn, CDBIcon} from 'cdbreact';
 import styled from 'styled-components'
 import { CDBBox } from 'cdbreact';
 import { logo } from '../../assets';

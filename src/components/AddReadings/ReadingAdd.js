@@ -22,6 +22,7 @@ const ReadingAdd = () => {
                         <Container>
                             <Row>
                                 <Col>
+                                <Form.Label >Select Record</Form.Label>
                                     <Form.Select aria-label="Default select example" onChange={(e)=>{setrecord(e.target.value)}}>
                                     <option>Select Record</option>
                                     <option value="1">One</option>
@@ -30,6 +31,7 @@ const ReadingAdd = () => {
                                     </Form.Select>
                                 </Col>
                                 <Col>
+                                <Form.Label >Select Type</Form.Label>
                                     <Form.Select aria-label="Default select example" onChange={(e)=>{setrecordType(e.target.value)}}>
                                     <option>Select Type</option>
                                     <option value="Random">Random</option>
@@ -44,13 +46,15 @@ const ReadingAdd = () => {
                                 </Col>
                                 <Col>
                                     <Form.Group controlId="dob">
-                                        {/* <Form.Label>Select Date</Form.Label> */}
+                                        <Form.Label >Select Date</Form.Label>
                                         <Form.Control type="date" name="dob" placeholder="Date of test" value={resultDate} onChange={(e)=>{setresultDate(e.target.value)}} />
                                     </Form.Group>
                                 </Col>
                                 <Col>
                                 <Form.Group controlId="time">
                                         {/* <Form.Label>Select Date</Form.Label> */}
+                                        <Form.Label >Select Time</Form.Label>
+
                                         <Form.Control type="time" name="dob" placeholder="Time of test" onChange={(e)=>{setresultTime(e.target.value)}} />
                                     </Form.Group>
                                 </Col>

@@ -1,12 +1,13 @@
 import styled from 'styled-components'
 import { cover1 } from '../../assets';
-import App from './Prime/src/App';
-
+import TableR from './TableR';
+import DataTableCrud from './List/DataTableCrudDemo'
 const RecordList = () => {
   return (
     <ListComp>
-        <div>RecordList</div>
-        <App/>
+       <DataTableCrud/>
+        <TableR/>
+       
     </ListComp>
   )
 }

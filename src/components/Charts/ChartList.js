@@ -1,5 +1,4 @@
 import Charts from './Charts'
-import React from 'react'
 
 const ChartList = () => {
   return (

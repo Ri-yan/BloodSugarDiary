@@ -9,4 +9,6 @@ export{ default as RoutineTable } from './RoutineTable/RoutineTable'
 export{ default as RandomPieChart } from './RandomTable/RandomPieChart'
 export{ default as Footer } from './Footer/Footer'
 export{ default as RecordList } from './RecordList/RecordList'
+export{ default as Signup } from './Authentication/components/Signup'
+export{ default as Login } from './Authentication/components/Login'
 

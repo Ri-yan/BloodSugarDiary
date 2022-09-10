@@ -6,13 +6,21 @@ import {
 } from "react-router-dom";
 import {WelcomePage, Profile ,ReadingAdd ,
   RecordList,Graphs,Footer,NavBar,RoutineTable,ChartList,RandomTable,
-  RandomPieChart} from './components';
+  RandomPieChart,Login,Signup} from './components';
+import LOG from './LOG';
+import LOG2 from './LOG2';
 
 function App() {
   return (
 <BrowserRouter>
        <div className="App">
        <NavBar/>
+       {/* <LOG/>
+       <LOG2/> */}
+       <Routes>
+          <Route path="/signup" element={<><Signup/></>} />
+          <Route path="/login" element={<><Login/></>} />
+       </Routes>
         <Routes>
          <Route path="/" element={<WelcomePage/>}></Route>
         </Routes>
