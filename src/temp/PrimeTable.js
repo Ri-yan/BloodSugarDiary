@@ -3,7 +3,7 @@ import {useEffect,useState,React,useRef} from 'react'
 import { DataTable } from 'primereact/datatable';//import data table component
 import { Column } from 'primereact/column';
 import { InputText } from 'primereact/inputtext';
-import { records } from './data';
+import { records } from '../components/RecordList/data';
 import { Button } from 'primereact/button';
 import { Ripple } from 'primereact/ripple';
 import { Dropdown } from 'primereact/dropdown';

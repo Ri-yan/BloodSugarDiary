@@ -22,8 +22,8 @@ const ReadingAdd = () => {
                         <Container>
                             <Row>
                                 <Col>
-                                <Form.Label >Select Record</Form.Label>
-                                    <Form.Select aria-label="Default select example" onChange={(e)=>{setrecord(e.target.value)}}>
+                                <Form.Label className='d-none dmd-block d-lg-block'>Select Record</Form.Label>
+                                    <Form.Select className='m-sm-1 m-md-0 m-lg-0 input' style={{width:'-webkit-fill-available'}} aria-label="Default select example" onChange={(e)=>{setrecord(e.target.value)}}>
                                     <option>Select Record</option>
                                     <option value="1">One</option>
                                     <option value="2">Two</option>
@@ -31,8 +31,8 @@ const ReadingAdd = () => {
                                     </Form.Select>
                                 </Col>
                                 <Col>
-                                <Form.Label >Select Type</Form.Label>
-                                    <Form.Select aria-label="Default select example" onChange={(e)=>{setrecordType(e.target.value)}}>
+                                <Form.Label className='d-none dmd-block d-lg-block'>Select Type</Form.Label>
+                                    <Form.Select className='m-sm-1 m-md-0 m-lg-0 input' style={{width:'-webkit-fill-available'}} aria-label="Default select example" onChange={(e)=>{setrecordType(e.target.value)}}>
                                     <option>Select Type</option>
                                     <option value="Random">Random</option>
                                     <option value="Before BreakFast">Before BreakFast</option>
@@ -46,16 +46,16 @@ const ReadingAdd = () => {
                                 </Col>
                                 <Col>
                                     <Form.Group controlId="dob">
-                                        <Form.Label >Select Date</Form.Label>
-                                        <Form.Control type="date" name="dob" placeholder="Date of test" value={resultDate} onChange={(e)=>{setresultDate(e.target.value)}} />
+                                        <Form.Label className='d-none dmd-block d-lg-block' >Select Date</Form.Label>
+                                        <Form.Control className='m-sm-1 m-md-0 m-lg-0 input' style={{width:'-webkit-fill-available'}} type="date" name="dob" placeholder="Date of test" value={resultDate} onChange={(e)=>{setresultDate(e.target.value)}} />
                                     </Form.Group>
                                 </Col>
                                 <Col>
                                 <Form.Group controlId="time">
                                         {/* <Form.Label>Select Date</Form.Label> */}
-                                        <Form.Label >Select Time</Form.Label>
+                                        <Form.Label className='d-none dmd-block d-lg-block' >Select Time</Form.Label>
 
-                                        <Form.Control type="time" name="dob" placeholder="Time of test" onChange={(e)=>{setresultTime(e.target.value)}} />
+                                        <Form.Control className='m-sm-1 m-md-0 m-lg-0 input' style={{width:'-webkit-fill-available'}} type="time" name="dob" placeholder="Time of test" onChange={(e)=>{setresultTime(e.target.value)}} />
                                     </Form.Group>
                                 </Col>
                                 <Col>
@@ -66,7 +66,7 @@ const ReadingAdd = () => {
                                     >
                                         <Form.Control className='readings' type="number" placeholder="Type Reading" />
                                     </FloatingLabel> */}
-                                    <Form.Label className='mt-2'><h2>Enter Reading</h2></Form.Label>
+                                    <Form.Label className='mt-2' ><h2>Enter Reading</h2></Form.Label>
                                     <Form.Control  onChange={(e)=>{setresult(e.target.value)}} className='readings' type="number"  min="0"  maxlength = "4" max="3000"  placeholder="00" />
                                 </Col>
 
@@ -139,7 +139,13 @@ const AddComp = styled.div`
     background-repeat: no-repeat;
     @media (max-width: 940px) {
         padding: 5px 0px;
+        padding-top: 2em;
+    .input{
+    width:-webkit-fill-available !important;
+    margin: 5px 0px !important;
   }
+  }
+  
   .box{
         background: white;
     padding: 15px;

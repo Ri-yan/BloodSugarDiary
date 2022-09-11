@@ -6,44 +6,41 @@ import {
 } from "react-router-dom";
 import {WelcomePage, Profile ,ReadingAdd ,
   RecordList,Graphs,Footer,NavBar,RoutineTable,ChartList,RandomTable,
-  RandomPieChart,Login,Signup} from './components';
-import LOG from './LOG';
-import LOG2 from './LOG2';
-import SignUP2 from './SignUP2';
+  RandomPieChart,Signup,Login, LandingPage} from './components';
+
 
 function App() {
   return (
 <BrowserRouter>
        <div className="App">
-       <NavBar/>
-       {/* <LOG/>
-       <LOG2/> */}
+       {/* <NavBar/> */}
        <Routes>
-          {/* <Route path="/signup" element={<><Signup/></>} />
-          <Route path="/login" element={<><Login/></>} /> */}
-          <Route path="/login" element={<><LOG/></>} />
-          <Route path="/signup" element={<><SignUP2/></>} />
+         <Route path="/" element={<><LandingPage/></>}></Route>
+        </Routes>
+       <Routes>
+          <Route path="/login" element={<><Login/></>} />
+          <Route path="/signup" element={<><Signup/></>} />
        </Routes>
         <Routes>
-         <Route path="/" element={<WelcomePage/>}></Route>
+         <Route path="/welcome" element={<><NavBar/><WelcomePage/></>}></Route>
         </Routes>
         <Routes>
-         <Route path="/routine_record/" element={<><h1>Blood Sugar Report</h1><RoutineTable/><ChartList/></>}></Route>
+         <Route path="/routine_record/" element={<><NavBar/><h1>Blood Sugar Report</h1><RoutineTable/><ChartList/></>}></Route>
         </Routes>
         <Routes>
-         <Route path="/random_record/" element={<><h1>Random Blood Sugar Report</h1><RandomTable/><RandomPieChart/></>}></Route>
+         <Route path="/random_record/" element={<><NavBar/><h1>Random Blood Sugar Report</h1><RandomTable/><RandomPieChart/></>}></Route>
         </Routes>
         <Routes>
-         <Route path="/profile/" element={<><Profile/></>}></Route>
+         <Route path="/profile/" element={<><NavBar/><Profile/></>}></Route>
         </Routes>
         <Routes>
-         <Route path="/addreadings/" element={<><ReadingAdd/></>}></Route>
+         <Route path="/addreadings/" element={<><NavBar/><ReadingAdd/></>}></Route>
         </Routes>
         <Routes>
-         <Route path="/listrecords/" element={<><RecordList/></>}></Route>
+         <Route path="/listrecords/" element={<><NavBar/><RecordList/></>}></Route>
         </Routes>
         <Routes>
-         <Route path="/graphs/" element={<><Graphs/></>}></Route>
+         <Route path="/graphs/" element={<><NavBar/><Graphs/></>}></Route>
         </Routes>
        <Footer/>
       </div> 

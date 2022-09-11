@@ -1,12 +1,10 @@
 import styled from 'styled-components'
 import { cover1 } from '../../assets';
-import TableR from './TableR';
 import DataTableCrud from './List/DataTableCrudDemo'
 const RecordList = () => {
   return (
     <ListComp>
        <DataTableCrud/>
-        <TableR/>
        
     </ListComp>
   )

@@ -9,6 +9,9 @@ export{ default as RoutineTable } from './RoutineTable/RoutineTable'
 export{ default as RandomPieChart } from './RandomTable/RandomPieChart'
 export{ default as Footer } from './Footer/Footer'
 export{ default as RecordList } from './RecordList/RecordList'
-export{ default as Signup } from './Authentication/components/Signup'
-export{ default as Login } from './Authentication/components/Login'
+// export{ default as Signup } from './Authentication/components/Signup' old
+// export{ default as Login } from './Authentication/components/Login' old
+export{ default as LandingPage } from './LandingPage/LandingPage'
 
+export{ default as Login } from './Authentication/Login'
+export{ default as Signup } from './Authentication/Signup'

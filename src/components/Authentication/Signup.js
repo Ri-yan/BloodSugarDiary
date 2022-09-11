@@ -1,25 +1,25 @@
 import styled from 'styled-components'
 import React, { useRef, useState } from "react"
-import { join,login,add_post } from './assets';
+import { join,login,add_post } from '../../assets';
 import Carousel from 'react-bootstrap/Carousel';
 import { Form, Button, Card, Alert } from "react-bootstrap"
 // import { useAuth } from "../contexts/AuthContext"
 import { Link, useNavigate } from "react-router-dom"
-const SignUP2 = () => {
+const Signup = () => {
   return (
     <Log><section className="body">
     <div className="container">
         <div className="login-box">
             <div className="row">
-                <div className="col-sm-6">
+                <div className="col-sm-6 ">
                     <div className="logo">
-                        <span className="logo-font">Blood Suagr</span>Diary
+                      <Link to={'/'} className='home'> <span className="logo-font">Blood Sugar</span>Diary</Link> 
                     </div>
                 </div>
             </div>
 
             <div className="row">
-            <div className="col-sm-6 hide-on-mobile">
+            <div className="col-sm-6 hide-on-mobile  px-0 px-sm-0 px-md-5 px-lg-5">
                     <div id="demo" className="carousel slide" data-ride="carousel">
                                         <Carousel variant="dark">
                                     <Carousel.Item interval={1000}>
@@ -61,22 +61,26 @@ const SignUP2 = () => {
                         </Carousel>
                     </div>
                 </div>
-                <div className="col-sm-6">
+                <div className="col-sm-6 px-0 px-sm-0 px-md-5 px-lg-5">
                     <br/>
                     <div>
                     <Card>
         <Card.Body>
           <h2 className="text-center mb-4">Sign Up</h2>
           <Form >
-            <Form.Group id="email">
+          <Form.Group style={{textAlign:'left'}} id="email">
+              <Form.Label>Full Name</Form.Label>
+              <Form.Control type="Text" data-testid="Reg_name"  required />
+            </Form.Group>
+            <Form.Group style={{textAlign:'left'}} id="email">
               <Form.Label>Email</Form.Label>
               <Form.Control type="email" data-testid="Reg_email"  required />
             </Form.Group>
-            <Form.Group id="password">
+            <Form.Group style={{textAlign:'left'}} id="password">
               <Form.Label>Password</Form.Label>
               <Form.Control type="password" data-testid="Reg_password"  required />
             </Form.Group>
-            <Form.Group id="password-confirm">
+            <Form.Group style={{textAlign:'left'}} id="password-confirm">
               <Form.Label>Password Confirmation</Form.Label>
               <Form.Control type="password" data-testid="Reg_passwordConfirm"  required />
             </Form.Group>
@@ -99,9 +103,12 @@ const SignUP2 = () => {
   )
 }
 
-export default SignUP2
+export default Signup
 
 const Log = styled.div`
+.home{
+    text-decoration: none;
+}
 .img{
     display: flex;
     border: 3px solid #a0e6ff;
@@ -112,7 +119,7 @@ const Log = styled.div`
 .carousel-dark .carousel-caption {
     color: #000 !important;
     backdrop-filter: blur(2px) !important;
-    box-shadow: 0 0 20px 0px #00000014 !important;
+    /* box-shadow: 0 0 20px 0px #00000014 !important; */
     margin: 0px -16px !important;
     width: -webkit-fill-available !important;
     padding: 0px 0px !important;

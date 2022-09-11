@@ -12,7 +12,7 @@ const NavBar = () => {
     <NavCom>
         <Navbar sticky="top" className='nav'  collapseOnSelect expand="lg" bg="light" variant="light">
         <Container>
-            <Navbar.Brand  href="/"><Link  to='/' className='title'>Blood Sugar Diary</Link></Navbar.Brand>
+            <Navbar.Brand  href="/"><Link  to='/welcome' className='title'>Blood Sugar Diary</Link></Navbar.Brand>
             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
             <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="me-auto">
@@ -35,7 +35,7 @@ const NavBar = () => {
             <Nav>
                 <Link  to='/profile' ><Nav.Link href="#deets">Profile</Nav.Link></Link>
                 
-                <Button variant="primary"> Logout</Button>
+                <Link  to='/' ><Button variant="primary"> Logout</Button></Link>
                 
             </Nav>
             </Navbar.Collapse>

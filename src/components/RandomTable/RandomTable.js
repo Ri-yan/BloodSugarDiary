@@ -9,7 +9,7 @@ export default function RandomTable() {
     maxColumns: 4,
   });
   return (
-    <div className=""style={{margin:'auto', height: '80vh', width: 550 }}>
+    <div className=""style={{margin:'auto', height: '80vh', width: '540px' }}>
     <div style={{ height: '80vh', width: '100%' }}>
       <div style={{ display: 'flex', height: '100%' }}>
         <div style={{ flexGrow: 1 }}>

@@ -15,5 +15,6 @@ export{ default as random_thoughts } from './WelcomePageSVG/random_thoughts.svg'
 export{ default as throw_away } from './WelcomePageSVG/throw_away.svg'
 export{ default as login } from './WelcomePageSVG/login.svg'
 export{ default as join } from './WelcomePageSVG/join.svg'
+export{ default as backleft } from './WelcomePageSVG/back-left.svg'
 
 //////////////////////////////////////////
