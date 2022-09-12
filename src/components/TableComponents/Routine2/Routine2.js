@@ -3,6 +3,7 @@ import "primereact/resources/primereact.min.css";                  //core css
 import "primeicons/primeicons.css";                                //icons
 import { Dropdown } from 'primereact/dropdown';
 import styled from 'styled-components'
+
 import React, { useState, useEffect, useRef } from 'react';
 import { classNames } from 'primereact/utils';
 import { DataTable } from 'primereact/datatable';
@@ -19,15 +20,18 @@ import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
 import { FilterMatchMode, FilterOperator } from 'primereact/api';
 
- const DataTableCrudDemo = () => {
+ const Routine2 = () => {
 
     let emptyProduct = {
         id: null,
-        name: '',
-        description: '',
-        recordName:'',
-        creationDate:'',
-        lastUpdated:''
+        Date:'',
+        Bfasting:'',
+        Bpp:'',
+        Lfasting:'',
+        Lpp:'',
+        Dfasting:'',
+        Dpp:'',
+        description:''
     };
 
     const [products, setProducts] = useState(null);
@@ -38,13 +42,12 @@ import { FilterMatchMode, FilterOperator } from 'primereact/api';
     const [selectedProducts, setSelectedProducts] = useState(null);
     const [submitted, setSubmitted] = useState(false);
     const [globalFilter, setGlobalFilter] = useState(null);
-    const [recordType, setrecordType] = useState('random')
     const toast = useRef(null);
     const dt = useRef(null);
     const productService = new ProductService();
 
     useEffect(() => {
-        productService.getProducts2().then(data => setProducts(data));
+        productService.getProducts3().then(data => setProducts(data));
     }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
    
@@ -71,19 +74,19 @@ import { FilterMatchMode, FilterOperator } from 'primereact/api';
     const saveProduct = () => {
         setSubmitted(true);
 
-        if (product.recordName.trim()) {
+        if (product.Date.trim()) {
             let _products = [...products];
             let _product = {...product};
             if (product.id) {
                 const index = findIndexById(product.id);
 
                 _products[index] = _product;
-                toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Record Updated', life: 3000 });
+                toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Product Updated', life: 3000 });
             }
             else {
                 _product.id = createId();
                 _products.push(_product);
-                toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Record Created', life: 3000 });
+                toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Product Created', life: 3000 });
             }
 
             setProducts(_products);
@@ -107,7 +110,7 @@ import { FilterMatchMode, FilterOperator } from 'primereact/api';
         setProducts(_products);
         setDeleteProductDialog(false);
         setProduct(emptyProduct);
-        toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Record Deleted', life: 3000 });
+        toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Product Deleted', life: 3000 });
     }
 
     const findIndexById = (id) => {
@@ -129,42 +132,6 @@ import { FilterMatchMode, FilterOperator } from 'primereact/api';
             id += chars.charAt(Math.floor(Math.random() * chars.length));
         }
         return id;
-    }
-
-    const importCSV = (e) => {
-        const file = e.files[0];
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            const csv = e.target.result;
-            const data = csv.split('\n');
-
-            // Prepare DataTable
-            const cols = data[0].replace(/['"]+/g, '').split(',');
-            data.shift();
-
-            const importedData = data.map(d => {
-                d = d.split(',');
-                const processedData = cols.reduce((obj, c, i) => {
-                    c = c === 'Status' ? 'inventoryStatus' : (c === 'Reviews' ? 'rating' : c.toLowerCase());
-                    obj[c] = d[i].replace(/['"]+/g, '');
-                    (c === 'price' || c === 'rating') && (obj[c] = parseFloat(obj[c]));
-                    return obj;
-                }, {});
-
-                processedData['id'] = createId();
-                return processedData;
-            });
-
-            const _products = [...products, ...importedData];
-
-            setProducts(_products);
-        };
-
-        reader.readAsText(file, 'UTF-8');
-    }
-
-    const exportCSV = () => {
-        dt.current.exportCSV();
     }
 
     const confirmDeleteSelected = () => {
@@ -206,33 +173,12 @@ import { FilterMatchMode, FilterOperator } from 'primereact/api';
         )
     }
 
-    const rightToolbarTemplate = () => {
-        return (
-            <React.Fragment>
-                <FileUpload mode="basic" name="demo[]" auto url="https://primefaces.org/primereact/showcase/upload.php" accept=".csv" chooseLabel="Import" className="mr-2 inline-block" onUpload={importCSV} />
-                <Button label="Export" icon="pi pi-upload" className="p-button-help" onClick={exportCSV} />
-            </React.Fragment>
-        )
-    }
-
-   
-    // const formatCurrency = (value) => {
-    //     return value.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
-    // }
-    // const priceBodyTemplate = (rowData) => {
-    //     return formatCurrency(rowData.price);
-    // }
-
-
-    // const statusBodyTemplate = (rowData) => {
-    //     return <span className={`product-badge status-${rowData.inventoryStatus.toLowerCase()}`}>{rowData.inventoryStatus}</span>;
-    // }
+    
 
     const actionBodyTemplate = (rowData) => {
         return (
             <React.Fragment>
-                <Button icon="pi pi-folder" className="p-button-rounded p-button-success mr-2" style={{height:'2rem',width:'2rem',marginRight:'5px'}} onClick={() => editProduct(rowData)} />
-                <Button icon="pi pi-pencil" className="p-button-rounded p-button-success mr-2" style={{height:'2rem',width:'2rem',marginRight:'5px'}} onClick={() => editProduct(rowData)} />
+                <Button icon="pi pi-pencil" className="p-button-rounded p-button-success mr-2 p-0" style={{height:'2rem',width:'2rem',marginRight:'5px'}} onClick={() => editProduct(rowData)} />
                 <Button icon="pi pi-trash" className="p-button-rounded p-button-warning" style={{height:'2rem',width:'2rem'}} onClick={() => confirmDeleteProduct(rowData)} />
             </React.Fragment>
         );
@@ -273,53 +219,72 @@ import { FilterMatchMode, FilterOperator } from 'primereact/api';
 
             <div className="card">
                 <Toolbar className="mb-3" left={leftToolbarTemplate} 
-                // right={rightToolbarTemplate}
                 ></Toolbar>
 
-                <DataTable size='small' responsiveLayout="scroll" scrollHeight='400px' stripedRows ref={dt} value={products} selection={selectedProducts} onSelectionChange={(e) => setSelectedProducts(e.value)}
+                <DataTable size="small" showGridlines responsiveLayout="scroll" scrollHeight='450px' stripedRows ref={dt} value={products} selection={selectedProducts} onSelectionChange={(e) => setSelectedProducts(e.value)}
                     dataKey="id" paginator rows={10} rowsPerPageOptions={[5, 10, 25]}
                     paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
                     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} products"
-                    globalFilter={globalFilter} header={header}>
+                    globalFilter={globalFilter} header={header} >
 
                     <Column  selectionMode="multiple" headerStyle={{ width: '3rem' }} exportable={false}></Column>
-                    
-                    {/* <Column field="code" header="Code" sortable style={{ minWidth: '12rem' }}></Column>
-                    <Column field="name" header="Name" sortable style={{ minWidth: '16rem' }}></Column>
-                    <Column field="price" header="Price" body={priceBodyTemplate} sortable style={{ minWidth: '8rem' }}></Column>
-                    <Column field="inventoryStatus" header="Status" body={statusBodyTemplate} sortable style={{ minWidth: '12rem' }}></Column>
-                     */}
-                    <Column field="id" header="ID" sortable style={{ minWidth: '5rem' }}></Column>
-                    <Column field="recordName" header="Record Name" sortable style={{ minWidth: '16rem' }}></Column>
-                    <Column field="creationDate" header="Creation Date"  sortable style={{ minWidth: '8rem' }}></Column>
-                    <Column field="lastUpadted" header="Last Accessed"  sortable style={{ minWidth: '12rem' }}></Column>
-                    <Column body={actionBodyTemplate} exportable={false} style={{ minWidth: '8rem' }}></Column>
+                    <Column field="id" header="ID" sortable style={{ minWidth: '3rem' }}></Column>
+                    <Column field="Date" header="Date" sortable style={{ minWidth: '9rem' }}></Column>
+                    <Column field="Bfasting" header="Bfasting"  sortable style={{ minWidth: '5rem' }}></Column>
+                    <Column field="Bpp" header="Bpp"  sortable style={{ minWidth: '5rem' }}></Column>
+                    <Column field="Lfasting" header="Lfasting"  sortable style={{ minWidth: '5rem' }}></Column>
+                    <Column field="Lpp" header="Lpp"  sortable style={{ minWidth: '5rem' }}></Column>
+                    <Column field="Dfasting" header="Dfasting"  sortable style={{ minWidth: '5rem' }}></Column>
+                    <Column field="Dpp" header="Dpp"  sortable style={{ minWidth: '5rem' }}></Column>
+                    <Column body={actionBodyTemplate} exportable={false} style={{ minWidth: '6rem' }}></Column>
                 </DataTable>
             </div>
 
             <Dialog visible={productDialog} style={{ width: '450px' }} header="Record Details" modal className="p-fluid" footer={productDialogFooter} onHide={hideDialog}>
                 <div className="field">
-                    <label htmlFor="name">Name</label>
-                    <InputText id="name" value={product.recordName} onChange={(e) => onInputChange(e, 'recordName')} required autoFocus className={classNames({ 'p-invalid': submitted && !product.recordName })} />
-                    {submitted && !product.recordName && <small className="p-error">Name is required.</small>}
+                    <label htmlFor="date">Date</label>
+                    <InputText id="date" type='date' value={product.Date} onChange={(e) => onInputChange(e, 'Date')} required autoFocus className={classNames({ 'p-invalid': submitted && !product.Date })} />
+                    {submitted && !product.Date && <small className="p-error">Date is required.</small>}
                 </div>
-                <div className="field">
+                
+
+                <div className="formgrid grid">
+                    <div className="row">
+                        <div className="field col">
+                            <label htmlFor="Bfasting">Before BreakFast</label>
+                            <InputText id="Bfasting"  value={product.Bfasting} onChange={(e) => onInputChange(e, 'Bfasting')} required rows={3} cols={20} />
+                        </div>
+                        <div className="field col">
+                            <label htmlFor="Bpp">After BreakFast</label>
+                            <InputText id="Bpp"  value={product.Bpp} onChange={(e) => onInputChange(e, 'Bpp')} required rows={3} cols={20} />
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="field col">
+                            <label htmlFor="Lfasting">Before Lunch</label>
+                            <InputText id="Lfasting"  value={product.Lfasting} onChange={(e) => onInputChange(e, 'Lfasting')} required rows={3} cols={20} />
+                        </div>
+                        <div className="field col">
+                            <label htmlFor="Lpp">Before Lunch</label>
+                            <InputText id="Lpp"  value={product.Lpp} onChange={(e) => onInputChange(e, 'Lpp')} required rows={3} cols={20} />
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="field col">
+                            <label htmlFor="Dfasting">Before Dinner</label>
+                            <InputText id="Dfasting"  value={product.Dfasting} onChange={(e) => onInputChange(e, 'Dfasting')} required rows={3} cols={20} />
+                        </div>
+                        <div className="field col">
+                            <label htmlFor="Dpp">Before Dinner</label>
+                            <InputText id="Dpp"  value={product.Dpp} onChange={(e) => onInputChange(e, 'Dpp')} required rows={3} cols={20} />
+                        </div>
+                    </div>
+                    <div className="field">
                     <label htmlFor="description">Description</label>
                     <InputTextarea id="description" value={product.description} onChange={(e) => onInputChange(e, 'description')} required rows={3} cols={20} />
                 </div>
-
-                <div className="formgrid grid">
-                    <div className="field col">
-                        <label htmlFor="type">Record type</label>             
-                            <Dropdown  optionLabel="name" id="type"
-                            value={recordType} options={[
-                                {name: 'Random', code: 'ran'},
-                                {name: 'Routine', code: 'rou'}
-                            ]} 
-                            onChange={(e) => setrecordType(e.target.value)} required 
-                            placeholder={recordType}/>
-                    </div>
                 </div>
+                
             </Dialog>
 
             <Dialog visible={deleteProductDialog} style={{ width: '450px' }} header="Confirm" modal footer={deleteProductDialogFooter} onHide={hideDeleteProductDialog}>
@@ -332,7 +297,7 @@ import { FilterMatchMode, FilterOperator } from 'primereact/api';
             <Dialog visible={deleteProductsDialog} style={{ width: '450px' }} header="Confirm" modal footer={deleteProductsDialogFooter} onHide={hideDeleteProductsDialog}>
                 <div className="confirmation-content">
                     <i className="pi pi-exclamation-triangle mr-3" style={{ fontSize: '2rem'}} />
-                    {product && <span>Are you sure you want to delete the selected records?</span>}
+                    {product && <span>Are you sure you want to delete the selected test results?</span>}
                 </div>
             </Dialog>
         </div>
@@ -340,9 +305,13 @@ import { FilterMatchMode, FilterOperator } from 'primereact/api';
     );
 }
                 
-export default DataTableCrudDemo;
+export default Routine2;
 
 const ListComp = styled.div`
+width: 80%;
+@media (max-width: 450px)  {
+    width: 93%;
+}
     h1, h2, h3, h4, h5, h6 {
     margin: 1.5rem 0 1rem 0;
     font-family: inherit;

@@ -5,8 +5,9 @@ import {
   Route,
 } from "react-router-dom";
 import {WelcomePage, Profile ,ReadingAdd ,
-  RecordList,Graphs,Footer,NavBar,RoutineTable,ChartList,RandomTable,
-  RandomPieChart,Signup,Login, LandingPage} from './components';
+  RecordList,Graphs,Footer,NavBar,RoutineTable,RoutineChartList,RandomTable,
+  RandomPieChart,Signup,Login, LandingPage, Random2, Routine2} from './components';
+
 
 
 function App() {
@@ -25,10 +26,14 @@ function App() {
          <Route path="/welcome" element={<><NavBar/><WelcomePage/></>}></Route>
         </Routes>
         <Routes>
-         <Route path="/routine_record/" element={<><NavBar/><h1>Blood Sugar Report</h1><RoutineTable/><ChartList/></>}></Route>
+         <Route path="/routine_record/" element={<><NavBar/><h1>Blood Sugar Report</h1><Routine2/>
+         {/* <RoutineTable/> */}
+         <RoutineChartList/></>}></Route>
         </Routes>
         <Routes>
-         <Route path="/random_record/" element={<><NavBar/><h1>Random Blood Sugar Report</h1><RandomTable/><RandomPieChart/></>}></Route>
+         <Route path="/random_record/" element={<><NavBar/><h1>Random Blood Sugar Report</h1><Random2/>
+         {/* <RandomTable/> */}
+         <RandomPieChart/></>}></Route>
         </Routes>
         <Routes>
          <Route path="/profile/" element={<><NavBar/><Profile/></>}></Route>

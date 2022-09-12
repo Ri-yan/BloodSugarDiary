@@ -30,9 +30,9 @@ const LandingNavBar = () => {
                 
             </Nav>
             <Nav>
-                <Link className='me-lg-4 fs-6'  to='/'><Nav.Link href="#features">Home</Nav.Link></Link>
-                <Link className='me-lg-4 fs-6' to='/'> <Nav.Link href="#pricing">Services</Nav.Link></Link>
-                <Link className='me-lg-4 fs-6' to='/' ><Nav.Link href="#d8ffffts">Features</Nav.Link></Link>
+                <a className='me-lg-4 fs-6'  href='#Home'><Nav.Link href="#Home">Home</Nav.Link></a>
+                <a className='me-lg-4 fs-6' href='#Service'> <Nav.Link href="#Service">Services</Nav.Link></a>
+                <a className='me-lg-4 fs-6' href='#Features' ><Nav.Link href="#Features">Features</Nav.Link></a>
                 <Link className='me-lg-4 fs-6' to='/' ><Nav.Link href="#about">About</Nav.Link></Link> 
                 <Link className='me-lg-4 ' to='/login' ><Button variant="primary" className='fs-6'>Login</Button></Link>
                 

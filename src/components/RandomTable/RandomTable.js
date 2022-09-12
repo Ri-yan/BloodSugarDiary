@@ -2,6 +2,7 @@ import * as React from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import { useDemoData } from '@mui/x-data-grid-generator';
 import {RData} from './DATA';
+import Random2 from '../TableComponents/Random2/Random2';
 export default function RandomTable() {
   const { data } = useDemoData({
     dataSet: 'Commodity',
@@ -14,6 +15,7 @@ export default function RandomTable() {
       <div style={{ display: 'flex', height: '100%' }}>
         <div style={{ flexGrow: 1 }}>
           {/* <DataGrid  {...data} /> */}
+         
           <DataGrid editMode="row"
             columns={[
                 { field: 'id',width:60 },

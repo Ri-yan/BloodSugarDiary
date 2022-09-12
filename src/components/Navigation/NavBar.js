@@ -19,13 +19,15 @@ const NavBar = () => {
             <Link  to='/addreadings'><Nav.Link href="#features">Add Reading</Nav.Link></Link>
             <Link  to='/listrecords'> <Nav.Link href="#pricing">Show Records</Nav.Link></Link>
                 <NavDropdown title="More" id="collasible-nav-dropdown">
-                <Link  to='/graphs'><NavDropdown.Item href="#action/3.1">Graphs</NavDropdown.Item></Link>
                 <Link  to='/routine_record'>
                     <NavDropdown.Item href="#action/3.2">Routine Records</NavDropdown.Item>
                 </Link>
                 <Link  to='/random_record'>
                     <NavDropdown.Item href="#action/3.3">Random Records</NavDropdown.Item>
                 </Link>
+                <Link  to='/graphs'><NavDropdown.Item href="#action/3.1">Graphs</NavDropdown.Item></Link>
+                <NavDropdown.Item href="#action/3.2">Blogs</NavDropdown.Item>
+                
                 <NavDropdown.Divider />
                 <NavDropdown.Item href="#action/3.4">
                     About Us

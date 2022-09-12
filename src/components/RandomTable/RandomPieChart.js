@@ -35,7 +35,7 @@ const RandomPieChart = () => {
 return (
 <ReactFusioncharts
 type="doughnut2d"
-width="500"
+width="100%"
 height="500"
 dataFormat="JSON"
 dataSource={dataSource}

@@ -1,5 +1,5 @@
 {
-  "name": "test",
+  "name": "bloodsugardiary",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -16,6 +16,8 @@
     "@testing-library/user-event": "^13.5.0",
     "bootstrap": "^5.2.0",
     "cdbreact": "^1.5.3",
+    "chart.js": "^3.9.1",
+    "firebase": "^9.9.4",
     "fusioncharts": "^3.19.0",
     "material-react-table": "^1.0.0-beta.8",
     "material-table": "^2.0.3",

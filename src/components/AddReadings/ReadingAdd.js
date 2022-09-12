@@ -14,6 +14,26 @@ const ReadingAdd = () => {
    const [reading, setreading] = useState({recordname:`${record}`,
    recordType:`${recordType}`,resultTime:`${resultTime}`,resultDate:`${resultDate}`,result:`${result}`,notes:`${notes}`});
 
+   
+   let defaultDate = new Date()
+   defaultDate.setDate(defaultDate.getDate() + 3)
+   var currentTime = defaultDate.toString().substring(16,21);
+
+    console.log('defaultDate',defaultDate);
+    console.log('defaultTime',currentTime);
+
+   const [date, setDate] = useState(defaultDate)
+   const [time, setTime] = useState(currentTime)
+   const onSetTime = (event) => {
+    setTime(event.target.value)
+    setresultTime(new Date(event.target.value))
+}
+   const onSetDate = (event) => {
+       setDate(new Date(event.target.value))
+       setresultDate(new Date(event.target.value))
+   }
+
+
     return (
         <AddComp>
             <Container>
@@ -47,7 +67,12 @@ const ReadingAdd = () => {
                                 <Col>
                                     <Form.Group controlId="dob">
                                         <Form.Label className='d-none dmd-block d-lg-block' >Select Date</Form.Label>
-                                        <Form.Control className='m-sm-1 m-md-0 m-lg-0 input' style={{width:'-webkit-fill-available'}} type="date" name="dob" placeholder="Date of test" value={resultDate} onChange={(e)=>{setresultDate(e.target.value)}} />
+                                        <Form.Control className='m-sm-1 m-md-0 m-lg-0 input' 
+                                        value={date.toLocaleDateString('en-CA')} onChange={onSetDate} style={{width:'-webkit-fill-available'}} 
+                                        type="date" name="dob" placeholder="Date of test"
+                                        //  value={resultDate}
+                                        //   onChange={(e)=>{setresultDate(e.target.value)}}
+                                           />
                                     </Form.Group>
                                 </Col>
                                 <Col>
@@ -55,7 +80,12 @@ const ReadingAdd = () => {
                                         {/* <Form.Label>Select Date</Form.Label> */}
                                         <Form.Label className='d-none dmd-block d-lg-block' >Select Time</Form.Label>
 
-                                        <Form.Control className='m-sm-1 m-md-0 m-lg-0 input' style={{width:'-webkit-fill-available'}} type="time" name="dob" placeholder="Time of test" onChange={(e)=>{setresultTime(e.target.value)}} />
+                                        <Form.Control value={time} className='m-sm-1 m-md-0 m-lg-0 input'
+                                         style={{width:'-webkit-fill-available'}} type="time" name="dob"
+                                          placeholder="Time of test" 
+                                          onChange={onSetTime}
+                                        //   onChange={(e)=>{setresultTime(e.target.value)}} 
+                                        />
                                     </Form.Group>
                                 </Col>
                                 <Col>
