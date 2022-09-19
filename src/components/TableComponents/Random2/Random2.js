@@ -6,7 +6,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import { classNames } from 'primereact/utils';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
-import { ProductService } from './service/ProductService';
 import { Toast } from 'primereact/toast';
 import { Button } from 'primereact/button';
 import { FileUpload } from 'primereact/fileupload';
@@ -29,7 +28,7 @@ import { FilterMatchMode, FilterOperator } from 'primereact/api';
         result:''
     };
 
-    const [products, setProducts] = useState(null);
+    const [products, setProducts] = useState([]);
     const [productDialog, setProductDialog] = useState(false);
     const [deleteProductDialog, setDeleteProductDialog] = useState(false);
     const [deleteProductsDialog, setDeleteProductsDialog] = useState(false);
@@ -40,10 +39,9 @@ import { FilterMatchMode, FilterOperator } from 'primereact/api';
     const [recordType, setrecordType] = useState('random')
     const toast = useRef(null);
     const dt = useRef(null);
-    const productService = new ProductService();
 
     useEffect(() => {
-        productService.getProducts1().then(data => setProducts(data));
+        fetch('data/RandomData.json').then(res => res.json()).then(d => setProducts(d.data));
     }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
    
@@ -222,11 +220,11 @@ import { FilterMatchMode, FilterOperator } from 'primereact/api';
                     dataKey="id" paginator rows={10} rowsPerPageOptions={[5, 10, 25]}
                     paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
                     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} products"
-                    globalFilter={globalFilter} header={header}>
+                    filterDisplay="menu" emptyMessage="No record found." header={header}>
 
                     <Column  selectionMode="multiple" headerStyle={{ width: '3rem' }} exportable={false}></Column>
                     <Column field="id" header="ID" sortable style={{ minWidth: '5rem' }}></Column>
-                    <Column field="Date" header="Date" sortable style={{ minWidth: '7rem' }}></Column>
+                    <Column  field="Date" header="Date" sortable filter filterPlaceholder="Search by Date" style={{ minWidth: '7rem' }}></Column>
                     <Column field="time" header="Time"  sortable style={{ minWidth: '7rem' }}></Column>
                     <Column field="result" header="Test result"  sortable style={{ minWidth: '7rem' }}></Column>
                     <Column body={actionBodyTemplate} exportable={false} style={{ minWidth: '6rem' }}></Column>

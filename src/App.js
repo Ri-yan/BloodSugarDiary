@@ -6,7 +6,8 @@ import {
 } from "react-router-dom";
 import {WelcomePage, Profile ,ReadingAdd ,
   RecordList,Graphs,Footer,NavBar,RoutineTable,RoutineChartList,RandomTable,
-  RandomPieChart,Signup,Login, LandingPage, Random2, Routine2} from './components';
+  RandomPieChart,Signup,Login, LandingPage, Random2, Routine2, ProfileEdit} from './components';
+import Todo from './todo';
 
 
 
@@ -14,6 +15,7 @@ function App() {
   return (
 <BrowserRouter>
        <div className="App">
+        {/* <Todo/> */}
        {/* <NavBar/> */}
        <Routes>
          <Route path="/" element={<><LandingPage/></>}></Route>
@@ -46,6 +48,9 @@ function App() {
         </Routes>
         <Routes>
          <Route path="/graphs/" element={<><NavBar/><Graphs/></>}></Route>
+        </Routes>
+        <Routes>
+         <Route path="/profileedit/" element={<><NavBar/><ProfileEdit/></>}></Route>
         </Routes>
        <Footer/>
       </div> 

@@ -2,13 +2,16 @@ import React from 'react'
 import { Button, Col, Container, Row } from 'react-bootstrap'
 import styled from 'styled-components'
 import { cover1,profile } from '../../assets';
+import { Link } from 'react-router-dom'
 
 export const Profile = () => {
   return (
     <ProfileCom>
         <Container fluid>
             <Row style={{disply:'flex', justifyContent:'flex-end'}}>
-                <Col style={{textAlign: '-webkit-right',margin:5}} ><Button variant="primary">Edit</Button></Col>
+                <Col style={{textAlign: '-webkit-right',margin:5}} >
+                    <Link to='/profileedit'><Button variant="primary">Edit</Button></Link>
+                </Col>
                  </Row>
             <Row style={{disply:'flex', justifyContent:'center'}}>
                 <Col className="  " xs={10} md={3}>

@@ -3,6 +3,9 @@ import { CDBFooter, CDBFooterLink, CDBBtn, CDBIcon} from 'cdbreact';
 import styled from 'styled-components'
 import { CDBBox } from 'cdbreact';
 import { logo } from '../../assets';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+import InputGroup from 'react-bootstrap/InputGroup';
 export const Footer = () => {
   return (
     <FooterCom>
@@ -37,7 +40,7 @@ export const Footer = () => {
               <CDBFooterLink href="/">Blog</CDBFooterLink>
             </CDBBox>
           </CDBBox>
-          <CDBBox>
+          {/* <CDBBox>
             <p className="h5 mb-4" style={{ fontWeight: '600' }}>
               Functions
             </p>
@@ -46,7 +49,7 @@ export const Footer = () => {
               <CDBFooterLink href="/">View records</CDBFooterLink>
               <CDBFooterLink href="/">Graphs</CDBFooterLink>
             </CDBBox>
-          </CDBBox>
+          </CDBBox> */}
           <CDBBox>
             <p className="h5 mb-4" style={{ fontWeight: '600' }}>
               Help
@@ -57,6 +60,29 @@ export const Footer = () => {
               <CDBFooterLink href="/">Sign In</CDBFooterLink>
             </CDBBox>
           </CDBBox>
+
+          <CDBBox>
+            <p className="h5 mb-4" style={{ fontWeight: '600' }}>
+              Subscribe
+            </p>
+            <CDBBox display="flex" flex="column" style={{ cursor: 'pointer' }}>
+            <InputGroup className="mb-3">
+              <Form.Control
+                  type="email" 
+                placeholder="email"
+                aria-label="email"
+                aria-describedby="basic-addon2"
+              />
+              <Button variant="outline-secondary" id="button-addon2">
+                Subscribe
+              </Button>
+            </InputGroup>
+            </CDBBox>
+          </CDBBox>
+
+
+
+
         </CDBBox>
         <small className="text-center mt-5">&copy; Mohd Riyan, 2022. All rights reserved.</small>
       </CDBBox>

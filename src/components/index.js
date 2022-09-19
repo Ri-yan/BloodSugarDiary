@@ -4,6 +4,8 @@ export{ default as RoutineChartList } from './RoutineTable/RoutineCharts/Routine
 export{ default as Graphs } from './Graphs/Graphs'
 export{ default as NavBar } from './Navigation/NavBar'
 export{ default as Profile } from './Profile/Profile'
+export{ default as ProfileEdit } from './Profile/ProfileEdit'
+
 export{ default as RandomTable } from './RandomTable/RandomTable'
 export{ default as RoutineTable } from './RoutineTable/RoutineTable'
 export{ default as RandomPieChart } from './RandomTable/RandomPieChart'

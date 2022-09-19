@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@200&family=PT+Sans+Narrow&display=swap');
 .App {
   text-align: center;
   max-width: 1441px;
@@ -11,7 +12,8 @@
 }
 
 body::-webkit-scrollbar {
-  width: 8px;               /* width of the entire scrollbar */
+  width: 8px;     
+  scroll-behavior: smooth;          /* width of the entire scrollbar */
 }
 
 body::-webkit-scrollbar-track {

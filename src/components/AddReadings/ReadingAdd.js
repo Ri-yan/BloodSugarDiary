@@ -3,56 +3,108 @@ import styled from 'styled-components'
 import { cover1 } from '../../assets';
 import Form from 'react-bootstrap/Form';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
-import { useState } from 'react';
+import { useState,useRef,useEffect } from 'react';
 const ReadingAdd = () => {
-   const [record, setrecord] = useState('main');
-   const [recordType, setrecordType] = useState('random');
-   const [resultTime, setresultTime] = useState(new Date().toLocaleTimeString());
-   const [resultDate, setresultDate] = useState(new Date().toLocaleTimeString());
-   const [notes, setnotes] = useState('')
-   const [result, setresult] = useState(0);
-   const [reading, setreading] = useState({recordname:`${record}`,
-   recordType:`${recordType}`,resultTime:`${resultTime}`,resultDate:`${resultDate}`,result:`${result}`,notes:`${notes}`});
-
-   
+   const recordRef = useRef()
+   const readingTypeRef = useRef()
+   const resultRef = useRef()
+   const testDateRef = useRef()
+   const testTimeRef = useRef()
+   const notesRef = useRef()
+  
    let defaultDate = new Date()
    defaultDate.setDate(defaultDate.getDate() + 3)
-   var currentTime = defaultDate.toString().substring(16,21);
 
-    console.log('defaultDate',defaultDate);
-    console.log('defaultTime',currentTime);
+   let currentTime = defaultDate.toString().substring(16,21);
 
-   const [date, setDate] = useState(defaultDate)
-   const [time, setTime] = useState(currentTime)
-   const onSetTime = (event) => {
+   const [resultDate, setDate] = useState(defaultDate.toLocaleDateString('en-CA'))
+   const [resultTime, setTime] = useState(currentTime)
+   
+   const onSetResultTime = (event) => {
     setTime(event.target.value)
-    setresultTime(new Date(event.target.value))
 }
-   const onSetDate = (event) => {
-       setDate(new Date(event.target.value))
-       setresultDate(new Date(event.target.value))
+   const onSetResultDate = (event) => {
+       setDate(event.target.value)
    }
 
+   const onClear=(e)=>{
+    readingTypeRef.current.value='Select Type'
+    recordRef.current.value='Select Record'
+    resultRef.current.value=''
+    notesRef.current.value=''
+    setDate(defaultDate.toLocaleDateString('en-CA'));
+    setTime(currentTime);
 
+   }
+
+   const onResultSubmit=(e)=>{
+    e.preventDefault();
+    const result={
+        readingType:`${readingTypeRef.current.value}`,
+        recordName:`${recordRef.current.value}`,
+        result:`${resultRef.current.value}`,
+        testDate:`${testDateRef.current.value}`,
+        testTime:`${testTimeRef.current.value}`,
+        testNotes:`${notesRef.current.value}`
+    }
+    try {
+        if(result.readingType==='Select Type'){
+            alert("please Select Type")
+        }else if(result.recordName==='Select Record'){
+            alert("please Select Record")
+        }
+        else if(result.result===''){
+            alert("please Enter the test Result.")
+        }else{
+            alert("Result Added")
+            console.log(result)
+            onClear();
+        }
+    } catch (er) {
+        console.log(e.message)
+    }
+   
+   }
+   
+   
+
+    const [records, setRecords] = useState([])
+    const shouldLog = useRef(true)
+
+    useEffect(() => {
+        if(shouldLog.current){
+            shouldLog.current=false;
+        fetch('data/TotalRecords.json').then(res => res.json()).then(d => setRecords(d.data));
+}}, []); // eslint-disable-line react-hooks/exhaustive-deps
     return (
         <AddComp>
+
+        <Form onSubmit={onResultSubmit}>
             <Container>
                 <Row style={{disply:'flex', justifyContent:'center'}}>
                     <Col xs={10} md={8} className='box'>
                         <Container>
                             <Row>
                                 <Col>
-                                <Form.Label className='d-none dmd-block d-lg-block'>Select Record</Form.Label>
-                                    <Form.Select className='m-sm-1 m-md-0 m-lg-0 input' style={{width:'-webkit-fill-available'}} aria-label="Default select example" onChange={(e)=>{setrecord(e.target.value)}}>
-                                    <option>Select Record</option>
-                                    <option value="1">One</option>
-                                    <option value="2">Two</option>
-                                    <option value="3">Three</option>
+                                <Form.Label  className='d-none dmd-block d-lg-block '>Select Record</Form.Label>
+                                    <Form.Select style={{width:'11em'}} className='m-sm-1 m-md-0 m-lg-0 input fs-6'  ref={recordRef} aria-label="Default select example" required>
+                                    <option className='fs-6'>Select Record</option>
+                                    {
+                                       records.map((i,k)=>{
+                                            return <option className='fs-6' key={k} value={i.recordName}>{i.recordName}</option>
+                                        })
+                                    }
+                                    <option value="File 1">File 1</option>
+                                    <option value="File 2">File 2</option>
+                                    <option value="File 3">File 2</option>
+                                    <option value="File 4">File 3</option>
+                                    <option value="File 5">File 4</option>
+                                    <option value="File 6">File 5</option>
                                     </Form.Select>
                                 </Col>
                                 <Col>
-                                <Form.Label className='d-none dmd-block d-lg-block'>Select Type</Form.Label>
-                                    <Form.Select className='m-sm-1 m-md-0 m-lg-0 input' style={{width:'-webkit-fill-available'}} aria-label="Default select example" onChange={(e)=>{setrecordType(e.target.value)}}>
+                                <Form.Label  className='d-none dmd-block d-lg-block'>Select Type</Form.Label>
+                                    <Form.Select ref={readingTypeRef}  className='m-sm-1 m-md-0 m-lg-0 input' style={{width:'-webkit-fill-available'}} aria-label="Default select example" required>
                                     <option>Select Type</option>
                                     <option value="Random">Random</option>
                                     <option value="Before BreakFast">Before BreakFast</option>
@@ -65,39 +117,30 @@ const ReadingAdd = () => {
                                     </Form.Select>
                                 </Col>
                                 <Col>
-                                    <Form.Group controlId="dob">
+                                    <Form.Group controlId="testdob">
                                         <Form.Label className='d-none dmd-block d-lg-block' >Select Date</Form.Label>
                                         <Form.Control className='m-sm-1 m-md-0 m-lg-0 input' 
-                                        value={date.toLocaleDateString('en-CA')} onChange={onSetDate} style={{width:'-webkit-fill-available'}} 
-                                        type="date" name="dob" placeholder="Date of test"
-                                        //  value={resultDate}
-                                        //   onChange={(e)=>{setresultDate(e.target.value)}}
+                                        ref={testDateRef}
+                                        value={resultDate} onChange={onSetResultDate} style={{width:'-webkit-fill-available'}} 
+                                        type="date" name="testdob" placeholder="Date of test"
                                            />
                                     </Form.Group>
                                 </Col>
                                 <Col>
-                                <Form.Group controlId="time">
-                                        {/* <Form.Label>Select Date</Form.Label> */}
+                                <Form.Group controlId="testtime">
                                         <Form.Label className='d-none dmd-block d-lg-block' >Select Time</Form.Label>
-
-                                        <Form.Control value={time} className='m-sm-1 m-md-0 m-lg-0 input'
-                                         style={{width:'-webkit-fill-available'}} type="time" name="dob"
+                                        <Form.Control  className='m-sm-1 m-md-0 m-lg-0 input'
+                                         style={{width:'-webkit-fill-available'}} type="time" name="testtime"
+                                         value={resultTime}
                                           placeholder="Time of test" 
-                                          onChange={onSetTime}
-                                        //   onChange={(e)=>{setresultTime(e.target.value)}} 
+                                          ref={testTimeRef}
+                                          onChange={onSetResultTime}
                                         />
                                     </Form.Group>
                                 </Col>
                                 <Col>
-                                    {/* <FloatingLabel
-                                        controlId="floatingInput"
-                                        label="Reading"
-                                        className="mb-3 "
-                                    >
-                                        <Form.Control className='readings' type="number" placeholder="Type Reading" />
-                                    </FloatingLabel> */}
                                     <Form.Label className='mt-2' ><h2>Enter Reading</h2></Form.Label>
-                                    <Form.Control  onChange={(e)=>{setresult(e.target.value)}} className='readings' type="number"  min="0"  maxlength = "4" max="3000"  placeholder="00" />
+                                    <Form.Control ref={resultRef}  className='readings' type="number"  min="0"  maxlength = "4" max="3000"  placeholder="00" />
                                 </Col>
 
 
@@ -105,10 +148,10 @@ const ReadingAdd = () => {
                                     <Container className='mt-3'>
                                         <Row>
                                             <Col>
-                                                <Button variant="primary" className='button'>Clear</Button>
+                                                <Button variant="primary" onClick={()=>onClear()} className='button'>Clear</Button>
                                             </Col>
                                             <Col>
-                                                <Button variant="primary" className='button'  onClick={()=>console.log(reading)}>Save</Button>
+                                                <Button variant="primary" className='button' type='submit' >Save</Button>
                                             </Col>
                                         </Row>
                                     </Container>
@@ -123,8 +166,8 @@ const ReadingAdd = () => {
                             <Col>
                                 <Form.Control
                                 as="textarea"
+                                ref={notesRef}
                                 placeholder="Leave a comment here"
-                                onChange={e=>{setnotes(e.target.value)}}
                                 style={{ height: '250px' }}
                                 />
                             </Col>
@@ -154,6 +197,7 @@ const ReadingAdd = () => {
                     </Col>
                 </Row>
             </Container>
+            </Form>
         </AddComp>
 
 
@@ -175,7 +219,13 @@ const AddComp = styled.div`
     margin: 5px 0px !important;
   }
   }
-  
+  @media (max-width: 1080px) {
+    .input{
+    width:-webkit-fill-available !important;
+    margin: 5px 0px !important;
+
+    }
+  }
   .box{
         background: white;
     padding: 15px;

@@ -279,7 +279,8 @@ import { FilterMatchMode, FilterOperator } from 'primereact/api';
                 <DataTable size='small' responsiveLayout="scroll" scrollHeight='400px' stripedRows ref={dt} value={products} selection={selectedProducts} onSelectionChange={(e) => setSelectedProducts(e.value)}
                     dataKey="id" paginator rows={10} rowsPerPageOptions={[5, 10, 25]}
                     paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
-                    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} products"
+                    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} records"
+                    filterDisplay="menu" emptyMessage="No record found."
                     globalFilter={globalFilter} header={header}>
 
                     <Column  selectionMode="multiple" headerStyle={{ width: '3rem' }} exportable={false}></Column>
@@ -290,9 +291,9 @@ import { FilterMatchMode, FilterOperator } from 'primereact/api';
                     <Column field="inventoryStatus" header="Status" body={statusBodyTemplate} sortable style={{ minWidth: '12rem' }}></Column>
                      */}
                     <Column field="id" header="ID" sortable style={{ minWidth: '5rem' }}></Column>
-                    <Column field="recordName" header="Record Name" sortable style={{ minWidth: '16rem' }}></Column>
-                    <Column field="creationDate" header="Creation Date"  sortable style={{ minWidth: '8rem' }}></Column>
-                    <Column field="lastUpadted" header="Last Accessed"  sortable style={{ minWidth: '12rem' }}></Column>
+                    <Column  field="recordName" header="Record Name" sortable filter filterPlaceholder="Search by name" style={{ minWidth: '16rem' }} ></Column>
+                    <Column field="creationDate" header="Creation Date" sortable filter filterPlaceholder="Search by creation date"  style={{ minWidth: '8rem' }}></Column>
+                    <Column field="lastUpadted" header="Last Accessed"  sortable filter filterPlaceholder="Search by Last Accessed" style={{ minWidth: '12rem' }}></Column>
                     <Column body={actionBodyTemplate} exportable={false} style={{ minWidth: '8rem' }}></Column>
                 </DataTable>
             </div>

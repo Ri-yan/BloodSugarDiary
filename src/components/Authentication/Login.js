@@ -153,6 +153,7 @@ body {
 
 .logo {
     font-family: "Script MT";
+
     font-size: 54px;
     text-align: center;
     color: #888888;

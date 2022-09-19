@@ -1,5 +1,7 @@
 import styled from 'styled-components'
 import React, { useRef, useState } from "react"
+import { Col, Container, Row } from 'react-bootstrap'
+
 import { join,login,add_post } from '../../assets';
 import Carousel from 'react-bootstrap/Carousel';
 import { Form, Button, Card, Alert } from "react-bootstrap"
@@ -69,8 +71,18 @@ const Signup = () => {
           <h2 className="text-center mb-4">Sign Up</h2>
           <Form >
           <Form.Group style={{textAlign:'left'}} id="email">
-              <Form.Label>Full Name</Form.Label>
-              <Form.Control type="Text" data-testid="Reg_name"  required />
+                <Row>
+                    <Col>
+                        <Form.Label>First Name</Form.Label>
+                        <Form.Control type="Text" data-testid="Reg_first_name"  required />
+                    </Col>
+                    <Col>
+                        <Form.Label>Last Name</Form.Label>
+                        <Form.Control type="Text" data-testid="Reg_last_name"  required />
+                    </Col>
+                </Row>
+              {/* <Form.Label>First Name</Form.Label>
+              <Form.Control type="Text" data-testid="Reg_name"  required /> */}
             </Form.Group>
             <Form.Group style={{textAlign:'left'}} id="email">
               <Form.Label>Email</Form.Label>
@@ -79,11 +91,14 @@ const Signup = () => {
             <Form.Group style={{textAlign:'left'}} id="password">
               <Form.Label>Password</Form.Label>
               <Form.Control type="password" data-testid="Reg_password"  required />
+              {/* <div id="passwordHelpBlock" class="form-text">
+  Your password must be 8-20 characters long, contain letters and numbers, and must not contain spaces, special characters, or emoji.
+</div> */}
             </Form.Group>
-            <Form.Group style={{textAlign:'left'}} id="password-confirm">
+            {/* <Form.Group style={{textAlign:'left'}} id="password-confirm">
               <Form.Label>Password Confirmation</Form.Label>
               <Form.Control type="password" data-testid="Reg_passwordConfirm"  required />
-            </Form.Group>
+            </Form.Group> */}
             <Button className="w-100 mt-3" type="submit">
               Sign Up
             </Button>

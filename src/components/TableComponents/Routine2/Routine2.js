@@ -8,7 +8,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import { classNames } from 'primereact/utils';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
-import { ProductService } from './service/ProductService';
 import { Toast } from 'primereact/toast';
 import { Button } from 'primereact/button';
 import { FileUpload } from 'primereact/fileupload';
@@ -44,10 +43,10 @@ import { FilterMatchMode, FilterOperator } from 'primereact/api';
     const [globalFilter, setGlobalFilter] = useState(null);
     const toast = useRef(null);
     const dt = useRef(null);
-    const productService = new ProductService();
 
     useEffect(() => {
-        productService.getProducts3().then(data => setProducts(data));
+        fetch('data/RoutineData.json').then(res => res.json()).then(d => setProducts(d.data));
+
     }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
    
@@ -225,11 +224,12 @@ import { FilterMatchMode, FilterOperator } from 'primereact/api';
                     dataKey="id" paginator rows={10} rowsPerPageOptions={[5, 10, 25]}
                     paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
                     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} products"
+                    filterDisplay="menu" emptyMessage="No record found."
                     globalFilter={globalFilter} header={header} >
 
                     <Column  selectionMode="multiple" headerStyle={{ width: '3rem' }} exportable={false}></Column>
                     <Column field="id" header="ID" sortable style={{ minWidth: '3rem' }}></Column>
-                    <Column field="Date" header="Date" sortable style={{ minWidth: '9rem' }}></Column>
+                    <Column field="Date" header="Date" sortable filter filterPlaceholder="Search by Date" style={{ minWidth: '9rem' }}></Column>
                     <Column field="Bfasting" header="Bfasting"  sortable style={{ minWidth: '5rem' }}></Column>
                     <Column field="Bpp" header="Bpp"  sortable style={{ minWidth: '5rem' }}></Column>
                     <Column field="Lfasting" header="Lfasting"  sortable style={{ minWidth: '5rem' }}></Column>
