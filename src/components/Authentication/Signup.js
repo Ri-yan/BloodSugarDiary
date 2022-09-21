@@ -2,12 +2,29 @@ import styled from 'styled-components'
 import React, { useRef, useState } from "react"
 import { Col, Container, Row } from 'react-bootstrap'
 
-import { join,login,add_post } from '../../assets';
+import { join,login,add_post, authcover } from '../../assets';
 import Carousel from 'react-bootstrap/Carousel';
 import { Form, Button, Card, Alert } from "react-bootstrap"
 // import { useAuth } from "../contexts/AuthContext"
 import { Link, useNavigate } from "react-router-dom"
+
+
+
 const Signup = () => {
+    const firstNameRef = useRef();
+    const lastNameRef = useRef();
+    const signPasswordRef = useRef();
+    const signEmailRef = useRef();
+    const onSignIn=(e)=>{
+        e.preventDefault();
+        const SigninDetails={
+            firstName:`${firstNameRef.current.value}` ,
+            lastName:`${lastNameRef.current.value }`,
+            signPassword:`${signPasswordRef.current.value }`,
+            signEmail:`${signEmailRef.current.value}`
+        }
+        console.log(SigninDetails)
+    }
   return (
     <Log><section className="body">
     <div className="container">
@@ -69,16 +86,16 @@ const Signup = () => {
                     <Card>
         <Card.Body>
           <h2 className="text-center mb-4">Sign Up</h2>
-          <Form >
+          <Form onSubmit={onSignIn}>
           <Form.Group style={{textAlign:'left'}} id="email">
                 <Row>
                     <Col>
                         <Form.Label>First Name</Form.Label>
-                        <Form.Control type="Text" data-testid="Reg_first_name"  required />
+                        <Form.Control type="Text" data-testid="Reg_first_name" ref={firstNameRef}  required />
                     </Col>
                     <Col>
                         <Form.Label>Last Name</Form.Label>
-                        <Form.Control type="Text" data-testid="Reg_last_name"  required />
+                        <Form.Control type="Text" data-testid="Reg_last_name" ref={lastNameRef}  required />
                     </Col>
                 </Row>
               {/* <Form.Label>First Name</Form.Label>
@@ -86,12 +103,12 @@ const Signup = () => {
             </Form.Group>
             <Form.Group style={{textAlign:'left'}} id="email">
               <Form.Label>Email</Form.Label>
-              <Form.Control type="email" data-testid="Reg_email"  required />
+              <Form.Control type="email" data-testid="Reg_email" ref={signEmailRef}  required />
             </Form.Group>
             <Form.Group style={{textAlign:'left'}} id="password">
               <Form.Label>Password</Form.Label>
-              <Form.Control type="password" data-testid="Reg_password"  required />
-              {/* <div id="passwordHelpBlock" class="form-text">
+              <Form.Control type="password" data-testid="Reg_password" ref={signPasswordRef}  required />
+              {/* <div id="passwordHelpBlock" className="form-text fs-10">
   Your password must be 8-20 characters long, contain letters and numbers, and must not contain spaces, special characters, or emoji.
 </div> */}
             </Form.Group>
@@ -109,11 +126,17 @@ const Signup = () => {
         Already have an account? <Link to="/login">Log In</Link>
       </div>
                         </div>
+                        <div id="passwordHelpBlock" className="form-text">
+  Your password must be 8-20 characters long, contain letters and numbers, and must not contain spaces, special characters, or emoji.
+</div>
                 </div>
                 
             </div>
+            
         </div>
+        
     </div>
+    
 </section></Log>
   )
 }
@@ -126,7 +149,7 @@ const Log = styled.div`
 }
 .img{
     display: flex;
-    border: 3px solid #a0e6ff;
+    border: 1px solid #a0e6ff;
     border-radius: 10px;
     background: #fff;
     height: 25em !important;
@@ -153,7 +176,7 @@ body {
 }
 
 .login-box {
-    background: url(https://i.imgur.com/73BxBuI.png);
+    background: url(${authcover});
     background-size: cover;
     background-position: center;
     padding: 20px;
@@ -165,6 +188,7 @@ body {
 
 .logo {
     font-family: "Script MT";
+    font-family: 'Caveat', cursive;
     font-size: 54px;
     text-align: center;
     color: #888888;

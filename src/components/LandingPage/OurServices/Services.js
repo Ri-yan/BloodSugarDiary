@@ -24,8 +24,8 @@ const Services = () => {
           <Container>
             <Row xs={1} md={2} lg={4} className="g-4">
             
-              <Col sx={3}>
-                <Card>
+              <Col sx={3} >
+                <Card className='sh'>
                   <Card.Body>
                     <AiOutlineCloudUpload style={{fontSize:'3.5em',color:'#fcc220'}}/>
                   <Card.Title>Storage</Card.Title>
@@ -33,7 +33,7 @@ const Services = () => {
                 </Card>
               </Col>
               <Col sx={3}>
-                <Card>
+                <Card className='sh'>
                   <Card.Body>
                     <AiOutlineEdit style={{fontSize:'3.5em',color:'rebeccapurple'}}/>
                   <Card.Title>Edit</Card.Title>
@@ -41,7 +41,7 @@ const Services = () => {
                 </Card>
               </Col>
               <Col sx={3}>
-                <Card>
+                <Card className='sh'>
                   <Card.Body>
                     <IoAccessibilitySharp style={{fontSize:'3.5em',color:'coral'}}/>
                   <Card.Title>Access</Card.Title>
@@ -49,7 +49,7 @@ const Services = () => {
                 </Card>
               </Col>
               <Col sx={3}>
-                <Card>
+                <Card className='sh'>
                   <Card.Body>
                     <AiFillRead style={{fontSize:'3.5em',color:'forestgreen'}}/>
                   <Card.Title>Readiblity</Card.Title>
@@ -62,7 +62,7 @@ const Services = () => {
 
               <Row xs={1} md={2} lg={3} className="g-4 mt-2 d-flex justify-content-center" >
               <Col sx={3}>
-                <Card>
+                <Card className='sh'>
                   <Card.Body>
                     <GoGraph style={{fontSize:'3.5em',color:'lightslategrey'}}/>
                   <Card.Title>Graphs</Card.Title>
@@ -70,7 +70,7 @@ const Services = () => {
                 </Card>
               </Col>
               <Col style={{maxWidth:'14em'}} sx={3}>
-                <Card >
+                <Card className='sh' >
                   <Card.Body>
                     <MdManageSearch style={{fontSize:'3.5em',color:'#8eee31'}}/>
                   <Card.Title>Search and Filter</Card.Title>
@@ -78,7 +78,7 @@ const Services = () => {
                 </Card>
               </Col>
               <Col sx={3}>
-                <Card>
+                <Card className='sh'>
                   <Card.Body>
                     <CgProfile style={{fontSize:'3.5em',color:'#06e1d5'}}/>
                   <Card.Title>Profile</Card.Title>
@@ -108,6 +108,15 @@ background: url(${wavy});
     .sent{
         height: 15em;
         width: 100%;
+    }
+    .sh{
+            box-shadow: 0px 0px 0px 0px #e9ecef;
+
+    }
+    .sh:hover{
+      transition: 0.8s;
+      box-shadow: 5px 6px 6px 2px #e9ecef;
+    transform: scale(1.05);
     }
     @media (max-width: 940px) {
       height: -webkit-fill-available;

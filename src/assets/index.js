@@ -1,4 +1,6 @@
 export{ default as cover1 } from './cover1.jpg'
+export{ default as coverrev } from './coverrev.jpg'
+
 export{ default as profile } from './profile.png'
 export{ default as logo } from './logo.png'
 export{ default as wavy } from './wavy.jpg'
@@ -6,6 +8,7 @@ export{ default as wavy2 } from './wavy2.jpg'
 export{ default as wavy1 } from './wavy1.jpg'
 export{ default as wavy3 } from './wavy3.jpg'
 export{ default as cover2 } from './cover2.png'
+export{ default as authcover } from './authcover.png'
 export{ default as coversvg } from './cover1.png'
 export{ default as groups } from './groups.jpg'
 

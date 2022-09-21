@@ -1,11 +1,20 @@
 import styled from 'styled-components'
 import React, { useRef, useState } from "react"
-import { join,login,add_post,backleft  } from '../../assets';
+import { join,login,add_post,backleft, authcover  } from '../../assets';
 import Carousel from 'react-bootstrap/Carousel';
 import { Form, Button, Card, Alert } from "react-bootstrap"
-// import { useAuth } from "../contexts/AuthContext"
 import { Link, useNavigate } from "react-router-dom"
 const Login = () => {
+    const loginPasswordRef = useRef();
+    const loginEmailRef = useRef();
+    const onLogIn=(e)=>{
+        e.preventDefault();
+        const LogInDetails={
+            loginPassword:`${loginPasswordRef.current.value }`,
+            loginEmail:`${loginEmailRef.current.value}`
+        }
+        console.log(LogInDetails)
+    }
   return (
     <Log><section className="body">
     <div className="container">
@@ -31,14 +40,14 @@ const Login = () => {
                         <Card className='card'>
                             <Card.Body>
                             <Link to={'/welcome'} className='home'><h2 className="text-center mb-4">Log In</h2></Link>
-                            <Form >
+                            <Form onSubmit={onLogIn}>
                                 <Form.Group  style={{textAlign:'left'}} id="email">
                                 <Form.Label>Email</Form.Label>
-                                <Form.Control type="email" data-testid="email"  required />
+                                <Form.Control type="email" data-testid="email" ref={loginEmailRef} required />
                                 </Form.Group>
                                 <Form.Group  style={{textAlign:'left'}} id="password">
                                 <Form.Label>Password</Form.Label>
-                                <Form.Control data-testid="password" type="password" required />
+                                <Form.Control data-testid="password" ref={loginPasswordRef} type="password" required />
                                 </Form.Group>
                                 <Button  data-testid='submit' id='btnLogin' className="w-100 mt-3" type="submit">
                                 Log In
@@ -114,7 +123,7 @@ const Log = styled.div`
 }
 .img{
     display: flex;
-    border: 3px solid #a0e6ff;
+    border: 1px solid #a0e6ff;
     border-radius: 10px;
     background: #fff;
     height: 25em !important;
@@ -141,7 +150,7 @@ body {
 }
 
 .login-box {
-    background: url(https://i.imgur.com/73BxBuI.png);
+    background: url(${authcover});
     background-size: cover;
     background-position: center;
     padding: 20px;
@@ -153,7 +162,7 @@ body {
 
 .logo {
     font-family: "Script MT";
-
+    font-family: 'Caveat', cursive;
     font-size: 54px;
     text-align: center;
     color: #888888;

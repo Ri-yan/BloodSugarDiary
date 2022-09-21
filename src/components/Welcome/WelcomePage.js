@@ -13,5 +13,5 @@ const WelcomePage = () => {
 export default WelcomePage
 const WelcomeCom = styled.div`
     width: -webkit-fill-available;
-
+    
 `

@@ -10,15 +10,15 @@ const WelcomePage = () => {
     <Welcome id='Home'>
         <Container>
           <Row>
-            <Col className='text-start d-flex flex-column justify-content-center align-items-start'>
-              <h1>Welcome To Blood Sugar Diary </h1>
-              <h3 className='mt-3'>We offer modern solutions for managing your blood glucose test results.</h3>
+            <Col className='text-start d-flex flex-column justify-content-center align-items-start up'>
+              <h1 className=''>Welcome To Blood Sugar Diary </h1>
+              <h3 className='mt-3 up'>We offer modern solutions for managing your blood glucose test results.</h3>
               <Link to={'/login'}>
-                <button type="button" className="btn btn-primary btn-md-md btn-lg-lg mt-4">Get Started  <BsArrowRight className='mx-2 fs-4'/></button>
+                <button type="button" className="btn btn-primary btn-md-md btn-lg-lg mt-4 up">Get Started  <BsArrowRight className='mx-2 fs-4'/></button>
               </Link>
             </Col>
             <Col className='px-2 cover-container d-flex flex-column justify-content-center align-items-center'>
-            <img src={coversvg} alt="hey" className='cover' srcset="" />
+            <img src={coversvg} alt="hey" className='cover up sh' srcset="" />
             </Col>
           </Row>
         </Container>
@@ -37,9 +37,29 @@ const Welcome = styled.div`
     padding: 20px;
     background: url(${cover2});
     background: transparent;
-
     background-size: cover;
-    background-position: center;
+    background-position: top;
+    .sh:hover{
+      transition: 0.8s;
+    transform: scale(1.05);
+    }
+    .up{ 
+    animation-name: up;
+    animation-duration: 2s;
+   opacity: 1;
+    }
+    @keyframes up {
+  from { 
+    opacity: 0;
+    transition: 1.8s;
+    transform: translateY(148px);
+}
+  to {
+    transition: 1.8s;
+    transform: translateY(0px);
+    opacity: 1;
+}
+    }
 h1{
     font-size: 54px;
     font-weight: 700;
