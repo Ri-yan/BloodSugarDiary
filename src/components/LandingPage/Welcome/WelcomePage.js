@@ -13,9 +13,11 @@ const WelcomePage = () => {
             <Col className='text-start d-flex flex-column justify-content-center align-items-start up'>
               <h1 className=''>Welcome To Blood Sugar Diary </h1>
               <h3 className='mt-3 up'>We offer modern solutions for managing your blood glucose test results.</h3>
-              <Link to={'/login'}>
-                <button type="button" className="btn btn-primary btn-md-md btn-lg-lg mt-4 up">Get Started  <BsArrowRight className='mx-2 fs-4'/></button>
-              </Link>
+              {/* <Link to={'/login'}> */}
+                <a href="#Service">
+                <button  type="button" className="btn btn-primary btn-md-md btn-lg-lg mt-4 up">Get Started  <BsArrowRight className='mx-2 fs-4'/></button>
+             </a> 
+             {/* </Link> */}
             </Col>
             <Col className='px-2 cover-container d-flex flex-column justify-content-center align-items-center'>
             <img src={coversvg} alt="hey" className='cover up sh' srcset="" />
