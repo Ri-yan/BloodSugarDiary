@@ -84,7 +84,8 @@ export const Footer = () => {
 
 
         </CDBBox>
-        <small className="text-center mt-5">&copy; Mohd Riyan, 2022. All rights reserved.</small>
+        <small className="text-center mt-5">&copy; <a style={{color:'black'}} href="https://www.linkedin.com/in/mohd-riyan-0330b4225/" target="_blank" rel="noopener noreferrer"> 
+          Mohd Riyan</a> , 2022. All rights reserved.</small>
       </CDBBox>
     </CDBFooter>
     </FooterCom>

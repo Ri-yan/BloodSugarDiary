@@ -2,44 +2,66 @@ import styled from 'styled-components'
 import React, { useRef, useState } from "react"
 import { join,login,add_post,backleft, authcover  } from '../../assets';
 import Carousel from 'react-bootstrap/Carousel';
-import { Form, Button, Card, Alert } from "react-bootstrap"
+import { Form, Button, Card, Alert, Container, Col, Row } from "react-bootstrap"
 import { Link, useNavigate } from "react-router-dom"
+import { useAuth } from '../../context/AuthContext';
 const Login = () => {
+    const {logIn} = useAuth()
     const loginPasswordRef = useRef();
     const loginEmailRef = useRef();
-    const onLogIn=(e)=>{
+    const [error, setError] = useState("")
+    const [loading, setLoading] = useState(false)
+    const history = useNavigate()
+
+    const onLogIn=async(e)=>{
         e.preventDefault();
         const LogInDetails={
             loginPassword:`${loginPasswordRef.current.value }`,
             loginEmail:`${loginEmailRef.current.value}`
         }
         console.log(LogInDetails)
+        try {
+            setError("")
+            setLoading(true)
+            await logIn(loginEmailRef.current.value,loginPasswordRef.current.value)
+            // history.push("/")
+            history("/welcome")
+      
+          } catch(err) {
+            // setError("Failed to log in")
+            setError(err.message)
+      
+          }
+      
+          setLoading(false)
     }
   return (
     <Log><section className="body">
-    <div className="container">
+        <Container>
         <div className="login-box">
             <div className="row">
-                <div className="col-sm-6">
+                <Col sm={6}>
                     <div className="logo">
-                    <Link to={'/'} className='home'><span className="logo-font">Blood Sugar</span>Diary </Link>  
+                        <Link to={'/'} className='home'><span className="logo-font">Blood Sugar</span>Diary </Link>  
                     </div>
-                </div>
-                <div className="col-sm-4 d-none d-sm-none d-md-block">
+                </Col>
+                <Col sm={4} className="d-none d-sm-none d-md-block">
                     <Link to={'/'}>
-                <div className="logo ">
+                        <div className="logo ">
                         {/* <span className="logo-font"><img height={30} src={backleft} alt="" /> back to home</span> */}
                         <h6> <img height={30} src={backleft} alt="" />back to home</h6>
-                    </div></Link>
-                </div>
+                        </div>
+                    </Link>
+                </Col>
             </div>
-            <div className="row">
-                <div className="col-sm-6 px-0 px-sm-0 px-md-5 px-lg-5  ">
+                <Row>
+                    <Col sm={6} className="px-0 px-sm-0 px-md-5 px-lg-5  ">
                     <br/>
                     <div>
                         <Card className='card'>
                             <Card.Body>
                             <Link to={'/welcome'} className='home'><h2 className="text-center mb-4">Log In</h2></Link>
+                            {error && <Alert data-testid='error' variant="danger">{error}</Alert>}
                             <Form onSubmit={onLogIn}>
                                 <Form.Group  style={{textAlign:'left'}} id="email">
                                 <Form.Label>Email</Form.Label>
@@ -64,9 +86,9 @@ const Login = () => {
                         <div className="w-100 text-center mt-2">
                             Need an account? <Link to="/signup">Sign Up</Link>
                         </div>
-                        </div>
-                </div>
-                <div className="col-sm-6 hide-on-mobile px-0 px-sm-0 px-md-5 px-lg-5">
+                    </div>
+                    </Col>
+                    <Col sm={6} className='hide-on-mobile px-0 px-sm-0 px-md-5 px-lg-5'>
                     <div id="demo" className="carousel slide" data-ride="carousel">
                                         <Carousel variant="dark">
                                     <Carousel.Item interval={1000}>
@@ -107,11 +129,11 @@ const Login = () => {
                                     </Carousel.Item>
                         </Carousel>
                     </div>
-                </div>
-            </div>
+                    </Col>
+                    </Row>
         </div>
-    </div>
-</section></Log>
+        </Container>
+    </section></Log>
   )
 }
 

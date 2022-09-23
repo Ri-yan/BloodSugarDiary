@@ -5,9 +5,23 @@ import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import { Button } from 'react-bootstrap';
 import styled from 'styled-components'
-import  {Link}  from "react-router-dom";
+import  {Link,useNavigate}  from "react-router-dom";
+import { IoIosLogOut } from 'react-icons/io';
+import { useAuth } from '../../context/AuthContext';
 
 const NavBar = () => {
+    const history = useNavigate()
+    // const [error, setError] = useState("")
+    const {logOut} =useAuth()
+    async function handleLogout() {
+        try {
+            console.log('Logout')
+          await logOut()
+          history('/')
+        } catch (err) {
+          console.log(err.message);
+        }
+      }
   return (
     <NavCom>
         <Navbar sticky="top" className='nav'  collapseOnSelect expand="lg" bg="light" variant="light">
@@ -37,7 +51,7 @@ const NavBar = () => {
             <Nav>
                 <Link  to='/profile' ><Nav.Link href="#deets">Profile</Nav.Link></Link>
                 
-                <Link  to='/' ><Button variant="primary"> Logout</Button></Link>
+                <Button variant="primary" onClick={()=>handleLogout()}> Logout <IoIosLogOut className='mx-start-1 fs-5'/></Button>
                 
             </Nav>
             </Navbar.Collapse>

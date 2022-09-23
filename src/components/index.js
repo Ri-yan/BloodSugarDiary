@@ -18,6 +18,7 @@ export{ default as LandingPage } from './LandingPage/LandingPage'
 export{ default as Login } from './Authentication/Login'
 export{ default as Signup } from './Authentication/Signup'
 export{ default as ForgotPassword } from './Authentication/ForgotPassword'
+export{ default as PrivateRoute } from './Authentication/PrivateRoute'
 
 
 

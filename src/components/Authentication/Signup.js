@@ -1,21 +1,26 @@
 import styled from 'styled-components'
 import React, { useRef, useState } from "react"
-import { Col, Container, Row } from 'react-bootstrap'
+import { Col, Container, Row} from 'react-bootstrap'
 
 import { join,login,add_post, authcover } from '../../assets';
 import Carousel from 'react-bootstrap/Carousel';
 import { Form, Button, Card, Alert } from "react-bootstrap"
-// import { useAuth } from "../contexts/AuthContext"
 import { Link, useNavigate } from "react-router-dom"
-
+import { useAuth } from "../../context/AuthContext"
 
 
 const Signup = () => {
+   
     const firstNameRef = useRef();
     const lastNameRef = useRef();
     const signPasswordRef = useRef();
     const signEmailRef = useRef();
-    const onSignIn=(e)=>{
+    const [error, setError] = useState("")
+    const [loading, setLoading] = useState(false)
+    const history = useNavigate()
+    const {signUp}=useAuth();
+
+    const onSignIn= async (e) =>{
         e.preventDefault();
         const SigninDetails={
             firstName:`${firstNameRef.current.value}` ,
@@ -24,118 +29,108 @@ const Signup = () => {
             signEmail:`${signEmailRef.current.value}`
         }
         console.log(SigninDetails)
+        try {
+            setError("")
+            setLoading(true)
+            await signUp(signEmailRef.current.value, signPasswordRef.current.value)
+            history("/welcome")
+          } catch(err) {
+            // setError("Failed to create an account")
+            setError(err.message)
+          }
+      
+          setLoading(false)
     }
   return (
-    <Log><section className="body">
-    <div className="container">
+    <Log>
+        <section className="body">
+        <Container>
         <div className="login-box">
-            <div className="row">
-                <div className="col-sm-6 ">
+            <Row>
+                <Col sm={6} >
                     <div className="logo">
                       <Link to={'/'} className='home'> <span className="logo-font">Blood Sugar</span>Diary</Link> 
                     </div>
-                </div>
-            </div>
-
-            <div className="row">
-            <div className="col-sm-6 hide-on-mobile  px-0 px-sm-0 px-md-5 px-lg-5">
+                </Col>
+            </Row>
+            <Row>
+                <Col sm={6} className="hide-on-mobile  px-0 px-sm-0 px-md-5 px-lg-5">
                     <div id="demo" className="carousel slide" data-ride="carousel">
-                                        <Carousel variant="dark">
-                                    <Carousel.Item interval={1000}>
-                                        
-                                        <img
-                                        className="d-block w-100 img"
-                                        src={join}
-                                        alt="First slide"
-                                        />
-                                        <Carousel.Caption>
-                                        <h3>Authorized and secure</h3>
-                                        <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-                                        </Carousel.Caption>
-                                    </Carousel.Item>
-                                    <Carousel.Item interval={500}>
-                                        <img
-                                        className="d-block w-100 img"
-                                        src={login}
-                                        alt="Second slide"
-                                        />
-                                        <Carousel.Caption>
-                                        <h3>Store</h3>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                                        </Carousel.Caption>
-                                    </Carousel.Item>
-                                    <Carousel.Item>
-                                        <img
-                                        className="d-block w-100 img"
-                                        src={add_post}
-                                        alt="Third slide"
-                                        />
-                                        <Carousel.Caption>
-                                        <h3>Organised</h3>
-                                        <p>
-                                            Praesent commodo cursus magna, vel scelerisque nisl consectetur.
-                                        </p>
-                                        </Carousel.Caption>
-                                    </Carousel.Item>
+                        <Carousel variant="dark">
+                            <Carousel.Item interval={1000}>
+                                <img className="d-block w-100 img" src={join} alt="First slide"/>
+                                <Carousel.Caption>
+                                    <h3>Authorized and secure</h3>
+                                    <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+                                </Carousel.Caption>
+                            </Carousel.Item>
+                            <Carousel.Item interval={500}>
+                                <img className="d-block w-100 img" src={login} alt="Second slide" />
+                                <Carousel.Caption>
+                                    <h3>Store</h3>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                                </Carousel.Caption>
+                            </Carousel.Item>
+                            <Carousel.Item>
+                                <img className="d-block w-100 img"  src={add_post} alt="Third slide" />
+                                <Carousel.Caption>
+                                    <h3>Organised</h3>
+                                    <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>
+                                </Carousel.Caption>
+                            </Carousel.Item>
                         </Carousel>
                     </div>
-                </div>
-                <div className="col-sm-6 px-0 px-sm-0 px-md-5 px-lg-5">
-                    <br/>
-                    <div>
-                    <Card>
-        <Card.Body>
-          <h2 className="text-center mb-4">Sign Up</h2>
-          <Form onSubmit={onSignIn}>
-          <Form.Group style={{textAlign:'left'}} id="email">
-                <Row>
-                    <Col>
-                        <Form.Label>First Name</Form.Label>
-                        <Form.Control type="Text" data-testid="Reg_first_name" ref={firstNameRef}  required />
                     </Col>
-                    <Col>
-                        <Form.Label>Last Name</Form.Label>
-                        <Form.Control type="Text" data-testid="Reg_last_name" ref={lastNameRef}  required />
-                    </Col>
-                </Row>
-              {/* <Form.Label>First Name</Form.Label>
-              <Form.Control type="Text" data-testid="Reg_name"  required /> */}
-            </Form.Group>
-            <Form.Group style={{textAlign:'left'}} id="email">
-              <Form.Label>Email</Form.Label>
-              <Form.Control type="email" data-testid="Reg_email" ref={signEmailRef}  required />
-            </Form.Group>
-            <Form.Group style={{textAlign:'left'}} id="password">
-              <Form.Label>Password</Form.Label>
-              <Form.Control type="password" data-testid="Reg_password" ref={signPasswordRef}  required />
-              {/* <div id="passwordHelpBlock" className="form-text fs-10">
-  Your password must be 8-20 characters long, contain letters and numbers, and must not contain spaces, special characters, or emoji.
-</div> */}
-            </Form.Group>
-            {/* <Form.Group style={{textAlign:'left'}} id="password-confirm">
-              <Form.Label>Password Confirmation</Form.Label>
-              <Form.Control type="password" data-testid="Reg_passwordConfirm"  required />
-            </Form.Group> */}
-            <Button className="w-100 mt-3" type="submit">
-              Sign Up
-            </Button>
-          </Form>
-        </Card.Body>
-      </Card>
-      <div className="w-100 text-center mt-2">
-        Already have an account? <Link to="/login">Log In</Link>
-      </div>
+                        <Col sm={6} className='px-0 px-sm-0 px-md-5 px-lg-5'> 
+                        <br/>
+                        <div>
+                            <Card>
+                                <Card.Body>
+                                <h2 className="text-center mb-4">Sign Up</h2>
+                                {error && <Alert variant='danger'>{error}</Alert>}
+                                <Form onSubmit={onSignIn}>
+                                <Form.Group style={{textAlign:'left'}} id="email">
+                                        <Row>
+                                            <Col>
+                                                <Form.Label>First Name</Form.Label>
+                                                <Form.Control type="Text" data-testid="Reg_first_name" ref={firstNameRef}  required />
+                                            </Col>
+                                            <Col>
+                                                <Form.Label>Last Name</Form.Label>
+                                                <Form.Control type="Text" data-testid="Reg_last_name" ref={lastNameRef}  required />
+                                            </Col>
+                                        </Row>
+                                    {/* <Form.Label>First Name</Form.Label>
+                                    <Form.Control type="Text" data-testid="Reg_name"  required /> */}
+                                    </Form.Group>
+                                    <Form.Group style={{textAlign:'left'}} id="email">
+                                    <Form.Label>Email</Form.Label>
+                                    <Form.Control type="email" data-testid="Reg_email" ref={signEmailRef}  required />
+                                    </Form.Group>
+                                    <Form.Group style={{textAlign:'left'}} id="password">
+                                    <Form.Label>Password</Form.Label>
+                                    <Form.Control type="password" data-testid="Reg_password" ref={signPasswordRef}  required />
+                                    {/* <div id="passwordHelpBlock" className="form-text fs-10">
+                                        Your password must be 8-20 characters long, contain letters and numbers, and must not contain spaces, special characters, or emoji.
+                                        </div> */}
+                                    </Form.Group>
+                                    <Button className="w-100 mt-3" type="submit">Sign Up</Button>
+                                </Form>
+                                </Card.Body>
+                            </Card>
+                            <div className="w-100 text-center mt-2">
+                                Already have an account? <Link to="/login">Log In</Link>
+                            </div>
                         </div>
                         <div id="passwordHelpBlock" className="form-text">
-  Your password must be 8-20 characters long, contain letters and numbers, and must not contain spaces, special characters, or emoji.
-</div>
-                </div>
-                
-            </div>
+                            Your password must be 8-20 characters long, contain letters and numbers, and must not
+                            contain spaces, special characters, or emoji.
+                        </div>
+                    </Col>
+            </Row> 
             
         </div>
-        
-    </div>
+        </Container>
     
 </section></Log>
   )
