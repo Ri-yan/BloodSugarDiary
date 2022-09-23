@@ -1,70 +1,27 @@
-# Getting Started with Create React App
+# Blood Sugar Diary
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+## Preface
 
-In the project directory, you can run:
+For many people with diabetes, checking their blood glucose level each day is an important way to manage their diabetes. Monitoring your blood glucose level is most important if you take insulin. The results of blood glucose monitoring can help you make decisions about food, physical activity, and medicines.
 
-### `npm start`
+The most common way to check your blood glucose level at home is with a blood glucose meter. You get a drop of blood by pricking the side of your fingertip with a lancet. Then you apply the blood to a test strip. The meter will show you how much glucose is in your blood at the moment.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Some time it becomes difficult to keep the record of your blood glucose self-checks. To increase readability and provide an analysis of reported data Blood Sugar Diary can be a timesaver. Here user can store their test results and can access them anytime. users can print copies of this glucose self-check chart. Take these records with them either in soft or in hard copy when visit their health care team.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+This web-based application contains a registwhere user can register, a login module which lein when registered, add results to input test datand a profile section. This web app shows you tglucose tests of individual in well-defined ediform
 
-### `npm test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Made with
 
-### `npm run build`
+React
+Bootstrap 5
+PrimeReact
+Firebase 🤩
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Why to made this
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+the main motive is to organise the data records of a patient and provide a proper anaysis of data in order to assist in getting a healthy and joyful life 🙂.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
