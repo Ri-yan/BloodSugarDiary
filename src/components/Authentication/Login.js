@@ -45,22 +45,21 @@ const Login = () => {
                         <Link to={'/'} className='home'><span className="logo-font">Blood Sugar</span>Diary </Link>  
                     </div>
                 </Col>
-                <Col sm={4} className="d-none d-sm-none d-md-block">
+                {/* <Col sm={4} className="d-none d-sm-none d-md-block">
                     <Link to={'/'}>
                         <div className="logo ">
-                        {/* <span className="logo-font"><img height={30} src={backleft} alt="" /> back to home</span> */}
                         <h6> <img height={30} src={backleft} alt="" />back to home</h6>
                         </div>
                     </Link>
-                </Col>
+                </Col> */}
             </div>
                 <Row>
                     <Col sm={6} className="px-0 px-sm-0 px-md-5 px-lg-5  ">
                     <br/>
-                    <div>
+                    <div className='left'>
                         <Card className='card'>
                             <Card.Body>
-                            <Link to={'/welcome'} className='home'><h2 className="text-center mb-4">Log In</h2></Link>
+                            <h2 className="text-center mb-4">Log In</h2>
                             {error && <Alert data-testid='error' variant="danger">{error}</Alert>}
                             <Form onSubmit={onLogIn}>
                                 <Form.Group  style={{textAlign:'left'}} id="email">
@@ -140,9 +139,36 @@ const Login = () => {
 export default Login
 
 const Log = styled.div`
+
 .home{
     text-decoration: none;
 }
+
+.left{ 
+    animation-name: left;
+    animation-duration: 1.8s;
+   opacity: 1;
+    }
+    @keyframes left {
+  from { 
+    opacity: 0;
+    transition: 1.5s;
+    transform: translateX(110px);
+}
+  to {
+    transition: 1.5s;
+    transform: translateX(0px);
+    opacity: 1;
+}
+    }
+
+
+
+
+
+
+
+
 .img{
     display: flex;
     border: 1px solid #a0e6ff;

@@ -54,8 +54,8 @@ const Signup = () => {
                 </Col>
             </Row>
             <Row>
-                <Col sm={6} className="hide-on-mobile  px-0 px-sm-0 px-md-5 px-lg-5">
-                    <div id="demo" className="carousel slide" data-ride="carousel">
+                <Col sm={6} className="hide-on-mobile  px-0 px-sm-0 px-md-5 px-lg-5 pop">
+                    <div id="demo" className="carousel slide "  data-ride="carousel">
                         <Carousel variant="dark">
                             <Carousel.Item interval={1000}>
                                 <img className="d-block w-100 img" src={join} alt="First slide"/>
@@ -83,7 +83,7 @@ const Signup = () => {
                     </Col>
                         <Col sm={6} className='px-0 px-sm-0 px-md-5 px-lg-5'> 
                         <br/>
-                        <div>
+                        <div className='right'>
                             <Card>
                                 <Card.Body>
                                 <h2 className="text-center mb-4">Sign Up</h2>
@@ -142,6 +142,32 @@ const Log = styled.div`
 .home{
     text-decoration: none;
 }
+
+
+.right{ 
+    animation-name: right;
+    animation-duration: 1.8s;
+   opacity: 1;
+    }
+    @keyframes right {
+  from { 
+    opacity: 0;
+    transition: 1.5s;
+    transform: translateX(-100px);
+}
+  to {
+    transition: 1.5s;
+    transform: translateX(0px);
+    opacity: 1;
+}
+    }
+
+    
+
+
+
+
+
 .img{
     display: flex;
     border: 1px solid #a0e6ff;
