@@ -33,7 +33,7 @@ const Signup = () => {
             setError("")
             setLoading(true)
             await signUp(signEmailRef.current.value, signPasswordRef.current.value)
-            addUser(SigninDetails)
+            await addUser(SigninDetails)
             history("/welcome")
           } catch(err) {
             // setError("Failed to create an account")
@@ -115,7 +115,7 @@ const Signup = () => {
                                         Your password must be 8-20 characters long, contain letters and numbers, and must not contain spaces, special characters, or emoji.
                                         </div> */}
                                     </Form.Group>
-                                    <Button className="w-100 mt-3" type="submit">Sign Up</Button>
+                                    <Button disabled={loading} className="w-100 mt-3" type="submit">Sign Up</Button>
                                 </Form>
                                 </Card.Body>
                             </Card>

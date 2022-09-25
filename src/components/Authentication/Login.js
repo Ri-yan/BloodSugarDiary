@@ -36,7 +36,8 @@ const Login = () => {
           setLoading(false)
     }
   return (
-    <Log><section className="body">
+    <Log>
+        <section className="body">
         <Container>
         <div className="login-box">
             <div className="row">
@@ -45,13 +46,6 @@ const Login = () => {
                         <Link to={'/'} className='home'><span className="logo-font">Blood Sugar</span>Diary </Link>  
                     </div>
                 </Col>
-                {/* <Col sm={4} className="d-none d-sm-none d-md-block">
-                    <Link to={'/'}>
-                        <div className="logo ">
-                        <h6> <img height={30} src={backleft} alt="" />back to home</h6>
-                        </div>
-                    </Link>
-                </Col> */}
             </div>
                 <Row>
                     <Col sm={6} className="px-0 px-sm-0 px-md-5 px-lg-5  ">
@@ -70,7 +64,7 @@ const Login = () => {
                                 <Form.Label>Password</Form.Label>
                                 <Form.Control data-testid="password" ref={loginPasswordRef} type="password" required />
                                 </Form.Group>
-                                <Button  data-testid='submit' id='btnLogin' className="w-100 mt-3" type="submit">
+                                <Button disabled={loading} data-testid='submit' id='btnLogin' className="w-100 mt-3" type="submit">
                                 Log In
                                 </Button>
                             </Form>
@@ -176,14 +170,6 @@ const Log = styled.div`
     background: #fff;
     height: 25em !important;
 }
-.carousel-dark .carousel-caption {
-    color: #000 !important;
-    backdrop-filter: blur(2px) !important;
-    /* box-shadow: 0 0 20px 0px #00000014 !important; */
-    margin: 0px -16px !important;
-    width: -webkit-fill-available !important;
-    padding: 0px 0px !important;
-}
 width: 100%;
 @import url(https://fonts.googleapis.com/css?family=Roboto:300,400,700&display=swap);
 
@@ -227,69 +213,4 @@ body {
     }
 }
 
-.header-title {
-    text-align: center;
-    margin-bottom: 50px;
-}
-
-.login-form {
-    max-width: 300px;
-    margin: 0 auto;
-}
-
-.login-form .form-control {
-    border-radius: 0;
-    margin-bottom: 30px;
-}
-
-.login-form .form-group {
-    position: relative;
-}
-
-.login-form .form-group .forgot-password {
-    position: absolute;
-    top: 6px;
-    right: 15px;
-}
-
-.login-form .btn {
-    border-radius: 0;
-    -webkit-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    margin-bottom: 30px;
-}
-
-.login-form .btn.btn-primary {
-    background: #3BC3FF;
-    border-color: #31c0ff;
-}
-
-.slider-feature-card {
-    background: #fff;
-    max-width: 280px;
-    margin: 0 auto;
-    padding: 30px;
-    text-align: center;
-    -webkit-box-shadow: 0 2px 25px -3px rgba(0, 0, 0, 0.1);
-    box-shadow: 0 2px 25px -3px rgba(0, 0, 0, 0.1);
-}
-
-.slider-feature-card img {
-    height: 80px;
-    margin-top: 30px;
-    margin-bottom: 30px;
-}
-
-.slider-feature-card h3,
-.slider-feature-card p {
-    margin-bottom: 30px;
-}
-
-.carousel-indicators {
-    bottom: -50px;
-}
-
-.carousel-indicators li {
-    cursor: pointer;
-}
 `
