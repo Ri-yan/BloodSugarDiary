@@ -39,7 +39,7 @@ const Subscribe = () => {
 
         <Row className='d-flex justify-content-center'>
             
-            <Col xs={6} md={4} lg={4}><img src={newsletter} alt="sent" className='sent' srcset="" /></Col>
+            <Col xs={6} md={4} lg={4}><img src={newsletter} alt="sent" className='sent'  /></Col>
 
             <Col xs={8} className='form'>
                 <Form onSubmit={reviewSubmit}>
@@ -90,7 +90,7 @@ const Subscribe = () => {
                         </Col>
                     </Row>
                     <Row className='d-md-flex justify-content-md-end'>
-                    <button type="submit" style={{width:'7em'}} class="btn btn-danger me-md-2 ">Submit</button>
+                    <button type="submit" style={{width:'7em'}} className="btn btn-danger me-md-2 ">Submit</button>
                     </Row>
                 </Container>
                 </Form>

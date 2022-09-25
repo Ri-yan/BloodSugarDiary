@@ -47,7 +47,7 @@ fdir:'-reverse'
           {
             feature.map((i,k)=>{
               return(
-                <Row className={`py-4 m-2 my-6 d-flex flex-row-reverse${i.fdir}`}>
+                <Row key={k} className={`py-4 m-2 my-6 d-flex flex-row-reverse${i.fdir}`}>
                   <Col><img src={i.fImg} alt="" /></Col>
                   <Col className='text-start'>
                   <h1>{i.fName}</h1>

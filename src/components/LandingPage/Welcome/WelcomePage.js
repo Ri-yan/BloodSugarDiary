@@ -20,7 +20,7 @@ const WelcomePage = () => {
              {/* </Link> */}
             </Col>
             <Col className='px-2 cover-container d-flex flex-column justify-content-center align-items-center'>
-            <img src={coversvg} alt="hey" className='cover up sh' srcset="" />
+            <img src={coversvg} alt="hey" className='cover up sh'  />
             </Col>
           </Row>
         </Container>

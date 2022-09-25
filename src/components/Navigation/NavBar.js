@@ -30,8 +30,8 @@ const NavBar = () => {
             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
             <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="me-auto">
-            <Link  to='/addreadings'><Nav.Link href="#features">Add Reading</Nav.Link></Link>
-            <Link  to='/listrecords'> <Nav.Link href="#pricing">Show Records</Nav.Link></Link>
+            <Link  to='/addreadings'><Nav.Link href="/addreadings">Add Reading</Nav.Link></Link>
+            <Link  to='/listrecords'> <Nav.Link href="/listrecords">Show Records</Nav.Link></Link>
                 <NavDropdown title="More" id="collasible-nav-dropdown">
                 <Link  to='/routine_record'>
                     <NavDropdown.Item href="#action/3.2">Routine Records</NavDropdown.Item>

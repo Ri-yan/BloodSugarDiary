@@ -140,7 +140,7 @@ const ReadingAdd = () => {
                                 </Col>
                                 <Col>
                                     <Form.Label className='mt-2' ><h2>Enter Reading</h2></Form.Label>
-                                    <Form.Control ref={resultRef}  className='readings' type="number"  min="0"  maxlength = "4" max="3000"  placeholder="00" />
+                                    <Form.Control ref={resultRef}  className='readings' type="number"  min="0"  maxLength = "4" max="3000"  placeholder="00" />
                                 </Col>
 
 

@@ -17,7 +17,7 @@ const WhoweAre = () => {
                     </Container>
                 </Col>
                 <Col>
-                    <img src={groups} alt="" srcset="" />
+                    <img src={groups} alt=""  />
                 </Col>
             </Row>
         </Container>

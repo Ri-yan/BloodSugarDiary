@@ -6,11 +6,12 @@ import {
 } from "react-router-dom";
 import {WelcomePage, Profile ,ReadingAdd ,
   RecordList,Graphs,Footer,NavBar,RoutineTable,RoutineChartList,RandomTable,
-  RandomPieChart,Signup,Login, LandingPage, Random2, Routine2, ProfileEdit, ForgotPassword} from './components';
+  RandomPieChart,Signup,Login, LandingPage, Random2, Routine2, ProfileEdit, ForgotPassword, PrivateRoute} from './components';
 import Todo from './todo';
 import RoutineComp from './components/TableComponents/RoutineComp';
 import RandomComp from './components/TableComponents/RandomComp';
-
+import { AuthProvider } from './context/AuthContext';
+import LogRoute from './components/Authentication/LogRoute';
 
 
 function App() {
@@ -18,53 +19,59 @@ function App() {
 <BrowserRouter>
        <div className="App">
         {/* <Todo/> */}
-       {/* <NavBar/> */}
+       {/* <NavBar/> */}<AuthProvider>
        <Routes>
          <Route path="/" element={<><LandingPage/></>}></Route>
          <Route path="/table" element={<><NavBar/><RoutineComp/></>}></Route>
 
         </Routes>
+        
        <Routes>
-          <Route path="/login" element={<><Login/></>} />
-          <Route path="/signup" element={<><Signup/></>} />
-          <Route path="/forgot-password" element={<><ForgotPassword/></>} />
+          <Route path="/login" element={<><LogRoute><Login/></LogRoute></>} />
+          <Route path="/signup" element={<><LogRoute><Signup/></LogRoute></>} />
+          <Route path="/forgot-password" element={<><LogRoute><ForgotPassword/></LogRoute></>} />
        </Routes>
+       
+
         <Routes>
-         <Route path="/welcome" element={<><NavBar/><WelcomePage/></>}></Route>
+         <Route path="/welcome" element={<><PrivateRoute>
+<NavBar/><WelcomePage/></PrivateRoute></>}></Route>
         </Routes>
         <Routes>
-         <Route path="/routine_record/" element={<><NavBar/>
+         <Route path="/routine_record/" element={<><PrivateRoute><NavBar/>
          {/* <h1>Blood Sugar Report</h1> */}
          <RoutineComp/>
          {/* <Routine2/> */}
          {/* <RoutineTable/> */}
          {/* <RoutineChartList/> */}
+         </PrivateRoute>
          </>}></Route>
         </Routes>
         <Routes>
-         <Route path="/random_record/" element={<><NavBar/>
+         <Route path="/random_record/" element={<><PrivateRoute><NavBar/>
          {/* <h1>Random Blood Sugar Report</h1><Random2/> */}
          {/* <RandomTable/> */}
          {/* <RandomPieChart/> */}
          <RandomComp/>
-         </>}></Route>
+         </PrivateRoute></>}></Route>
         </Routes>
         <Routes>
-         <Route path="/profile/" element={<><NavBar/><Profile/></>}></Route>
+         <Route path="/profile/" element={<><PrivateRoute><NavBar/><Profile/></PrivateRoute></>}></Route>
         </Routes>
         <Routes>
-         <Route path="/addreadings/" element={<><NavBar/><ReadingAdd/></>}></Route>
+         <Route path="/addreadings/" element={<><PrivateRoute><NavBar/><ReadingAdd/></PrivateRoute></>}></Route>
         </Routes>
         <Routes>
-         <Route path="/listrecords/" element={<><NavBar/><RecordList/></>}></Route>
+         <Route path="/listrecords/" element={<><PrivateRoute><NavBar/><RecordList/></PrivateRoute></>}></Route>
         </Routes>
         <Routes>
-         <Route path="/graphs/" element={<><NavBar/><Graphs/></>}></Route>
+         <Route path="/graphs/" element={<><PrivateRoute><NavBar/><Graphs/></PrivateRoute></>}></Route>
         </Routes>
         <Routes>
-         <Route path="/profileedit/" element={<><NavBar/><ProfileEdit/></>}></Route>
+         <Route path="/profileedit/" element={<><PrivateRoute><NavBar/><ProfileEdit/></PrivateRoute></>}></Route>
         </Routes>
        <Footer/>
+       </AuthProvider>
       </div> 
     </BrowserRouter>
   );

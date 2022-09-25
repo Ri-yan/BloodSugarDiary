@@ -26,10 +26,10 @@ const LandingNavBar = () => {
             <Nav className="me-auto">
             </Nav>
             <Nav>
-                <a className='me-lg-4 fs-6'  href='#Home'><Nav.Link href="#Home">Home</Nav.Link></a>
-                <a className='me-lg-4 fs-6' href='#Service'> <Nav.Link href="#Service">Services</Nav.Link></a>
-                <a className='me-lg-4 fs-6' href='#Features' ><Nav.Link href="#Features">Features</Nav.Link></a>
-                <a className='me-lg-4 fs-6' href='#about' ><Nav.Link href="#about">About</Nav.Link></a> 
+                <p ><Nav.Link className='me-lg-4 fs-6' href="#Home">Home</Nav.Link></p>
+                <p className='me-lg-4 fs-6' > <Nav.Link href="#Service">Services</Nav.Link></p>
+                <p className='me-lg-4 fs-6' ><Nav.Link href="#Features">Features</Nav.Link></p>
+                <p className='me-lg-4 fs-6'  ><Nav.Link href="#about">About</Nav.Link></p> 
                 <Link className='me-lg-4 ' to='/login' ><Button variant="primary" className='fs-6'>Login</Button></Link>
                 
             </Nav>
