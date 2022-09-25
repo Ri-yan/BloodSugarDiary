@@ -2,7 +2,7 @@ import React,{useContext,useEffect,useState,createContext} from "react";
 import { auth, db }  from '../firebase/firebase'
 import { onAuthStateChanged,createUserWithEmailAndPassword,
     signInWithEmailAndPassword,signOut } from "firebase/auth";
-import { addDoc, collection, Timestamp } from "firebase/firestore";
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 const AuthContext = createContext()
 export const  AuthProvider=({ children })=>{
     const [currentUser, setCurrentUser] = useState()
@@ -21,7 +21,7 @@ export const  AuthProvider=({ children })=>{
       }
 
       function addUser(user){
-        return addDoc(collection(db, "user"),{...user});
+        return addDoc(collection(db, "user"),{...user,jointime:new serverTimestamp(),uid:auth.currentUser.uid});
       }
 
 
