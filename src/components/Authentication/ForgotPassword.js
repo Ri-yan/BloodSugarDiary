@@ -42,7 +42,7 @@ export default function ForgotPassword() {
                 </Col>
             </div>
                 <Row>
-                    <Col sm={6} className="px-0 px-sm-0 px-md-5 px-lg-5  m-auto">
+                    <Col sm={6} className="px-0 px-sm-0 px-md-5 px-lg-5  m-auto down-up">
                     <br/>
                     <Card>
                       <Card.Body>
@@ -87,20 +87,20 @@ const For = styled.div`
     text-decoration: none;
 }
 
-.left{ 
+.down-up{ 
     animation-name: left;
-    animation-duration: 1.8s;
+    animation-duration: 1.5s;
    opacity: 1;
     }
     @keyframes left {
   from { 
     opacity: 0;
-    transition: 1.5s;
-    transform: translateX(110px);
+    transition: 1.2s;
+    transform: translateY(110px);
 }
   to {
     transition: 1.5s;
-    transform: translateX(0px);
+    transform: translateY(0px);
     opacity: 1;
 }
     }

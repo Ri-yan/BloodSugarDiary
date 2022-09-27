@@ -147,17 +147,17 @@ const Log = styled.div`
 
 .right{ 
     animation-name: right;
-    animation-duration: 1.8s;
+    animation-duration: 1.5s;
    opacity: 1;
     }
     @keyframes right {
   from { 
     opacity: 0;
-    transition: 1.5s;
+    transition: 1.2s;
     transform: translateX(-100px);
 }
   to {
-    transition: 1.5s;
+    transition: 1.2s;
     transform: translateX(0px);
     opacity: 1;
 }

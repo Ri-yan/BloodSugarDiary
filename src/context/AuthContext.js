@@ -2,7 +2,7 @@ import React,{useContext,useEffect,useState,createContext} from "react";
 import { auth, db }  from '../firebase/firebase'
 import { onAuthStateChanged,createUserWithEmailAndPassword,
     signInWithEmailAndPassword,signOut,sendPasswordResetEmail } from "firebase/auth";
-import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import { addDoc, collection, serverTimestamp,query,updateDoc,where,doc,deleteDoc } from "firebase/firestore";
 const AuthContext = createContext()
 export const  AuthProvider=({ children })=>{
     const [currentUser, setCurrentUser] = useState()
@@ -25,6 +25,59 @@ export const  AuthProvider=({ children })=>{
       function addUser(user){
         return addDoc(collection(db, "user"),{...user,jointime:new serverTimestamp(),uid:auth.currentUser.uid});
       }
+// All Records CRUD Section ///////////////////////////////////////////////////////////////////////
+
+
+
+      function addRecord(record){
+        let defaultDate = new Date()
+        defaultDate.setDate(defaultDate.getDate() + 3)
+        let d = defaultDate.toLocaleDateString('en-CA')
+        return addDoc(collection(doc(db, "allRecord",auth.currentUser.uid),'records'),{...record,creationDate:d,lastUpdated:d})
+      }
+
+      function updateRecord(record){
+        let defaultDate = new Date()
+        defaultDate.setDate(defaultDate.getDate() + 3)
+        const recRef = doc(db, "allRecord",auth.currentUser.uid,'records',record.docId);
+        // const q = query(recRef, where("id", "==", `${record.d}`));
+        return updateDoc(recRef, {...record,lastUpdated:defaultDate.toLocaleDateString('en-CA')})
+      }
+      function deleteRecord(record){
+        const docRef = doc(db, "allRecord",auth.currentUser.uid,'records', record);
+        return deleteDoc(docRef)
+      }
+
+
+// Routine Record Table CRUD Section ///////////////////////////////////////////////////////////////////////
+
+      function addRoutineResult(record){
+        let defaultDate = new Date()
+        defaultDate.setDate(defaultDate.getDate() + 3)
+        let d = defaultDate.toLocaleDateString('en-CA')
+        return addDoc(collection(doc(db, "allRoutineResult",auth.currentUser.uid),'result'),{...record,creationDate:d,lastUpdated:d})
+      }
+
+      function updateRoutineResult(record){
+        let defaultDate = new Date()
+        defaultDate.setDate(defaultDate.getDate() + 3)
+        const recRef = doc(db, "allRecord",auth.currentUser.uid,'records',record.docId);
+        // const q = query(recRef, where("id", "==", `${record.d}`));
+        return updateDoc(recRef, {...record,lastUpdated:defaultDate.toLocaleDateString('en-CA')})
+      }
+      function deleteRoutineResult(record){
+        const docRef = doc(db, "allRecord",auth.currentUser.uid,'records', record);
+        return deleteDoc(docRef)
+      }
+
+
+
+
+
+
+
+
+
 
 
 
@@ -38,7 +91,7 @@ export const  AuthProvider=({ children })=>{
     }, [])
 
   const value = {
-    signUp,logIn,logOut,currentUser,addUser,resetPassword
+    signUp,logIn,logOut,currentUser,addUser,resetPassword,addRecord,updateRecord,deleteRecord,addRoutineResult,updateRoutineResult,deleteRoutineResult
   }
 
   return (

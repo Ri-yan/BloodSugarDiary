@@ -10,31 +10,32 @@ import { Column } from 'primereact/column';
 import { ProductService } from './service/ProductService';
 import { Toast } from 'primereact/toast';
 import { Button } from 'primereact/button';
+import { FileUpload } from 'primereact/fileupload';
 import { Toolbar } from 'primereact/toolbar';
 import { InputTextarea } from 'primereact/inputtextarea';
+import { RadioButton } from 'primereact/radiobutton';
+import { InputNumber } from 'primereact/inputnumber';
 import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
+import { FilterMatchMode, FilterOperator } from 'primereact/api';
 import { Link } from "react-router-dom";
-import { useAuth } from "../../../context/AuthContext";
-import { collection,onSnapshot,doc } from "firebase/firestore";
-import { auth, db }  from '../../../firebase/firebase'
 
  const DataTableCrudDemo = () => {
-    const {addRecord,updateRecord,deleteRecord} = useAuth()
-    let emptyFile = {
+
+    let emptyProduct = {
         id: null,
+        name: '',
         description: '',
         recordName:'',
-        recordType:'',
         creationDate:'',
         lastUpdated:''
     };
-    const [loading, setLoading] = useState(false)
+
     const [products, setProducts] = useState(null);
     const [productDialog, setProductDialog] = useState(false);
     const [deleteProductDialog, setDeleteProductDialog] = useState(false);
     const [deleteProductsDialog, setDeleteProductsDialog] = useState(false);
-    const [product, setProduct] = useState(emptyFile);
+    const [product, setProduct] = useState(emptyProduct);
     const [selectedProducts, setSelectedProducts] = useState(null);
     const [submitted, setSubmitted] = useState(false);
     const [globalFilter, setGlobalFilter] = useState(null);
@@ -43,24 +44,14 @@ import { auth, db }  from '../../../firebase/firebase'
     const dt = useRef(null);
     const productService = new ProductService();
 
-    // useEffect(() => {
-    //     productService.getProducts2().then(data => setProducts(data));
-    // }, []); // eslint-disable-line react-hooks/exhaustive-deps
-    
     useEffect(() => {
-        const unsub = onSnapshot(collection(doc(db, "allRecord",auth.currentUser.uid),'records'), (docs) => {
-            const rec = [];
-            docs.forEach((doc) => {
-                rec.push({...doc.data(),docId:doc.id});
-            });
-            setProducts(rec)
-        });
-        // productService.getProducts2().then(data => console.log(data));
-        return unsub;
-      }, []);
+        productService.getProducts2().then(data => setProducts(data));
+    }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+   
 
     const openNew = () => {
-        setProduct(emptyFile);
+        setProduct(emptyProduct);
         setSubmitted(false);
         setProductDialog(true);
     }
@@ -78,7 +69,7 @@ import { auth, db }  from '../../../firebase/firebase'
         setDeleteProductsDialog(false);
     }
 
-    const saveProduct = async () => {
+    const saveProduct = () => {
         setSubmitted(true);
 
         if (product.recordName.trim()) {
@@ -86,33 +77,19 @@ import { auth, db }  from '../../../firebase/firebase'
             let _product = {...product};
             if (product.id) {
                 const index = findIndexById(product.id);
+
                 _products[index] = _product;
-                try {
-                    setLoading(true);
-                    await updateRecord(_product);
-                    setLoading(false);
-                } catch (error) {
-                    console.log(error.message)
-                }
                 toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Record Updated', life: 3000 });
             }
             else {
                 _product.id = createId();
                 _products.push(_product);
-                try {
-                    setLoading(true);
-                    await addRecord(_product);
-                    setLoading(false);
-
-                } catch (error) {
-                    console.log(error.message)
-                }
                 toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Record Created', life: 3000 });
             }
 
-            // setProducts(_products);
+            setProducts(_products);
             setProductDialog(false);
-            setProduct(emptyFile);
+            setProduct(emptyProduct);
         }
     }
 
@@ -128,16 +105,9 @@ import { auth, db }  from '../../../firebase/firebase'
 
     const deleteProduct = () => {
         let _products = products.filter(val => val.id !== product.id);
-        // setProducts(_products);
-        try {
-            console.log("Entire Document has been deleted successfully.")
-            deleteRecord(product.docId)
-        }
-        catch(error) {
-            console.log(error);
-        }
+        setProducts(_products);
         setDeleteProductDialog(false);
-        setProduct(emptyFile);
+        setProduct(emptyProduct);
         toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Record Deleted', life: 3000 });
     }
 
@@ -162,7 +132,38 @@ import { auth, db }  from '../../../firebase/firebase'
         return id;
     }
 
-    
+    const importCSV = (e) => {
+        const file = e.files[0];
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            const csv = e.target.result;
+            const data = csv.split('\n');
+
+            // Prepare DataTable
+            const cols = data[0].replace(/['"]+/g, '').split(',');
+            data.shift();
+
+            const importedData = data.map(d => {
+                d = d.split(',');
+                const processedData = cols.reduce((obj, c, i) => {
+                    c = c === 'Status' ? 'inventoryStatus' : (c === 'Reviews' ? 'rating' : c.toLowerCase());
+                    obj[c] = d[i].replace(/['"]+/g, '');
+                    (c === 'price' || c === 'rating') && (obj[c] = parseFloat(obj[c]));
+                    return obj;
+                }, {});
+
+                processedData['id'] = createId();
+                return processedData;
+            });
+
+            const _products = [...products, ...importedData];
+
+            setProducts(_products);
+        };
+
+        reader.readAsText(file, 'UTF-8');
+    }
+
     const exportCSV = () => {
         dt.current.exportCSV();
     }
@@ -172,18 +173,8 @@ import { auth, db }  from '../../../firebase/firebase'
     }
 
     const deleteSelectedProducts = () => {
-        // let _products = products.filter(val => !selectedProducts.includes(val));
-        let _multiRecords = products.filter(val => selectedProducts.includes(val));
-        try {
-            console.log("Entire Document has been deleted successfully.")
-            _multiRecords.forEach(i => {
-                deleteRecord(i.docId)
-              });
-        }
-        catch(error) {
-            console.log(error);
-        }
-        // setProducts(_products);
+        let _products = products.filter(val => !selectedProducts.includes(val));
+        setProducts(_products);
         setDeleteProductsDialog(false);
         setSelectedProducts(null);
         toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Products Deleted', life: 3000 });
@@ -199,7 +190,14 @@ import { auth, db }  from '../../../firebase/firebase'
         setProduct(_product);
     }
 
-   
+    const onInputNumberChange = (e, name) => {
+        const val = e.value || 0;
+        let _product = {...product};
+        _product[`${name}`] = val;
+
+        setProduct(_product);
+    }
+
     const leftToolbarTemplate = () => {
         return (
             <React.Fragment>
@@ -209,13 +207,32 @@ import { auth, db }  from '../../../firebase/firebase'
         )
     }
 
-    
+    const rightToolbarTemplate = () => {
+        return (
+            <React.Fragment>
+                <FileUpload mode="basic" name="demo[]" auto url="https://primefaces.org/primereact/showcase/upload.php" accept=".csv" chooseLabel="Import" className="mr-2 inline-block" onUpload={importCSV} />
+                <Button label="Export" icon="pi pi-upload" className="p-button-help" onClick={exportCSV} />
+            </React.Fragment>
+        )
+    }
+
+   
+    // const formatCurrency = (value) => {
+    //     return value.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+    // }
+    // const priceBodyTemplate = (rowData) => {
+    //     return formatCurrency(rowData.price);
+    // }
+
+
+    // const statusBodyTemplate = (rowData) => {
+    //     return <span className={`product-badge status-${rowData.inventoryStatus.toLowerCase()}`}>{rowData.inventoryStatus}</span>;
+    // }
 
     const actionBodyTemplate = (rowData) => {
         return (
             <React.Fragment>
                 <Link to={'/routine_record'}>
-                {/* <Link to={`/routine_record/${rowData.docId}`}> */}
                     <Button icon="pi pi-folder" className="p-button-rounded p-button-success mr-2" style={{height:'2rem',width:'2rem',marginRight:'5px'}} onClick={() => editProduct(rowData)} />
                 </Link>
                 <Button icon="pi pi-pencil" className="p-button-rounded p-button-success mr-2" style={{height:'2rem',width:'2rem',marginRight:'5px'}} onClick={() => editProduct(rowData)} />
@@ -229,14 +246,14 @@ import { auth, db }  from '../../../firebase/firebase'
             <h5 className="mx-0 my-1">All Records</h5>
             <span className="p-input-icon-left">
                 <i className="pi pi-search" />
-                <InputText type="search" onInput={(e) => setGlobalFilter(e.target.value.toLower())} placeholder="Search..." />
+                <InputText type="search" onInput={(e) => setGlobalFilter(e.target.value)} placeholder="Search..." />
             </span>
         </div>
     );
     const productDialogFooter = (
         <React.Fragment>
             <Button label="Cancel" icon="pi pi-times" className="p-button-text" onClick={hideDialog} />
-            <Button disabled={loading} label="Save" icon="pi pi-check" className="p-button-text" onClick={saveProduct} />
+            <Button label="Save" icon="pi pi-check" className="p-button-text" onClick={saveProduct} />
         </React.Fragment>
     );
     const deleteProductDialogFooter = (
@@ -256,20 +273,30 @@ import { auth, db }  from '../../../firebase/firebase'
         <ListComp>
         <div className="datatable-crud-demo">
             <Toast ref={toast} />
+
             <div className="card">
-                <Toolbar className="mb-3" left={leftToolbarTemplate} ></Toolbar>
-                <DataTable size='small' responsiveLayout="scroll" scrollHeight='500px' stripedRows ref={dt} value={products} selection={selectedProducts} onSelectionChange={(e) => setSelectedProducts(e.value)}
-                    dataKey="id" paginator rows={10} rowsPerPageOptions={[10, 20,30, 50]}
-                    paginatorTemplate=" PrevPageLink PageLinks NextPageLink CurrentPageReport RowsPerPageDropdown"
+                <Toolbar className="mb-3" left={leftToolbarTemplate} 
+                // right={rightToolbarTemplate}
+                ></Toolbar>
+
+                <DataTable size='small' responsiveLayout="scroll" scrollHeight='400px' stripedRows ref={dt} value={products} selection={selectedProducts} onSelectionChange={(e) => setSelectedProducts(e.value)}
+                    dataKey="id" paginator rows={10} rowsPerPageOptions={[5, 10, 25]}
+                    paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
                     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} records"
                     filterDisplay="menu" emptyMessage="No record found."
                     globalFilter={globalFilter} header={header}>
+
                     <Column  selectionMode="multiple" headerStyle={{ width: '3rem' }} exportable={false}></Column>
+                    
+                    {/* <Column field="code" header="Code" sortable style={{ minWidth: '12rem' }}></Column>
+                    <Column field="name" header="Name" sortable style={{ minWidth: '16rem' }}></Column>
+                    <Column field="price" header="Price" body={priceBodyTemplate} sortable style={{ minWidth: '8rem' }}></Column>
+                    <Column field="inventoryStatus" header="Status" body={statusBodyTemplate} sortable style={{ minWidth: '12rem' }}></Column>
+                     */}
                     <Column field="id" header="ID" sortable style={{ minWidth: '5rem' }}></Column>
-                    <Column field="recordName" header="Record Name" sortable filter filterPlaceholder="Search by name" style={{ minWidth: '14rem' }} ></Column>
-                    <Column field="recordType.name" header="Record Type" sortable filter filterPlaceholder="Search by type" style={{ minWidth: '12rem' }} ></Column>
-                    <Column field="creationDate" header="Creation Date" type='date' sortable filter filterPlaceholder="Search by creation date"  style={{ minWidth: '8rem' }}></Column>
-                    <Column field="lastUpdated" header="Last Accessed" type='date' sortable filter filterPlaceholder="Search by Last Accessed" style={{ minWidth: '12rem' }}></Column>
+                    <Column  field="recordName" header="Record Name" sortable filter filterPlaceholder="Search by name" style={{ minWidth: '16rem' }} ></Column>
+                    <Column field="creationDate" header="Creation Date" sortable filter filterPlaceholder="Search by creation date"  style={{ minWidth: '8rem' }}></Column>
+                    <Column field="lastUpadted" header="Last Accessed"  sortable filter filterPlaceholder="Search by Last Accessed" style={{ minWidth: '12rem' }}></Column>
                     <Column body={actionBodyTemplate} exportable={false} style={{ minWidth: '8rem' }}></Column>
                 </DataTable>
             </div>
@@ -289,13 +316,12 @@ import { auth, db }  from '../../../firebase/firebase'
                     <div className="field col">
                         <label htmlFor="type">Record type</label>             
                             <Dropdown  optionLabel="name" id="type"
-                            value={product.recordType} options={[
+                            value={recordType} options={[
                                 {name: 'Random', code: 'ran'},
                                 {name: 'Routine', code: 'rou'}
-                            ]} required 
-                            // onChange={(e) => setrecordType(e.target.value)}
-                            onChange={(e) => onInputChange(e, 'recordType')}
-                            placeholder={product.recordType}/>
+                            ]} 
+                            onChange={(e) => setrecordType(e.target.value)} required 
+                            placeholder={recordType}/>
                     </div>
                 </div>
             </Dialog>
@@ -354,12 +380,156 @@ input[type="number"]::-webkit-inner-spin-button {
     margin: 0;
 }
 
+@keyframes pulse {
+    0% {
+        background-color: rgba(165, 165, 165, 0.1)
+    }
+    50% {
+        background-color: rgba(165, 165, 165, 0.3)
+    }
+    100% {
+        background-color: rgba(165, 165, 165, 0.1)
+    }
+}
 
+.customer-badge {
+    border-radius: 2px;
+    padding: .25em .5rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: .3px;
+}
 
-/* .p-column-filter {
+.customer-badge.status-qualified {
+    background-color: #C8E6C9;
+    color: #256029;
+}
+
+.customer-badge.status-unqualified {
+    background-color: #FFCDD2;
+    color: #C63737;
+}
+
+.customer-badge.status-negotiation {
+    background-color: #FEEDAF;
+    color: #8A5340;
+}
+
+.customer-badge.status-new {
+    background-color: #B3E5FC;
+    color: #23547B;
+}
+
+.customer-badge.status-renewal {
+    background-color: #ECCFFF;
+    color: #694382;
+}
+
+.customer-badge.status-proposal {
+    background-color: #FFD8B2;
+    color: #805B36;
+}
+
+.product-badge {
+    border-radius: 2px;
+    padding: .25em .5rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: .3px;
+}
+
+.product-badge.status-instock {
+    background: #C8E6C9;
+    color: #256029;
+}
+
+.product-badge.status-outofstock {
+    background: #FFCDD2;
+    color: #C63737;
+}
+
+.product-badge.status-lowstock {
+    background: #FEEDAF;
+    color: #8A5340;
+}
+
+.order-badge {
+    border-radius: 2px;
+    padding: .25em .5rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: .3px;
+}
+
+.order-badge.order-delivered {
+    background: #C8E6C9;
+    color: #256029;
+}
+
+.order-badge.order-cancelled {
+    background: #FFCDD2;
+    color: #C63737;
+}
+
+.order-badge.order-pending {
+    background: #FEEDAF;
+    color: #8A5340;
+}
+
+.order-badge.order-returned {
+    background: #ECCFFF;
+    color: #694382;
+}
+
+.image-text {
+    vertical-align: middle;
+    margin-left: .5rem;
+}
+
+.p-multiselect-representative-option {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.p-multiselect-representative-option img {
+    vertical-align: middle;
+    width: 24px;
+}
+
+.p-multiselect-representative-option span {
+    margin-top: .125rem;
+}
+
+.p-column-filter {
     width: 100%;
-} */
+}
 
+.country-item {
+    display: flex;
+    align-items: center;
+}
+
+.country-item img.flag {
+    width: 18px;
+    margin-right: .5rem;
+}
+
+.flag {
+    vertical-align: middle;
+}
+
+span.flag {
+    width:44px;
+    height:30px;
+    display:inline-block;
+}
+
+img.flag {
+    width:30px
+}
 
 .datatable-crud-demo .table-header {
     display: flex;
