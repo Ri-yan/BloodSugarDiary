@@ -2,7 +2,7 @@ import React,{useContext,useEffect,useState,createContext} from "react";
 import { auth, db }  from '../firebase/firebase'
 import { onAuthStateChanged,createUserWithEmailAndPassword,
     signInWithEmailAndPassword,signOut,sendPasswordResetEmail } from "firebase/auth";
-import { addDoc, collection, serverTimestamp,query,updateDoc,where,doc,deleteDoc } from "firebase/firestore";
+import { addDoc, collection, serverTimestamp,query,updateDoc,where,doc,deleteDoc, setDoc } from "firebase/firestore";
 const AuthContext = createContext()
 export const  AuthProvider=({ children })=>{
     const [currentUser, setCurrentUser] = useState()
@@ -51,30 +51,62 @@ export const  AuthProvider=({ children })=>{
 
 // Routine Record Table CRUD Section ///////////////////////////////////////////////////////////////////////
 
-      function addRoutineResult(record){
+      function addRoutineResult(record,recordId){
         let defaultDate = new Date()
         defaultDate.setDate(defaultDate.getDate() + 3)
         let d = defaultDate.toLocaleDateString('en-CA')
-        return addDoc(collection(doc(db, "allRoutineResult",auth.currentUser.uid),'result'),{...record,creationDate:d,lastUpdated:d})
+        return addDoc(collection(doc(db, "allRoutineResult",auth.currentUser.uid),recordId),{...record,creationDate:d,lastUpdated:d})
       }
 
-      function updateRoutineResult(record){
+      function updateRoutineResult(record,recordId){
         let defaultDate = new Date()
         defaultDate.setDate(defaultDate.getDate() + 3)
-        const recRef = doc(db, "allRecord",auth.currentUser.uid,'records',record.docId);
-        // const q = query(recRef, where("id", "==", `${record.d}`));
+        const recRef = doc(db, "allRoutineResult",auth.currentUser.uid,recordId,record.docId);
         return updateDoc(recRef, {...record,lastUpdated:defaultDate.toLocaleDateString('en-CA')})
       }
-      function deleteRoutineResult(record){
-        const docRef = doc(db, "allRecord",auth.currentUser.uid,'records', record);
+      function deleteRoutineResult(record,recordId){
+        const docRef = doc(db, "allRoutineResult",auth.currentUser.uid,recordId, record);
         return deleteDoc(docRef)
       }
 
 
 
+// Random Record Table CRUD Section ///////////////////////////////////////////////////////////////////////
+
+      function addRandomResult(record,recordId){
+        let defaultDate = new Date()
+        defaultDate.setDate(defaultDate.getDate() + 3)
+        let d = defaultDate.toLocaleDateString('en-CA')
+        return addDoc(collection(doc(db, "allRandomResult",auth.currentUser.uid),recordId),{...record,creationDate:d,lastUpdated:d})
+      }
+
+      function updateRandomResult(record,recId){
+        let defaultDate = new Date()
+        defaultDate.setDate(defaultDate.getDate() + 3)
+        const recRef = doc(db, "allRandomResult",auth.currentUser.uid,recId,record.docId);
+        return updateDoc(recRef, {...record,lastUpdated:defaultDate.toLocaleDateString('en-CA')})
+      }
+      function deleteRandomResult(record,recId){
+        const docRef = doc(db, "allRandomResult",auth.currentUser.uid,recId, record);
+        return deleteDoc(docRef)
+      }
 
 
+// Direct test result add functionality ///////////////////////////////////////////////////////////////////////
 
+      function addDirectResult(result){
+        let defaultDate = new Date()
+        defaultDate.setDate(defaultDate.getDate() + 3)
+        let d = defaultDate.toLocaleDateString('en-CA')
+        if(result.readingType==='Random'){
+          const recRef = collection(doc(db,'allRandomResult',auth.currentUser.uid),result.docId);
+        return addDoc(recRef, {...result,creationDate:d,lastUpdated:d})
+        }
+          else {
+            const recRef = collection(doc(db,'allRoutineResult',auth.currentUser.uid),result.docId);
+            return addDoc(recRef, {...result,creationDate:d,lastUpdated:d})
+          }
+      }
 
 
 
@@ -91,7 +123,9 @@ export const  AuthProvider=({ children })=>{
     }, [])
 
   const value = {
-    signUp,logIn,logOut,currentUser,addUser,resetPassword,addRecord,updateRecord,deleteRecord,addRoutineResult,updateRoutineResult,deleteRoutineResult
+    signUp,logIn,logOut,currentUser,addUser,resetPassword,addRecord,updateRecord,deleteRecord,
+    addRoutineResult,updateRoutineResult,deleteRoutineResult,addRandomResult,updateRandomResult,
+    deleteRandomResult,addDirectResult
   }
 
   return (

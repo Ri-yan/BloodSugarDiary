@@ -17,18 +17,23 @@ import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
 import { FilterMatchMode, FilterOperator } from 'primereact/api';
 
- const Random2 = () => {
+import { useAuth } from "../../../context/AuthContext";
+import { collection,onSnapshot,doc } from "firebase/firestore";
+import { auth, db }  from '../../../firebase/firebase'
+
+ const Random2 = ({selectedRecordId}) => {
+    const {addRandomResult,updateRandomResult,deleteRandomResult} = useAuth()
 
     let emptyProduct = {
         id: null,
-        Date:'',
-        time:'',
+        testDate:'',
+        testTime:'',
         name: '',
         description: '',
         result:''
     };
-
-    const [products, setProducts] = useState([]);
+    const [loading, setLoading] = useState(false)
+    const [products, setProducts] = useState(JSON.parse(localStorage.getItem(`randomfile-${selectedRecordId}`)) || []);
     const [productDialog, setProductDialog] = useState(false);
     const [deleteProductDialog, setDeleteProductDialog] = useState(false);
     const [deleteProductsDialog, setDeleteProductsDialog] = useState(false);
@@ -40,11 +45,27 @@ import { FilterMatchMode, FilterOperator } from 'primereact/api';
     const toast = useRef(null);
     const dt = useRef(null);
 
-    useEffect(() => {
-        fetch('data/RandomData.json').then(res => res.json()).then(d => setProducts(d.data));
-    }, []); // eslint-disable-line react-hooks/exhaustive-deps
+    // useEffect(() => {
+    //     fetch('data/RandomData.json').then(res => res.json()).then(d => setProducts(d.data));
+    // }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-   
+    useEffect(() => {
+        const unsub = onSnapshot(collection(doc(db, "allRandomResult",auth.currentUser.uid),selectedRecordId), (docs) => {
+            const rec = [];
+            docs.forEach((doc) => {
+                rec.push({...doc.data(),docId:doc.id});
+            });
+            setProducts(rec)
+        });
+        return unsub;
+      }, [selectedRecordId]);
+      useEffect(() => {
+        localStorage.setItem(`randomfile-${selectedRecordId}`, JSON.stringify(products));
+      }, [`randomfile-${selectedRecordId}`]);
+      const onSetRecord=(e)=>{
+        e.preventDefault();
+        console.log(selectedRecordId)
+      }
 
     const openNew = () => {
         setProduct(emptyProduct);
@@ -68,19 +89,33 @@ import { FilterMatchMode, FilterOperator } from 'primereact/api';
     const saveProduct = () => {
         setSubmitted(true);
 
-        if (product.Date.trim()) {
+        if (product.testDate.trim()) {
             let _products = [...products];
             let _product = {...product};
             if (product.id) {
                 const index = findIndexById(product.id);
-
                 _products[index] = _product;
-                toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Product Updated', life: 3000 });
+                try {
+                    setLoading(true);
+                    updateRandomResult(_product,selectedRecordId);
+                    setLoading(false);
+                } catch (error) {
+                    console.log(error.message)
+                }
+                toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Entry Updated', life: 3000 });
             }
             else {
                 _product.id = createId();
                 _products.push(_product);
-                toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Product Created', life: 3000 });
+                try {
+                    setLoading(true);
+                    addRandomResult(_product,selectedRecordId);
+                    setLoading(false);
+
+                } catch (error) {
+                    console.log(error.message)
+                }
+                toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Entry Created', life: 3000 });
             }
 
             setProducts(_products);
@@ -101,10 +136,17 @@ import { FilterMatchMode, FilterOperator } from 'primereact/api';
 
     const deleteProduct = () => {
         let _products = products.filter(val => val.id !== product.id);
-        setProducts(_products);
+        // setProducts(_products);
+        try {
+            console.log("Entire Document has been deleted successfully.")
+            deleteRandomResult(product.docId,selectedRecordId)
+        }
+        catch(error) {
+            console.log(error);
+        }
         setDeleteProductDialog(false);
         setProduct(emptyProduct);
-        toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Product Deleted', life: 3000 });
+        toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Entry Deleted', life: 3000 });
     }
 
     const findIndexById = (id) => {
@@ -135,11 +177,21 @@ import { FilterMatchMode, FilterOperator } from 'primereact/api';
     }
 
     const deleteSelectedProducts = () => {
-        let _products = products.filter(val => !selectedProducts.includes(val));
-        setProducts(_products);
+        // let _products = products.filter(val => !selectedProducts.includes(val));
+        // setProducts(_products);
+        let _multiRecords = products.filter(val => selectedProducts.includes(val));
+        try {
+            console.log("Entire Document has been deleted successfully.")
+            _multiRecords.forEach(i => {
+                deleteRandomResult(i.docId,selectedRecordId)
+              });
+        }
+        catch(error) {
+            console.log(error);
+        }
         setDeleteProductsDialog(false);
         setSelectedProducts(null);
-        toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Products Deleted', life: 3000 });
+        toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Entries Deleted', life: 3000 });
     }
 
     
@@ -216,16 +268,16 @@ import { FilterMatchMode, FilterOperator } from 'primereact/api';
                 // right={rightToolbarTemplate}
                 ></Toolbar>
 
-                <DataTable size='small' responsiveLayout="scroll" scrollHeight='400px' stripedRows ref={dt} value={products} selection={selectedProducts} onSelectionChange={(e) => setSelectedProducts(e.value)}
-                    dataKey="id" paginator rows={10} rowsPerPageOptions={[5, 10, 25]}
-                    paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
-                    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} products"
+                <DataTable size='small' responsiveLayout="scroll" scrollHeight='500px' stripedRows ref={dt} value={products} selection={selectedProducts} onSelectionChange={(e) => setSelectedProducts(e.value)}
+                    dataKey="id" paginator rows={10} rowsPerPageOptions={[10, 20,30, 50]}
+                    paginatorTemplate="PrevPageLink PageLinks NextPageLink CurrentPageReport RowsPerPageDropdown"
+                    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} results"
                     filterDisplay="menu" emptyMessage="No record found." header={header}>
 
                     <Column  selectionMode="multiple" headerStyle={{ width: '3rem' }} exportable={false}></Column>
                     <Column field="id" header="ID" sortable style={{ minWidth: '5rem' }}></Column>
-                    <Column  field="Date" header="Date" sortable filter filterPlaceholder="Search by Date" style={{ minWidth: '7rem' }}></Column>
-                    <Column field="time" header="Time"  sortable style={{ minWidth: '7rem' }}></Column>
+                    <Column  field="testDate" header="Date" sortable filter filterPlaceholder="Search by Date" style={{ minWidth: '7rem' }}></Column>
+                    <Column field="testTime" header="Time"  sortable style={{ minWidth: '7rem' }}></Column>
                     <Column field="result" header="Test result"  sortable style={{ minWidth: '7rem' }}></Column>
                     <Column body={actionBodyTemplate} exportable={false} style={{ minWidth: '6rem' }}></Column>
                 </DataTable>
@@ -234,13 +286,13 @@ import { FilterMatchMode, FilterOperator } from 'primereact/api';
             <Dialog visible={productDialog} style={{ width: '450px' }} header="Record Details" modal className="p-fluid" footer={productDialogFooter} onHide={hideDialog}>
                 <div className="field">
                     <label htmlFor="date">Date</label>
-                    <InputText id="date" type='date' value={product.Date} onChange={(e) => onInputChange(e, 'Date')} required autoFocus className={classNames({ 'p-invalid': submitted && !product.Date })} />
-                    {submitted && !product.Date && <small className="p-error">Date is required.</small>}
+                    <InputText id="date" type='date' value={product.testDate} onChange={(e) => onInputChange(e, 'testDate')} required autoFocus className={classNames({ 'p-invalid': submitted && !product.Date })} />
+                    {submitted && !product.testDate && <small className="p-error">Date is required.</small>}
                 </div>
                 <div className="field">
                     <label htmlFor="time">Time</label>
-                    <InputText id="time" type='time' value={product.time} onChange={(e) => onInputChange(e, 'time')} required autoFocus className={classNames({ 'p-invalid': submitted && !product.time })} />
-                    {submitted && !product.time && <small className="p-error">time is required.</small>}
+                    <InputText id="time" type='time' value={product.testTime} onChange={(e) => onInputChange(e, 'testTime')} required autoFocus className={classNames({ 'p-invalid': submitted && !product.testTime })} />
+                    {submitted && !product.testTime && <small className="p-error">time is required.</small>}
                 </div>
                 <div className="field">
                     <label htmlFor="result">Result</label>
@@ -311,156 +363,11 @@ input[type="number"]::-webkit-inner-spin-button {
     margin: 0;
 }
 
-@keyframes pulse {
-    0% {
-        background-color: rgba(165, 165, 165, 0.1)
-    }
-    50% {
-        background-color: rgba(165, 165, 165, 0.3)
-    }
-    100% {
-        background-color: rgba(165, 165, 165, 0.1)
-    }
-}
 
-.customer-badge {
-    border-radius: 2px;
-    padding: .25em .5rem;
-    text-transform: uppercase;
-    font-weight: 700;
-    font-size: 12px;
-    letter-spacing: .3px;
-}
-
-.customer-badge.status-qualified {
-    background-color: #C8E6C9;
-    color: #256029;
-}
-
-.customer-badge.status-unqualified {
-    background-color: #FFCDD2;
-    color: #C63737;
-}
-
-.customer-badge.status-negotiation {
-    background-color: #FEEDAF;
-    color: #8A5340;
-}
-
-.customer-badge.status-new {
-    background-color: #B3E5FC;
-    color: #23547B;
-}
-
-.customer-badge.status-renewal {
-    background-color: #ECCFFF;
-    color: #694382;
-}
-
-.customer-badge.status-proposal {
-    background-color: #FFD8B2;
-    color: #805B36;
-}
-
-.product-badge {
-    border-radius: 2px;
-    padding: .25em .5rem;
-    text-transform: uppercase;
-    font-weight: 700;
-    font-size: 12px;
-    letter-spacing: .3px;
-}
-
-.product-badge.status-instock {
-    background: #C8E6C9;
-    color: #256029;
-}
-
-.product-badge.status-outofstock {
-    background: #FFCDD2;
-    color: #C63737;
-}
-
-.product-badge.status-lowstock {
-    background: #FEEDAF;
-    color: #8A5340;
-}
-
-.order-badge {
-    border-radius: 2px;
-    padding: .25em .5rem;
-    text-transform: uppercase;
-    font-weight: 700;
-    font-size: 12px;
-    letter-spacing: .3px;
-}
-
-.order-badge.order-delivered {
-    background: #C8E6C9;
-    color: #256029;
-}
-
-.order-badge.order-cancelled {
-    background: #FFCDD2;
-    color: #C63737;
-}
-
-.order-badge.order-pending {
-    background: #FEEDAF;
-    color: #8A5340;
-}
-
-.order-badge.order-returned {
-    background: #ECCFFF;
-    color: #694382;
-}
-
-.image-text {
-    vertical-align: middle;
-    margin-left: .5rem;
-}
-
-.p-multiselect-representative-option {
-    display: inline-block;
-    vertical-align: middle;
-}
-
-.p-multiselect-representative-option img {
-    vertical-align: middle;
-    width: 24px;
-}
-
-.p-multiselect-representative-option span {
-    margin-top: .125rem;
-}
-
-.p-column-filter {
+/* .p-column-filter {
     width: 100%;
-}
+} */
 
-.country-item {
-    display: flex;
-    align-items: center;
-}
-
-.country-item img.flag {
-    width: 18px;
-    margin-right: .5rem;
-}
-
-.flag {
-    vertical-align: middle;
-}
-
-span.flag {
-    width:44px;
-    height:30px;
-    display:inline-block;
-}
-
-img.flag {
-    width:30px
-}
 
 .datatable-crud-demo .table-header {
     display: flex;

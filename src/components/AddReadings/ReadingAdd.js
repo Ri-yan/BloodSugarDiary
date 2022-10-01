@@ -4,14 +4,22 @@ import { cover1 } from '../../assets';
 import Form from 'react-bootstrap/Form';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import { useState,useRef,useEffect } from 'react';
+import { collection,onSnapshot,doc } from "firebase/firestore";
+import { auth, db }  from '../../firebase/firebase'
+import { useAuth } from '../../context/AuthContext';
 const ReadingAdd = () => {
+const {addDirectResult} =useAuth()
+
+    const [loading, setloading] = useState(false)
+    const [readingType, setReadingType] = useState('')
+    const [recordfile, setRecordFile] = useState('')
    const recordRef = useRef()
    const readingTypeRef = useRef()
    const resultRef = useRef()
    const testDateRef = useRef()
    const testTimeRef = useRef()
    const notesRef = useRef()
-  
+
    let defaultDate = new Date()
    defaultDate.setDate(defaultDate.getDate() + 3)
 
@@ -26,6 +34,35 @@ const ReadingAdd = () => {
    const onSetResultDate = (event) => {
        setDate(event.target.value)
    }
+   
+
+
+const [allRecords, setallRecords] = useState(JSON.parse(localStorage.getItem("random-records")) || []);
+const [selectedRecordId, setSelectedRecordId] = useState(null)
+    useEffect(() => {
+        const unsub = onSnapshot(collection(doc(db, "allRecord",auth.currentUser.uid),'records'), (docs) => {
+            const rec = [];
+            docs.forEach((doc) => {
+                rec.push({...doc.data(),docId:doc.id});
+            });
+            setallRecords(rec)
+        });
+        return unsub;
+      }, []);
+
+
+
+
+
+      const createId = () => {
+        let id = '';
+        let chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        for (let i = 0; i < 5; i++) {
+            id += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+        return id;
+    }
+
 
    const onClear=(e)=>{
     readingTypeRef.current.value='Select Type'
@@ -37,15 +74,18 @@ const ReadingAdd = () => {
 
    }
 
-   const onResultSubmit=(e)=>{
+   const onResultSubmit=async(e)=>{
     e.preventDefault();
     const result={
+        id:createId(),
         readingType:`${readingTypeRef.current.value}`,
-        recordName:`${recordRef.current.value}`,
+        docId:recordfile,
         result:`${resultRef.current.value}`,
         testDate:`${testDateRef.current.value}`,
         testTime:`${testTimeRef.current.value}`,
-        testNotes:`${notesRef.current.value}`
+        // testNotes:`${notesRef.current.value}`,
+        description:`${notesRef.current.value}`,
+
     }
     try {
         if(result.readingType==='Select Type'){
@@ -56,7 +96,10 @@ const ReadingAdd = () => {
         else if(result.result===''){
             alert("please Enter the test Result.")
         }else{
-            alert("Result Added")
+            // alert("Result Added")
+            setloading(true);
+            await addDirectResult(result)
+            setloading(false);
             console.log(result)
             onClear();
         }
@@ -71,11 +114,16 @@ const ReadingAdd = () => {
     const [records, setRecords] = useState([])
     const shouldLog = useRef(true)
 
-    useEffect(() => {
-        if(shouldLog.current){
-            shouldLog.current=false;
-        fetch('data/TotalRecords.json').then(res => res.json()).then(d => setRecords(d.data));
-}}, []); // eslint-disable-line react-hooks/exhaustive-deps
+//     useEffect(() => {
+//         if(shouldLog.current){
+//             shouldLog.current=false;
+//         fetch('data/TotalRecords.json').then(res => res.json()).then(d => setRecords(d.data));
+// }}, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+
+
+
+
     return (
         <AddComp>
 
@@ -85,27 +133,10 @@ const ReadingAdd = () => {
                     <Col xs={10} md={8} className='box'>
                         <Container>
                             <Row>
-                                <Col>
-                                <Form.Label  className='d-none dmd-block d-lg-block '>Select Record</Form.Label>
-                                    <Form.Select style={{width:'11em'}} className='m-sm-1 m-md-0 m-lg-0 input fs-6'  ref={recordRef} aria-label="Default select example" required>
-                                    <option className='fs-6'>Select Record</option>
-                                    {
-                                       records.map((i,k)=>{
-                                            return <option className='fs-6' key={k} value={i.recordName}>{i.recordName}</option>
-                                        })
-                                    }
-                                    <option value="File 1">File 1</option>
-                                    <option value="File 2">File 2</option>
-                                    <option value="File 3">File 2</option>
-                                    <option value="File 4">File 3</option>
-                                    <option value="File 5">File 4</option>
-                                    <option value="File 6">File 5</option>
-                                    </Form.Select>
-                                </Col>
-                                <Col>
+                            <Col>
                                 <Form.Label  className='d-none dmd-block d-lg-block'>Select Type</Form.Label>
-                                    <Form.Select ref={readingTypeRef}  className='m-sm-1 m-md-0 m-lg-0 input' style={{width:'-webkit-fill-available'}} aria-label="Default select example" required>
-                                    <option>Select Type</option>
+                                    <Form.Select ref={readingTypeRef} onChange={(e)=>setReadingType(e.target.value)} className='m-sm-1 m-md-0 m-lg-0 input' style={{width:'-webkit-fill-available'}} aria-label="Default select example" required>
+                                    <option value='Select Type'>Select Type</option>
                                     <option value="Random">Random</option>
                                     <option value="Before BreakFast">Before BreakFast</option>
                                     <option value="After BreakFast">After BreakFast</option>
@@ -113,9 +144,34 @@ const ReadingAdd = () => {
                                     <option value="After Lunch">After Lunch</option>
                                     <option value="Before Dinner5">Before Dinner</option>
                                     <option value="After Dinner">After Dinner</option>
-                                   
                                     </Form.Select>
                                 </Col>
+                                <Col>
+                                <Form.Label  className='d-none dmd-block d-lg-block '>Select Record</Form.Label>
+                                    <Form.Select style={{width:'11em'}}
+                                    onChange={(e)=>setRecordFile(e.target.value)}
+                                    //  onChange={(e)=>setRecordId(e.target.value)} 
+                                     
+                                     className='m-sm-1 m-md-0 m-lg-0 input fs-6'  ref={recordRef} aria-label="Default select example" required>
+                                    <option className='fs-6'>Select Record</option>
+                                    {
+                                       allRecords.map((i,k)=>{
+                                        if(readingType==='Random'){
+                                            if(i.recordType.name==='Random')
+                                            return <option className='fs-6' key={k}  value={i.docId}>{i.recordName}</option>
+                                        }else if(i.recordType.name!=='Random')
+                                            return <option className='fs-6' key={k}  value={i.docId}>{i.recordName}</option>
+                                        })
+                                    }
+                                    {/* <option value="File 1">File 1</option>
+                                    <option value="File 2">File 2</option>
+                                    <option value="File 3">File 2</option>
+                                    <option value="File 4">File 3</option>
+                                    <option value="File 5">File 4</option>
+                                    <option value="File 6">File 5</option> */}
+                                    </Form.Select>
+                                </Col>
+                                
                                 <Col>
                                     <Form.Group controlId="testdob">
                                         <Form.Label className='d-none dmd-block d-lg-block' >Select Date</Form.Label>
@@ -151,7 +207,7 @@ const ReadingAdd = () => {
                                                 <Button variant="primary" onClick={()=>onClear()} className='button'>Clear</Button>
                                             </Col>
                                             <Col>
-                                                <Button variant="primary" className='button' type='submit' >Save</Button>
+                                                <Button variant="primary" disabled={loading} className='button' type='submit' >Save</Button>
                                             </Col>
                                         </Row>
                                     </Container>

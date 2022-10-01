@@ -1,4 +1,4 @@
-import React from 'react'
+import {useEffect,useState} from 'react'
 import Form from 'react-bootstrap/Form';
 import styled from 'styled-components'
 import { cover1, cover2, coverrev } from '../../assets';
@@ -6,25 +6,69 @@ import RandomPieChart from '../RandomTable/RandomPieChart';
 import RoutineChartList from '../RoutineTable/RoutineCharts/RoutineChartList';
 import Random2 from './Random2/Random2';
 
+import { collection,onSnapshot,doc } from "firebase/firestore";
+import { auth, db }  from '../../firebase/firebase'
+
 const RandomComp = () => {
+    const [allRecords, setallRecords] = useState(JSON.parse(localStorage.getItem("random-records")) || []);
+    const [selectedRecordId, setSelectedRecordId] = useState(null)
+    useEffect(() => {
+        const unsub = onSnapshot(collection(doc(db, "allRecord",auth.currentUser.uid),'records'), (docs) => {
+            const rec = [];
+            docs.forEach((doc) => {
+                if(doc.data().recordType.name==='Random'){
+                     rec.push({...doc.data(),docId:doc.id});
+                }
+            });
+            setallRecords(rec)
+        });
+        // productService.getProducts2().then(data => console.log(data));
+        return unsub;
+      }, []);
+
+      useEffect(() => {
+        localStorage.setItem("random-records", JSON.stringify(allRecords));
+      }, [allRecords]);
+
+
+      const onSetRecord=(e)=>{
+        e.preventDefault();
+        console.log(selectedRecordId)
+      }
+
+
   return (
     <RoutineCom>
         <div className="cont">
             <h1>Random Records Section</h1>
-            <form className="form">
-                    <Form.Select size="md" style={{width:'fit-content'}}>
+            <form onSubmit={onSetRecord} className="form">
+                    <Form.Select size="md" style={{width:'fit-content'}} onChange={(e)=>setSelectedRecordId(e.target.value)}>
                     <option>Select a file</option>
-                    <option>File 1</option>
+                    {
+                        allRecords.map((i,k) => {
+                            return(
+                                <option key={k} value={i.docId}>{i.recordName}</option> 
+                            )
+                        })
+                        
+                    }
+                    {/* <option>File 1</option>
                     <option>File 2</option>
                     <option>File 3</option>
                     <option>File 4</option>
                     <option>File 5</option>
-                    <option>File 6</option>
+                    <option>File 6</option> */}
                 </Form.Select>
                 <button type="submit" className="btn btn-primary btn-md-md btn-lg-lg my-auto up mx-2">Load</button>   
             </form>
-            <Random2/>
-            <RandomPieChart/>
+            {
+                (selectedRecordId && selectedRecordId!=='Select a file')?
+               <><Random2 selectedRecordId={selectedRecordId}/><RandomPieChart/></>
+                :
+                <h3 className='h-50 w-100 d-flex justify-content-center my-3'>please select your random record</h3>
+            }
+            {/* <Random2/> */}
+            {/* <RandomPieChart/> */}
         </div>
               
         
@@ -36,6 +80,7 @@ export default RandomComp;
 
 const RoutineCom = styled.div`
     width: -webkit-fill-available;
+    min-height: 100vh;
     padding-top: 2rem;
     background: url(${coverrev});
     background-size: cover;
