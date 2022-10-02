@@ -20,7 +20,7 @@ const LandingNavBar = () => {
     <NavCom>
         <Navbar className={navbar?'nav':'nav act .active'} fixed="top"  collapseOnSelect expand="lg" bg="light" variant="light">
         <Container>
-            <Navbar.Brand  href="/"><Link  to='/' className={navbar?'title':'title titleactive'}>Blood Sugar Diary</Link></Navbar.Brand>
+            <Link  to='/' ><Navbar.Brand className={navbar?'title':'title titleactive'} >Blood Sugar Diary</Navbar.Brand></Link>
             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
             <Navbar.Collapse id="responsive-navbar-nav">
             <Nav className="me-auto">
@@ -31,7 +31,6 @@ const LandingNavBar = () => {
                 <p className='me-lg-4 fs-6' ><Nav.Link href="#Features">Features</Nav.Link></p>
                 <p className='me-lg-4 fs-6'  ><Nav.Link href="#about">About</Nav.Link></p> 
                 <Link className='me-lg-4 ' to='/login' ><Button variant="primary" className='fs-6'>Login</Button></Link>
-                
             </Nav>
             </Navbar.Collapse>
         </Container>

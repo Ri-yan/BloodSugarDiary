@@ -17,13 +17,13 @@ const Footer = () => {
                         <span className="ml-3 h5 font-weight-bold">Blood Sugar Diary</span>
                         </a>
                         <div className="d-flex mt-5">
-                        <Button flat color="dark" className="bg-black border-dark px-3 py-2 d-flex align-items-center">
+                        <Button flat="true" color="dark" className="bg-black border-dark px-3 py-2 d-flex align-items-center">
                             <FaFacebookF style={{fontSize:'0.8em'}}/>
                         </Button>
-                        <Button flat color="dark" className="bg-black border-dark mx-3 px-3 py-2 d-flex align-items-center">
+                        <Button flat="true" color="dark" className="bg-black border-dark mx-3 px-3 py-2 d-flex align-items-center">
                         <GrTwitter style={{fontSize:'0.8em'}}/>
                         </Button>
-                        <Button flat color="dark" className="bg-black border-dark px-3 py-2 d-flex align-items-center">
+                        <Button flat="true" color="dark" className="bg-black border-dark px-3 py-2 d-flex align-items-center">
                         <GrInstagram style={{fontSize:'0.8em'}}/>
                         </Button>
                         </div>

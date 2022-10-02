@@ -25,7 +25,7 @@ const FeaturesCard = () => {
   className="my-masonry-grid"
   columnClassName="my-masonry-grid_column">
   {features.map((i, idx) => (
-            <Col>
+            <Col key={idx}>
             <Link  to={`${i.link}`}>
               <Card style={{cursor:'pointer'}} >
                 <Card.Img variant="top" src={i.cover} className='bg-image hover-zoom' />

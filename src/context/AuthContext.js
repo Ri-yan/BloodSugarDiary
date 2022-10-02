@@ -2,7 +2,7 @@ import React,{useContext,useEffect,useState,createContext} from "react";
 import { auth, db }  from '../firebase/firebase'
 import { onAuthStateChanged,createUserWithEmailAndPassword,
     signInWithEmailAndPassword,signOut,sendPasswordResetEmail } from "firebase/auth";
-import { addDoc, collection, serverTimestamp,query,updateDoc,where,doc,deleteDoc, setDoc } from "firebase/firestore";
+import { addDoc, collection, serverTimestamp,query,updateDoc,where,doc,deleteDoc, setDoc,getDocs } from "firebase/firestore";
 const AuthContext = createContext()
 export const  AuthProvider=({ children })=>{
     const [currentUser, setCurrentUser] = useState()
@@ -103,8 +103,40 @@ export const  AuthProvider=({ children })=>{
         return addDoc(recRef, {...result,creationDate:d,lastUpdated:d})
         }
           else {
-            const recRef = collection(doc(db,'allRoutineResult',auth.currentUser.uid),result.docId);
-            return addDoc(recRef, {...result,creationDate:d,lastUpdated:d})
+            // const recRef = collection(doc(db,'allRoutineResult',auth.currentUser.uid),result.docId);
+            // return addDoc(recRef, {...result,creationDate:d,lastUpdated:d})
+
+            const q =collection(doc(db,'allRoutineResult',auth.currentUser.uid),result.docId);
+ let flag=false
+      getDocs(q)
+      .then(
+        (snapshot)=>{
+        snapshot.docs.forEach((doc)=>{
+          if(doc.data.Date!=result.testDate){
+            flag=true;
+          }
+          console.log(doc.data())
+        })}
+        
+      )
+      .catch(err=>{
+        console.log(err.message)
+      })
+      if(flag===false){
+        let emptyProduct = {
+          id: null,
+          testDate:'',
+          Bfast:'',
+          Bpp:'',
+          Lfast:'',
+          Lpp:'',
+          Dfast:'',
+          Dpp:'',
+          description:''
+      };
+        return addDoc(collection(doc(db,'allRoutineResult',auth.currentUser.uid),result.docId), {...result,creationDate:d,lastUpdated:d})
+        }
+
           }
       }
 

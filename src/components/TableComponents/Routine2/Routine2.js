@@ -26,12 +26,12 @@ import { auth, db }  from '../../../firebase/firebase'
 
     let emptyProduct = {
         id: null,
-        Date:'',
-        Bfasting:'',
+        testDate:'',
+        Bfast:'',
         Bpp:'',
-        Lfasting:'',
+        Lfast:'',
         Lpp:'',
-        Dfasting:'',
+        Dfast:'',
         Dpp:'',
         description:''
     };
@@ -92,10 +92,10 @@ import { auth, db }  from '../../../firebase/firebase'
         setDeleteProductsDialog(false);
     }
 
-    const saveProduct = () => {
+    const saveProduct = async () => {
         setSubmitted(true);
 
-        if (product.Date.trim()) {
+        if (product.testDate.trim()) {
             let _products = [...products];
             let _product = {...product};
             if (product.id) {
@@ -103,7 +103,7 @@ import { auth, db }  from '../../../firebase/firebase'
                 _products[index] = _product;
                 try {
                     setLoading(true);
-                    updateRoutineResult(_product,selectedRecordId);
+                    await updateRoutineResult(_product,selectedRecordId);
                     setLoading(false);
                 } catch (error) {
                     console.log(error.message)
@@ -115,7 +115,7 @@ import { auth, db }  from '../../../firebase/firebase'
                 _products.push(_product);
                 try {
                     setLoading(true);
-                    addRoutineResult(_product,selectedRecordId);
+                    await addRoutineResult(_product,selectedRecordId);
                     setLoading(false);
 
                 } catch (error) {
@@ -280,12 +280,12 @@ import { auth, db }  from '../../../firebase/firebase'
                     globalFilter={globalFilter} header={header} >
                     <Column  selectionMode="multiple" headerStyle={{ width: '3rem' }} exportable={false}></Column>
                     <Column field="id" header="ID" sortable style={{ minWidth: '3rem' }}></Column>
-                    <Column field="Date" header="Date" sortable filter filterPlaceholder="Search by Date" style={{ minWidth: '9rem' }}></Column>
-                    <Column field="Bfasting" header="Bfasting"  sortable style={{ minWidth: '5rem' }}></Column>
+                    <Column field="testDate" header="Date" sortable filter filterPlaceholder="Search by Date" style={{ minWidth: '9rem' }}></Column>
+                    <Column field="Bfast" header="Bfast"  sortable style={{ minWidth: '5rem' }}></Column>
                     <Column field="Bpp" header="Bpp"  sortable style={{ minWidth: '5rem' }}></Column>
-                    <Column field="Lfasting" header="Lfasting"  sortable style={{ minWidth: '5rem' }}></Column>
+                    <Column field="Lfast" header="Lfast"  sortable style={{ minWidth: '5rem' }}></Column>
                     <Column field="Lpp" header="Lpp"  sortable style={{ minWidth: '5rem' }}></Column>
-                    <Column field="Dfasting" header="Dfasting"  sortable style={{ minWidth: '5rem' }}></Column>
+                    <Column field="Dfast" header="Dfast"  sortable style={{ minWidth: '5rem' }}></Column>
                     <Column field="Dpp" header="Dpp"  sortable style={{ minWidth: '5rem' }}></Column>
                     <Column body={actionBodyTemplate} exportable={false} style={{ minWidth: '6rem' }}></Column>
                 </DataTable>
@@ -294,16 +294,16 @@ import { auth, db }  from '../../../firebase/firebase'
             <Dialog visible={productDialog} style={{ width: '450px' }} header="Record Details" modal className="p-fluid" footer={productDialogFooter} onHide={hideDialog}>
                 <div className="field">
                     <label htmlFor="date">Date</label>
-                    <InputText id="date" type='date' value={product.Date} onChange={(e) => onInputChange(e, 'Date')} required autoFocus className={classNames({ 'p-invalid': submitted && !product.Date })} />
-                    {submitted && !product.Date && <small className="p-error">Date is required.</small>}
+                    <InputText id="date" type='date' value={product.testDate} onChange={(e) => onInputChange(e, 'testDate')} required autoFocus className={classNames({ 'p-invalid': submitted && !product.Date })} />
+                    {submitted && !product.testDate && <small className="p-error">Date is required.</small>}
                 </div>
                 
 
                 <div className="formgrid grid">
                     <div className="row">
                         <div className="field col">
-                            <label htmlFor="Bfasting">Before BreakFast</label>
-                            <InputText id="Bfasting"  value={product.Bfasting} onChange={(e) => onInputChange(e, 'Bfasting')} required rows={3} cols={20} />
+                            <label htmlFor="Bfast">Before BreakFast</label>
+                            <InputText id="Bfast"  value={product.Bfast} onChange={(e) => onInputChange(e, 'Bfast')} required rows={3} cols={20} />
                         </div>
                         <div className="field col">
                             <label htmlFor="Bpp">After BreakFast</label>
@@ -312,8 +312,8 @@ import { auth, db }  from '../../../firebase/firebase'
                     </div>
                     <div className="row">
                         <div className="field col">
-                            <label htmlFor="Lfasting">Before Lunch</label>
-                            <InputText id="Lfasting"  value={product.Lfasting} onChange={(e) => onInputChange(e, 'Lfasting')} required rows={3} cols={20} />
+                            <label htmlFor="Lfast">Before Lunch</label>
+                            <InputText id="Lfast"  value={product.Lfast} onChange={(e) => onInputChange(e, 'Lfast')} required rows={3} cols={20} />
                         </div>
                         <div className="field col">
                             <label htmlFor="Lpp">Before Lunch</label>
@@ -322,8 +322,8 @@ import { auth, db }  from '../../../firebase/firebase'
                     </div>
                     <div className="row">
                         <div className="field col">
-                            <label htmlFor="Dfasting">Before Dinner</label>
-                            <InputText id="Dfasting"  value={product.Dfasting} onChange={(e) => onInputChange(e, 'Dfasting')} required rows={3} cols={20} />
+                            <label htmlFor="Dfast">Before Dinner</label>
+                            <InputText id="Dfast"  value={product.Dfast} onChange={(e) => onInputChange(e, 'Dfast')} required rows={3} cols={20} />
                         </div>
                         <div className="field col">
                             <label htmlFor="Dpp">Before Dinner</label>

@@ -22,22 +22,13 @@ function App() {
        {/* <NavBar/> */}<AuthProvider>
        <Routes>
          <Route path="/" element={<><LandingPage/></>}></Route>
-         <Route path="/table" element={<><NavBar/><RoutineComp/></>}></Route>
-
-        </Routes>
-        
-       <Routes>
+         <Route path="/table" element={<><NavBar/><RoutineComp/></>}></Route>        
           <Route path="/login" element={<><LogRoute><Login/></LogRoute></>} />
           <Route path="/signup" element={<><LogRoute><Signup/></LogRoute></>} />
           <Route path="/forgot-password" element={<><LogRoute><ForgotPassword/></LogRoute></>} />
-       </Routes>
        
 
-        <Routes>
-         <Route path="/welcome" element={<><PrivateRoute>
-<NavBar/><WelcomePage/></PrivateRoute></>}></Route>
-        </Routes>
-        <Routes>
+         <Route path="/welcome" element={<><PrivateRoute><NavBar/><WelcomePage/></PrivateRoute></>}></Route>
          <Route path="/routine_record/" element={<><PrivateRoute><NavBar/>
          {/* <h1>Blood Sugar Report</h1> */}
          <RoutineComp/>
@@ -46,28 +37,16 @@ function App() {
          {/* <RoutineChartList/> */}
          </PrivateRoute>
          </>}></Route>
-        </Routes>
-        <Routes>
          <Route path="/random_record/" element={<><PrivateRoute><NavBar/>
          {/* <h1>Random Blood Sugar Report</h1><Random2/> */}
          {/* <RandomTable/> */}
          {/* <RandomPieChart/> */}
          <RandomComp/>
          </PrivateRoute></>}></Route>
-        </Routes>
-        <Routes>
          <Route path="/profile/" element={<><PrivateRoute><NavBar/><Profile/></PrivateRoute></>}></Route>
-        </Routes>
-        <Routes>
          <Route path="/addreadings/" element={<><PrivateRoute><NavBar/><ReadingAdd/></PrivateRoute></>}></Route>
-        </Routes>
-        <Routes>
          <Route path="/listrecords/" element={<><PrivateRoute><NavBar/><RecordList/></PrivateRoute></>}></Route>
-        </Routes>
-        <Routes>
          <Route path="/graphs/" element={<><PrivateRoute><NavBar/><Graphs/></PrivateRoute></>}></Route>
-        </Routes>
-        <Routes>
          <Route path="/profileedit/" element={<><PrivateRoute><NavBar/><ProfileEdit/></PrivateRoute></>}></Route>
         </Routes>
        <Footer/>
