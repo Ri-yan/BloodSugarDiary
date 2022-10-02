@@ -10,7 +10,7 @@ export const features=[{
     link:'/listrecords'
    },{
     id:1,
-    title:'Add a new Record',
+    title:'Add a new Test result',
     cover:`${add_file}`,
     disc:'Add a new record in database.',
     link:'/addreadings'
@@ -38,7 +38,7 @@ export const features=[{
    },       
    {
     id:7,
-    title:'Random Record List',
+    title:'Random Record',
     cover:`${random_thoughts}`,
     disc:'view rondom readings.',
     link:'/random_record'

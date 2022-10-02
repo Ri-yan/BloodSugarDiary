@@ -266,10 +266,10 @@ import { auth, db }  from '../../../firebase/firebase'
                     globalFilter={globalFilter} header={header}>
                     <Column  selectionMode="multiple" headerStyle={{ width: '3rem' }} exportable={false}></Column>
                     <Column field="id" header="ID" sortable style={{ minWidth: '5rem' }}></Column>
-                    <Column field="recordName" header="Record Name" sortable filter filterPlaceholder="Search by name" style={{ minWidth: '14rem' }} ></Column>
-                    <Column field="recordType.name" header="Record Type" sortable filter filterPlaceholder="Search by type" style={{ minWidth: '12rem' }} ></Column>
+                    <Column field="recordName" header="Record Name" sortable filter filterPlaceholder="Search by name" style={{ minWidth: '12rem' }} ></Column>
+                    <Column field="recordType.name" header="Record Type" sortable filter filterPlaceholder="Search by type" style={{ minWidth: '10rem' }} ></Column>
                     <Column field="creationDate" header="Creation Date" type='date' sortable filter filterPlaceholder="Search by creation date"  style={{ minWidth: '8rem' }}></Column>
-                    <Column field="lastUpdated" header="Last Accessed" type='date' sortable filter filterPlaceholder="Search by Last Accessed" style={{ minWidth: '12rem' }}></Column>
+                    <Column field="lastUpdated" header="Last Accessed" type='date' sortable filter filterPlaceholder="Search by Last Accessed" style={{ minWidth: '8rem' }}></Column>
                     <Column body={actionBodyTemplate} exportable={false} style={{ minWidth: '8rem' }}></Column>
                 </DataTable>
             </div>
@@ -280,16 +280,15 @@ import { auth, db }  from '../../../firebase/firebase'
                     <InputText id="name" value={product.recordName} onChange={(e) => onInputChange(e, 'recordName')} required autoFocus className={classNames({ 'p-invalid': submitted && !product.recordName })} />
                     {submitted && !product.recordName && <small className="p-error">Name is required.</small>}
                 </div>
-                <div className="field">
-                    <label htmlFor="description">Description</label>
-                    <InputTextarea id="description" value={product.description} onChange={(e) => onInputChange(e, 'description')} required rows={3} cols={20} />
-                </div>
+                
 
                 <div className="formgrid grid">
                     <div className="field col">
                         <label htmlFor="type">Record type</label>             
                             <Dropdown  optionLabel="name" id="type"
-                            value={product.recordType} options={[
+                            value={product.recordType}
+                            disabled={product.recordType?true:false}
+                             options={[
                                 {name: 'Random', code: 'ran'},
                                 {name: 'Routine', code: 'rou'}
                             ]} required 
@@ -297,6 +296,10 @@ import { auth, db }  from '../../../firebase/firebase'
                             onChange={(e) => onInputChange(e, 'recordType')}
                             placeholder={product.recordType}/>
                     </div>
+                </div>
+                <div className="field">
+                    <label htmlFor="description">Description</label>
+                    <InputTextarea id="description" value={product.description} onChange={(e) => onInputChange(e, 'description')} required rows={3} cols={20} />
                 </div>
             </Dialog>
 
@@ -321,6 +324,7 @@ import { auth, db }  from '../../../firebase/firebase'
 export default DataTableCrudDemo;
 
 const ListComp = styled.div`
+width: 90%;
     h1, h2, h3, h4, h5, h6 {
     margin: 1.5rem 0 1rem 0;
     font-family: inherit;
@@ -367,6 +371,7 @@ input[type="number"]::-webkit-inner-spin-button {
     justify-content: space-between;
 }
 @media screen and (max-width: 960px) {
+    width: 95%;
     .datatable-crud-demo .table-header {
         align-items: flex-start;
     }

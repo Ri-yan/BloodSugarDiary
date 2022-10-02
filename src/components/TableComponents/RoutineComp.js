@@ -78,6 +78,7 @@ export default RoutineComp
 const RoutineCom = styled.div`
     width: -webkit-fill-available;
     padding-top: 2rem;
+    min-height: 100vh;
     background: url(${coverrev});
     background-size: cover;
     background-position: center;
