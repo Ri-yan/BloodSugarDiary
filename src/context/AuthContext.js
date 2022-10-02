@@ -45,6 +45,9 @@ export const  AuthProvider=({ children })=>{
       }
       function deleteRecord(record){
         const docRef = doc(db, "allRecord",auth.currentUser.uid,'records', record);
+        // if(record.readingType.name==='Random'){
+          
+        // }
         return deleteDoc(docRef)
       }
 
@@ -94,7 +97,7 @@ export const  AuthProvider=({ children })=>{
 
 // Direct test result add functionality ///////////////////////////////////////////////////////////////////////
 
-      function addDirectResult(result){
+      async function addDirectResult (result){
         let defaultDate = new Date()
         defaultDate.setDate(defaultDate.getDate() + 3)
         let d = defaultDate.toLocaleDateString('en-CA')
@@ -107,36 +110,53 @@ export const  AuthProvider=({ children })=>{
             // return addDoc(recRef, {...result,creationDate:d,lastUpdated:d})
 
             const q =collection(doc(db,'allRoutineResult',auth.currentUser.uid),result.docId);
- let flag=false
-      getDocs(q)
+ let flag=false;
+ let uid=''
+      await getDocs(q)
       .then(
         (snapshot)=>{
         snapshot.docs.forEach((doc)=>{
           if(doc.data.Date!=result.testDate){
             flag=true;
+            uid=doc.id;
           }
-          console.log(doc.data())
         })}
-        
       )
       .catch(err=>{
         console.log(err.message)
       })
       if(flag===false){
-        let emptyProduct = {
-          id: null,
-          testDate:'',
-          Bfast:'',
-          Bpp:'',
-          Lfast:'',
-          Lpp:'',
-          Dfast:'',
-          Dpp:'',
-          description:''
+        let testResult = {
+          id: result.id,
+          testDate:result.testDate,
+          Bfast:`${(result.readingType==='Bfast')?result.result:''}`,
+          Bpp:`${(result.readingType==='Bpp')?result.result:''}`,
+          Lfast:`${(result.readingType==='Lfast')?result.result:''}`,
+          Lpp:`${(result.readingType==='Lpp')?result.result:''}`,
+          Dfast:`${(result.readingType==='Dfast')?result.result:''}`,
+          Dpp:`${(result.readingType==='Dpp')?result.result:''}`,
+          description:result.description,
+          creationDate:d,
+          lastUpdated:d
       };
-        return addDoc(collection(doc(db,'allRoutineResult',auth.currentUser.uid),result.docId), {...result,creationDate:d,lastUpdated:d})
+        return addDoc(collection(doc(db,'allRoutineResult',auth.currentUser.uid),result.docId),testResult)
         }
-
+        else{
+          console.log('Doc exist')
+          const recRef = doc(db, "allRoutineResult",auth.currentUser.uid,result.docId,uid);
+          if(result.readingType==='Bfast')
+            return updateDoc(recRef, {lastUpdated:defaultDate.toLocaleDateString('en-CA'),Bfast:result.result,BfastTime:result.testTime})
+          else if(result.readingType==='Bpp')
+            return updateDoc(recRef, {lastUpdated:defaultDate.toLocaleDateString('en-CA'),Bpp:result.result,BppTime:result.testTime})
+          else if(result.readingType==='Lfast')
+            return updateDoc(recRef, {lastUpdated:defaultDate.toLocaleDateString('en-CA'),Lfast:result.result,LfastTime:result.testTime})
+          else if(result.readingType==='Lpp')
+            return updateDoc(recRef, {lastUpdated:defaultDate.toLocaleDateString('en-CA'),Lpp:result.result,LppTime:result.testTime})
+          else if(result.readingType==='Dfast')
+            return updateDoc(recRef, {lastUpdated:defaultDate.toLocaleDateString('en-CA'),Dfast:result.result,DfastTime:result.testTime})
+          else if(result.readingType==='Dpp')
+            return updateDoc(recRef, {lastUpdated:defaultDate.toLocaleDateString('en-CA'),Dpp:result.result,DppTime:result.testTime})
+          }
           }
       }
 

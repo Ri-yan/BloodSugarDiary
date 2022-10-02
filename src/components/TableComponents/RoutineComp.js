@@ -2,8 +2,8 @@ import {useEffect,useState} from 'react'
 import Form from 'react-bootstrap/Form';
 import styled from 'styled-components'
 import { cover1, cover2, coverrev, wavy, wavy3 } from '../../assets';
-import RoutineChartList from '../RoutineTable/RoutineCharts/RoutineChartList';
-import Routine2 from './Routine2/Routine2';
+import RoutineChartList from './RoutineCharts/RoutineChartList';
+import RoutineTable from './RoutineTable/RoutineTable';
 import { collection,onSnapshot,doc } from "firebase/firestore";
 import { auth, db }  from '../../firebase/firebase'
 const RoutineComp = () => {
@@ -59,7 +59,7 @@ const RoutineComp = () => {
             </form>
             {
                 (selectedRecordId && selectedRecordId!=='Select a file')?
-               <><Routine2 selectedRecordId={selectedRecordId}/>
+               <><RoutineTable selectedRecordId={selectedRecordId}/>
                <RoutineChartList/></>
                 :
                 <h3 className='h-50 w-100 d-flex justify-content-center my-3'>please select your routine record</h3>

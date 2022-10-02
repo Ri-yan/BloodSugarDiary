@@ -28,5 +28,6 @@ export{ default as login } from './WelcomePageSVG/login.svg'
 export{ default as join } from './WelcomePageSVG/join.svg'
 export{ default as backleft } from './WelcomePageSVG/back-left.svg'
 export{ default as newsletter } from './WelcomePageSVG/newsletter.svg'
+export{ default as dotloader } from './dotloader.gif'
 
 //////////////////////////////////////////

@@ -1,13 +1,12 @@
 import styled from 'styled-components'
 import { cover1, coverrev } from '../../assets';
-import DataTableCrud from './List/DataTableCrudDemo'
+import RecordTable from './RecordTable';
 const RecordList = () => {
   return (
     <ListComp>
-       {/* <DataTableCrud/> */}
        <div className="cont">
             <h1 className='mb-5'>All Record Section</h1> 
-            <DataTableCrud/>   
+            <RecordTable/>   
         </div>
               
         

@@ -1,27 +1,30 @@
 import { Col, Container, Row,Button,ListGroup } from 'react-bootstrap';
 import styled from 'styled-components'
-import { cover1 } from '../../assets';
+import { cover1, dotloader } from '../../assets';
 import Form from 'react-bootstrap/Form';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import { useState,useRef,useEffect } from 'react';
 import { collection,onSnapshot,doc } from "firebase/firestore";
 import { auth, db }  from '../../firebase/firebase'
 import { useAuth } from '../../context/AuthContext';
-const ReadingAdd = () => {
-const {addDirectResult} =useAuth()
+import { Toast } from 'primereact/toast';
 
-    const [loading, setloading] = useState(false)
+const ReadingAdd = () => {
+    const {addDirectResult} =useAuth()
+    const toast = useRef(null);
+    const [recordField, setrecordField] = useState(false);
+    const [loading, setloading] = useState(false);
     const [readingType, setReadingType] = useState('')
     const [recordfile, setRecordFile] = useState('')
-   const recordRef = useRef()
-   const readingTypeRef = useRef()
-   const resultRef = useRef()
-   const testDateRef = useRef()
-   const testTimeRef = useRef()
-   const notesRef = useRef()
+    const recordRef = useRef()
+    const readingTypeRef = useRef()
+    const resultRef = useRef()
+    const testDateRef = useRef()
+    const testTimeRef = useRef()
+    const notesRef = useRef()
 
    let defaultDate = new Date()
-   defaultDate.setDate(defaultDate.getDate() + 3)
+   defaultDate.setDate(defaultDate.getDate())
 
    let currentTime = defaultDate.toString().substring(16,21);
 
@@ -30,12 +33,19 @@ const {addDirectResult} =useAuth()
    
    const onSetResultTime = (event) => {
     setTime(event.target.value)
-}
+    }
    const onSetResultDate = (event) => {
        setDate(event.target.value)
    }
    
-
+   useEffect(() => {
+     if(recordfile!='' || recordfile!='Select Type'){
+        setrecordField(true);
+     }else{
+        setrecordField(false);
+     }
+   }, [readingTypeRef])
+   
 
 const [allRecords, setallRecords] = useState(JSON.parse(localStorage.getItem("random-records")) || []);
 const [selectedRecordId, setSelectedRecordId] = useState(null)
@@ -89,12 +99,12 @@ const [selectedRecordId, setSelectedRecordId] = useState(null)
     }
     try {
         if(result.readingType==='Select Type'){
-            alert("please Select Type")
+            toast.current.show({ severity: 'warn', summary: 'Warn message', detail: 'Select Type', life: 3000 });
         }else if(result.recordName==='Select Record'){
-            alert("please Select Record")
+            toast.current.show({ severity: 'warn', summary: 'Warn message', detail: 'Select Record', life: 3000 });
         }
         else if(result.result===''){
-            alert("please Enter the test Result.")
+            toast.current.show({ severity: 'warn', summary: 'Warn message', detail: 'Enter the test Result', life: 3000 });
         }else{
             // alert("Result Added")
             setloading(true);
@@ -102,6 +112,8 @@ const [selectedRecordId, setSelectedRecordId] = useState(null)
             setloading(false);
             console.log(result)
             onClear();
+            toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Result Added', life: 3000 });
+
         }
     } catch (er) {
         console.log(e.message)
@@ -126,6 +138,7 @@ const [selectedRecordId, setSelectedRecordId] = useState(null)
 
     return (
         <AddComp>
+            <Toast ref={toast} />
 
         <Form onSubmit={onResultSubmit}>
             <Container>
@@ -135,20 +148,23 @@ const [selectedRecordId, setSelectedRecordId] = useState(null)
                             <Row>
                             <Col>
                                 <Form.Label  className='d-none dmd-block d-lg-block'>Select Type</Form.Label>
-                                    <Form.Select ref={readingTypeRef} onChange={(e)=>setReadingType(e.target.value)} className='m-sm-1 m-md-0 m-lg-0 input' style={{width:'-webkit-fill-available'}} aria-label="Default select example" required>
+                                    <Form.Select ref={readingTypeRef} onChange={(e)=>{setReadingType(e.target.value)}} className='m-sm-1 m-md-0 m-lg-0 input' style={{width:'-webkit-fill-available'}} aria-label="Default select example" required>
                                     <option value='Select Type'>Select Type</option>
                                     <option value="Random">Random</option>
-                                    <option value="Before BreakFast">Before BreakFast</option>
-                                    <option value="After BreakFast">After BreakFast</option>
-                                    <option value="Before Lunch">Before Lunch</option>
-                                    <option value="After Lunch">After Lunch</option>
-                                    <option value="Before Dinner5">Before Dinner</option>
-                                    <option value="After Dinner">After Dinner</option>
+                                    <option value="Bfast">Before BreakFast</option>
+                                    <option value="Bpp">After BreakFast</option>
+                                    <option value="Lfast">Before Lunch</option>
+                                    <option value="Lpp">After Lunch</option>
+                                    <option value="Dfast">Before Dinner</option>
+                                    <option value="Dpp">After Dinner</option>
                                     </Form.Select>
                                 </Col>
                                 <Col>
                                 <Form.Label  className='d-none dmd-block d-lg-block '>Select Record</Form.Label>
-                                    <Form.Select style={{width:'11em'}}
+                                    <Form.Select 
+                                    disabled={(readingType=='' || readingType=='Select Type' )?true:false}
+                                    // disabled={recordField}
+                                     style={{width:'11em'}}
                                     onChange={(e)=>setRecordFile(e.target.value)}
                                     //  onChange={(e)=>setRecordId(e.target.value)} 
                                      
@@ -207,7 +223,11 @@ const [selectedRecordId, setSelectedRecordId] = useState(null)
                                                 <Button variant="primary" onClick={()=>onClear()} className='button'>Clear</Button>
                                             </Col>
                                             <Col>
-                                                <Button variant="primary" disabled={loading} className='button' type='submit' >Save</Button>
+                                                <Button variant="primary" disabled={loading} className='button' type='submit' >
+                                                    {
+                                                        loading?<img width={40} src={dotloader} height={20} alt="" />:'Save'
+                                                    }
+                                                    </Button>
                                             </Col>
                                         </Row>
                                     </Container>

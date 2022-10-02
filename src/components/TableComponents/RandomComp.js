@@ -2,9 +2,8 @@ import {useEffect,useState} from 'react'
 import Form from 'react-bootstrap/Form';
 import styled from 'styled-components'
 import { cover1, cover2, coverrev } from '../../assets';
-import RandomPieChart from '../RandomTable/RandomPieChart';
-import RoutineChartList from '../RoutineTable/RoutineCharts/RoutineChartList';
-import Random2 from './Random2/Random2';
+import RandomPieChart from './RandomCharts/RandomPieChart';
+import RandomTable from './RandomTable/RandomTable';
 
 import { collection,onSnapshot,doc } from "firebase/firestore";
 import { auth, db }  from '../../firebase/firebase'
@@ -63,7 +62,7 @@ const RandomComp = () => {
             </form>
             {
                 (selectedRecordId && selectedRecordId!=='Select a file')?
-               <><Random2 selectedRecordId={selectedRecordId}/><RandomPieChart/></>
+               <><RandomTable selectedRecordId={selectedRecordId}/><RandomPieChart/></>
                 :
                 <h3 className='h-50 w-100 d-flex justify-content-center my-3'>please select your random record</h3>
             }

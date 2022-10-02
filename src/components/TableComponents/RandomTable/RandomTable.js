@@ -21,7 +21,7 @@ import { useAuth } from "../../../context/AuthContext";
 import { collection,onSnapshot,doc } from "firebase/firestore";
 import { auth, db }  from '../../../firebase/firebase'
 
- const Random2 = ({selectedRecordId}) => {
+ const RandomTable = ({selectedRecordId}) => {
     const {addRandomResult,updateRandomResult,deleteRandomResult} = useAuth()
 
     let emptyProduct = {
@@ -134,12 +134,12 @@ import { auth, db }  from '../../../firebase/firebase'
         setDeleteProductDialog(true);
     }
 
-    const deleteProduct = () => {
+    const deleteProduct = async() => {
         let _products = products.filter(val => val.id !== product.id);
         // setProducts(_products);
         try {
             console.log("Entire Document has been deleted successfully.")
-            deleteRandomResult(product.docId,selectedRecordId)
+            await deleteRandomResult(product.docId,selectedRecordId)
         }
         catch(error) {
             console.log(error);
@@ -323,7 +323,7 @@ import { auth, db }  from '../../../firebase/firebase'
     );
 }
                 
-export default Random2;
+export default RandomTable;
 
 const ListComp = styled.div`
 width: 80%;
