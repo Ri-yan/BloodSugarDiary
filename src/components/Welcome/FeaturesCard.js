@@ -25,7 +25,7 @@ const FeaturesCard = () => {
   className="my-masonry-grid"
   columnClassName="my-masonry-grid_column">
   {features.map((i, idx) => (
-            <Col key={idx}>
+            <Col key={idx} className='card-pad'>
             <Link  to={`${i.link}`}>
               <Card style={{cursor:'pointer'}} >
                 <Card.Img variant="top" src={i.cover} className='bg-image hover-zoom' />
@@ -54,6 +54,11 @@ const Com = styled.div`
     background-repeat: no-repeat;
     @media (max-width: 940px) {
         padding: 5px 0px;
+  }
+  @media (max-width: 450px) {
+        .card-pad{
+          padding: 0em 1em !important;
+        }
   }
 .my-masonry-grid {
   display: -webkit-box; /* Not needed if autoprefixing */

@@ -32,7 +32,10 @@ import { auth, db }  from '../../../firebase/firebase'
         description: '',
         result:''
     };
+
     const [loading, setLoading] = useState(false)
+    const [infoDialog, setinfoDialog] = useState(false);
+
     const [products, setProducts] = useState(JSON.parse(localStorage.getItem(`randomfile-${selectedRecordId}`)) || []);
     const [productDialog, setProductDialog] = useState(false);
     const [deleteProductDialog, setDeleteProductDialog] = useState(false);
@@ -76,6 +79,7 @@ import { auth, db }  from '../../../firebase/firebase'
     const hideDialog = () => {
         setSubmitted(false);
         setProductDialog(false);
+        setinfoDialog(false);
     }
 
     const hideDeleteProductDialog = () => {
@@ -128,7 +132,10 @@ import { auth, db }  from '../../../firebase/firebase'
         setProduct({...product});
         setProductDialog(true);
     }
-
+    const showInfo = (product) => {
+        setProduct({...product});
+        setinfoDialog(true);
+    }
     const confirmDeleteProduct = (product) => {
         setProduct(product);
         setDeleteProductDialog(true);
@@ -224,6 +231,7 @@ import { auth, db }  from '../../../firebase/firebase'
     const actionBodyTemplate = (rowData) => {
         return (
             <React.Fragment>
+                <Button icon="pi pi-info-circle" className="p-button-rounded p-button-success mr-2" style={{height:'2rem',width:'2rem',marginRight:'5px'}} onClick={() => showInfo(rowData)} />
                 <Button icon="pi pi-pencil" className="p-button-rounded p-button-success mr-2" style={{height:'2rem',width:'2rem',marginRight:'5px'}} onClick={() => editProduct(rowData)} />
                 <Button icon="pi pi-trash" className="p-button-rounded p-button-warning" style={{height:'2rem',width:'2rem'}} onClick={() => confirmDeleteProduct(rowData)} />
             </React.Fragment>
@@ -243,6 +251,11 @@ import { auth, db }  from '../../../firebase/firebase'
         <React.Fragment>
             <Button label="Cancel" icon="pi pi-times" className="p-button-text" onClick={hideDialog} />
             <Button label="Save" icon="pi pi-check" className="p-button-text" onClick={saveProduct} />
+        </React.Fragment>
+    );
+    const infoDialogFooter = (
+        <React.Fragment>
+            <Button label="Cancel" icon="pi pi-times" className="p-button-text" onClick={hideDialog} />
         </React.Fragment>
     );
     const deleteProductDialogFooter = (
@@ -275,11 +288,11 @@ import { auth, db }  from '../../../firebase/firebase'
                     filterDisplay="menu" emptyMessage="No record found." header={header}>
 
                     <Column  selectionMode="multiple" headerStyle={{ width: '3rem' }} exportable={false}></Column>
-                    <Column field="id" header="ID" sortable style={{ minWidth: '5rem' }}></Column>
-                    <Column  field="testDate" header="Date" sortable filter filterPlaceholder="Search by Date" style={{ minWidth: '7rem' }}></Column>
-                    <Column field="testTime" header="Time"  sortable style={{ minWidth: '7rem' }}></Column>
-                    <Column field="result" header="Test result"  sortable style={{ minWidth: '7rem' }}></Column>
-                    <Column body={actionBodyTemplate} exportable={false} style={{ minWidth: '6rem' }}></Column>
+                    <Column field="id" header="ID" sortable style={{ minWidth: '5rem',textAlign:'center' }}></Column>
+                    <Column  field="testDate" header="Date" sortable filter filterPlaceholder="Search by Date" style={{ minWidth: '7rem',textAlign:'center' }}></Column>
+                    <Column field="testTime" header="Time"  sortable style={{ minWidth: '7rem',textAlign:'center' }}></Column>
+                    <Column field="result" header="Test result"  sortable style={{ minWidth: '7rem',textAlign:'center' }}></Column>
+                    <Column body={actionBodyTemplate} exportable={false} style={{ minWidth: '8rem',textAlign:'center' }}></Column>
                 </DataTable>
             </div>
 
@@ -318,6 +331,33 @@ import { auth, db }  from '../../../firebase/firebase'
                     {product && <span>Are you sure you want to delete the selected records?</span>}
                 </div>
             </Dialog>
+
+
+
+            <Dialog visible={infoDialog} style={{ width: '450px' }} header="Record Details" modal className="p-fluid" footer={infoDialogFooter} onHide={hideDialog}>
+                <div className="field">
+                    <label htmlFor="date">Date</label>
+                    <InputText id="date" type='date' disabled={true} value={product.testDate} onChange={(e) => onInputChange(e, 'testDate')} required autoFocus className={classNames({ 'p-invalid': submitted && !product.Date })} />
+                    {submitted && !product.testDate && <small className="p-error">Date is required.</small>}
+                </div>
+                <div className="field">
+                    <label htmlFor="time">Time</label>
+                    <InputText id="time" type='time'  disabled={true} value={product.testTime} onChange={(e) => onInputChange(e, 'testTime')} required autoFocus className={classNames({ 'p-invalid': submitted && !product.testTime })} />
+                    {submitted && !product.testTime && <small className="p-error">time is required.</small>}
+                </div>
+                <div className="field">
+                    <label htmlFor="result">Result</label>
+                    <InputText id="result" type='number'  disabled={true} value={product.result} onChange={(e) => onInputChange(e, 'result')} required autoFocus className={classNames({ 'p-invalid': submitted && !product.result })} />
+                    {submitted && !product.result && <small className="p-error">result is required.</small>}
+                </div>
+                <div className="field">
+                    <label htmlFor="description">Description</label>
+                    <InputTextarea id="description"  disabled={true} value={product.description} onChange={(e) => onInputChange(e, 'description')} required rows={3} cols={20} />
+                </div>
+            </Dialog>
+
+
+
         </div>
         </ListComp>
     );
@@ -373,6 +413,11 @@ input[type="number"]::-webkit-inner-spin-button {
     display: flex;
     align-items: center;
     justify-content: space-between;
+}
+.p-datatable .p-column-header-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 @media screen and (max-width: 960px) {
     .datatable-crud-demo .table-header {
