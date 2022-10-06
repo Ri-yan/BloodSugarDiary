@@ -1,4 +1,3 @@
-import React from 'react'
 import styled from 'styled-components'
 import { cover1 } from '../../assets';
 import { Chart } from 'primereact/chart';

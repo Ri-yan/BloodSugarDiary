@@ -1,7 +1,7 @@
 import {useEffect,useState} from 'react'
 import Form from 'react-bootstrap/Form';
 import styled from 'styled-components'
-import { cover1, cover2, coverrev, wavy, wavy3 } from '../../assets';
+import {  coverrev } from '../../assets';
 import RoutineChartList from './RoutineCharts/RoutineChartList';
 import RoutineTable from './RoutineTable/RoutineTable';
 import { collection,onSnapshot,doc } from "firebase/firestore";

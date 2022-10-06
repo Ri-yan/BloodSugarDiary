@@ -1,9 +1,6 @@
-import React from 'react'
 import Masonry from 'react-masonry-css'
 import styled from 'styled-components'
-import Card from 'react-bootstrap/Card';
-import Col from 'react-bootstrap/Col';
-import Container from 'react-bootstrap/Container';
+import {Card,Col,Container} from 'react-bootstrap';
 import { cover1 } from '../../assets';
 import { features } from './cardData';
 import  {Link}  from "react-router-dom";

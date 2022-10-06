@@ -1,6 +1,4 @@
-import React from 'react'
-import { Button, Container,Row,Col } from 'react-bootstrap'
-import { Link } from 'react-router-dom'
+import { Container,Row,Col } from 'react-bootstrap'
 import styled from 'styled-components'
 import { groups } from '../../../assets'
 const WhoweAre = () => {

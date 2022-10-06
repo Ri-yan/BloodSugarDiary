@@ -1,9 +1,7 @@
-import { Col, Container, InputGroup, Row} from 'react-bootstrap'
+import { Col, Container, InputGroup, Row,Button ,Form} from 'react-bootstrap'
 import styled from 'styled-components'
 import {GrTwitter,GrInstagram } from 'react-icons/gr';
 import { FaFacebookF } from 'react-icons/fa';
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
 import { logo } from "../../assets";
 const Footer = () => {
   return (

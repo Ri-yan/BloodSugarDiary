@@ -2,7 +2,6 @@ import { Col, Container, Row,Button,ListGroup } from 'react-bootstrap';
 import styled from 'styled-components'
 import { cover1, dotloader } from '../../assets';
 import Form from 'react-bootstrap/Form';
-import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import { useState,useRef,useEffect } from 'react';
 import { collection,onSnapshot,doc } from "firebase/firestore";
 import { auth, db }  from '../../firebase/firebase'
@@ -39,7 +38,7 @@ const ReadingAdd = () => {
    }
    
    useEffect(() => {
-     if(recordfile!='' || recordfile!='Select Type'){
+     if(recordfile!=='' || recordfile!=='Select Type'){
         setrecordField(true);
      }else{
         setrecordField(false);
@@ -162,7 +161,7 @@ const [selectedRecordId, setSelectedRecordId] = useState(null)
                                 <Col>
                                 <Form.Label  className='d-none dmd-block d-lg-block '>Select Record</Form.Label>
                                     <Form.Select 
-                                    disabled={(readingType=='' || readingType=='Select Type' )?true:false}
+                                    disabled={(readingType==='' || readingType==='Select Type' )?true:false}
                                     // disabled={recordField}
                                      style={{width:'11em'}}
                                     onChange={(e)=>setRecordFile(e.target.value)}

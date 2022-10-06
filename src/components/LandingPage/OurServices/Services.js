@@ -1,12 +1,9 @@
-import { CastForEducation } from '@mui/icons-material'
-import React from 'react'
-import { Container,Row,Col, Card ,CardGroup} from 'react-bootstrap'
+import { Container,Row,Col, Card } from 'react-bootstrap'
 import styled from 'styled-components'
 import { wavy } from '../../../assets'
 import {IoAccessibilitySharp} from "react-icons/io5"
 import {MdManageSearch} from "react-icons/md"
 import {CgProfile} from "react-icons/cg"
-
 import {AiOutlineEdit,AiOutlineCloudUpload,AiFillRead} from "react-icons/ai"
 import {GoGraph} from "react-icons/go"
 const Services = () => {

@@ -1,9 +1,8 @@
-import React, { useRef, useState } from "react"
-import { Form, Button, Card, Alert } from "react-bootstrap"
+import { useRef, useState } from "react"
+import { Form, Button, Card, Alert,Container, Col, Row } from "react-bootstrap"
 import { Link } from "react-router-dom"
 import styled from 'styled-components'
 import { authcover } from "../../assets"
-import { Container, Col, Row } from "react-bootstrap"
 import { useAuth } from "../../context/AuthContext"
 
 export default function ForgotPassword() {

@@ -1,9 +1,8 @@
 import {useRef} from 'react'
-import { Container,Row,Col,Button } from 'react-bootstrap';
+import { Container,Row,Col,Form } from 'react-bootstrap';
 import styled from 'styled-components'
 import { newsletter, wavy1 } from '../../../assets';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
-import Form from 'react-bootstrap/Form';
 
 const Subscribe = () => {
     const emailRef = useRef()

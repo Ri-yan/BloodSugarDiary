@@ -1,10 +1,8 @@
 import styled from 'styled-components'
 import React, { useRef, useState } from "react"
-import { Col, Container, Row} from 'react-bootstrap'
-
+import { Col, Container, Row,Form, Button, Card, Alert} from 'react-bootstrap'
 import { join,login,add_post, authcover } from '../../assets';
 import Carousel from 'react-bootstrap/Carousel';
-import { Form, Button, Card, Alert } from "react-bootstrap"
 import { Link, useNavigate } from "react-router-dom"
 import { useAuth } from "../../context/AuthContext"
 

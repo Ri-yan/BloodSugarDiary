@@ -1,8 +1,6 @@
-import React from 'react'
-import { Button, Card, Col, Container, Form, Nav, Row } from 'react-bootstrap'
+import { Card, Col, Container, Form, Nav, Row } from 'react-bootstrap'
 import styled from 'styled-components'
-import { cover1,profile } from '../../assets';
-import Todo from '../../todo'
+import { cover1 } from '../../assets';
 const ProfileEdit = () => {
   return (
     <ProEdit>

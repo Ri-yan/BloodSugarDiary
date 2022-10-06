@@ -5,9 +5,7 @@ import {
   Route,
 } from "react-router-dom";
 import {WelcomePage, Profile ,ReadingAdd ,
-  RecordList,Graphs,Footer,NavBar,RoutineTable,RoutineChartList,RandomTable,
-  RandomPieChart,Signup,Login, LandingPage, Random2, Routine2, ProfileEdit, ForgotPassword, PrivateRoute} from './components';
-import Todo from './todo';
+  RecordList,Graphs,Footer,NavBar,Signup,Login, LandingPage, ProfileEdit, ForgotPassword, PrivateRoute} from './components';
 import RoutineComp from './components/TableComponents/RoutineComp';
 import RandomComp from './components/TableComponents/RandomComp';
 import { AuthProvider } from './context/AuthContext';
@@ -30,18 +28,11 @@ function App() {
 
          <Route path="/welcome" element={<><PrivateRoute><NavBar/><WelcomePage/></PrivateRoute></>}></Route>
          <Route path="/routine_record/:id" element={<><PrivateRoute><NavBar/>
-         {/* <h1>Blood Sugar Report</h1> */}
          <RoutineComp/>
-         {/* <Routine2/> */}
-         {/* <RoutineTable/> */}
-         {/* <RoutineChartList/> */}
          </PrivateRoute>
          </>}></Route>
          <Route path="/routine_record" element={<><PrivateRoute><NavBar/> <RoutineComp/></PrivateRoute></>}></Route>
          <Route path="/random_record/:id" element={<><PrivateRoute><NavBar/>
-         {/* <h1>Random Blood Sugar Report</h1><Random2/> */}
-         {/* <RandomTable/> */}
-         {/* <RandomPieChart/> */}
          <RandomComp/>
          </PrivateRoute></>}></Route>
          <Route path="/random_record/" element={<><PrivateRoute><NavBar/><RandomComp/></PrivateRoute></>}></Route>
