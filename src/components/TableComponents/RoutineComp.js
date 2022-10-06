@@ -6,7 +6,12 @@ import RoutineChartList from './RoutineCharts/RoutineChartList';
 import RoutineTable from './RoutineTable/RoutineTable';
 import { collection,onSnapshot,doc } from "firebase/firestore";
 import { auth, db }  from '../../firebase/firebase'
+import {  useNavigate,useParams } from 'react-router-dom'
+
 const RoutineComp = () => {
+    const history = useNavigate()
+    const params = useParams();
+    
     const [allRecords, setallRecords] = useState(JSON.parse(localStorage.getItem("routine-records")) || []);
     const [selectedRecordId, setSelectedRecordId] = useState(null)
     useEffect(() => {
@@ -18,6 +23,9 @@ const RoutineComp = () => {
                 }
             });
             setallRecords(rec)
+            if(params){
+                setSelectedRecordId(params.id)
+            }
         });
         return unsub;
       }, []);
@@ -26,6 +34,12 @@ const RoutineComp = () => {
         localStorage.setItem("routine-records", JSON.stringify(allRecords));
       }, [allRecords]);
 
+    useEffect(() => {
+        if(selectedRecordId)
+            history(`/routine_record/${selectedRecordId}`)
+        else if(selectedRecordId==='')
+        history(`/routine_record/`)
+        }, [selectedRecordId]);
 
       const onSetRecord=(e)=>{
         e.preventDefault();
@@ -38,8 +52,8 @@ const RoutineComp = () => {
         <div className="cont">
             <h1>Routine Record Section</h1>
             <form onSubmit={onSetRecord} className="form">
-                    <Form.Select size="md" style={{width:'fit-content'}} onChange={(e)=>setSelectedRecordId(e.target.value)}>
-                    <option>Select a file</option>
+                    <Form.Select size="md" value={selectedRecordId} style={{width:'fit-content'}} onChange={(e)=>{setSelectedRecordId(e.target.value)}}>
+                    <option value=''>Select a file</option>
                     {
                         allRecords.map((i,k) => {
                             return(

@@ -2,7 +2,7 @@ import React,{useContext,useEffect,useState,createContext} from "react";
 import { auth, db }  from '../firebase/firebase'
 import { onAuthStateChanged,createUserWithEmailAndPassword,
     signInWithEmailAndPassword,signOut,sendPasswordResetEmail } from "firebase/auth";
-import { addDoc, collection, serverTimestamp,query,updateDoc,where,doc,deleteDoc, setDoc,getDocs } from "firebase/firestore";
+import { addDoc, collection, serverTimestamp,query,updateDoc,where,doc,deleteDoc, setDoc,getDocs,getDoc } from "firebase/firestore";
 const AuthContext = createContext()
 export const  AuthProvider=({ children })=>{
     const [currentUser, setCurrentUser] = useState()
@@ -43,6 +43,8 @@ export const  AuthProvider=({ children })=>{
         // const q = query(recRef, where("id", "==", `${record.d}`));
         return updateDoc(recRef, {...record,lastUpdated:defaultDate.toLocaleDateString('en-CA')})
       }
+
+      
       function deleteRecord(record){
         const docRef = doc(db, "allRecord",auth.currentUser.uid,'records', record);
         // if(record.readingType.name==='Random'){
@@ -51,6 +53,26 @@ export const  AuthProvider=({ children })=>{
         return deleteDoc(docRef)
       }
 
+     async function updateCurrentRecord(record,filename){
+          await getDocs(collection(db, "user"))
+          .then((snapshot)=>{
+            snapshot.docs.forEach((user)=>{
+              if((user.data().uId===`${auth.currentUser.uid}`))
+              {
+                console.log(user.id)
+                 if(record==='Random')
+                  return updateDoc(doc(db,"user",`${user.id}`), {currentRandom:filename}) 
+                else
+                  return updateDoc(doc(db,"user",`${user.id}`), {currentRoutine:filename})
+              }
+            })
+          }
+          )
+          .catch(err=>{
+            console.log(err.message)
+            return err.message;
+          })
+      }
 
 // Routine Record Table CRUD Section ///////////////////////////////////////////////////////////////////////
 
@@ -177,7 +199,7 @@ export const  AuthProvider=({ children })=>{
   const value = {
     signUp,logIn,logOut,currentUser,addUser,resetPassword,addRecord,updateRecord,deleteRecord,
     addRoutineResult,updateRoutineResult,deleteRoutineResult,addRandomResult,updateRandomResult,
-    deleteRandomResult,addDirectResult
+    deleteRandomResult,addDirectResult,updateCurrentRecord
   }
 
   return (

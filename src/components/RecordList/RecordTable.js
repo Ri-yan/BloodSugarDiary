@@ -13,13 +13,14 @@ import { Toolbar } from 'primereact/toolbar';
 import { InputTextarea } from 'primereact/inputtextarea';
 import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
-import { Link } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { collection,onSnapshot,doc } from "firebase/firestore";
 import { auth, db }  from '../../firebase/firebase'
 
  const RecordTable = () => {
-    const {addRecord,updateRecord,deleteRecord} = useAuth()
+    const history = useNavigate()
+    const {addRecord,updateRecord,deleteRecord,updateCurrentRecord} = useAuth()
     let emptyFile = {
         id: null,
         description: '',
@@ -208,16 +209,23 @@ import { auth, db }  from '../../firebase/firebase'
     }
 
     
-
+     const fileRoute=async(record,filename,id)=>{
+        try {
+            await updateCurrentRecord(record,filename)
+            history(`/${record==='Random'?'random_record':'routine_record'}/${id}`)
+        } catch (error) {
+            console.log(error.message)
+        }
+     }
     const actionBodyTemplate = (rowData) => {
         return (
             <React.Fragment>
                 {/* <Link to={'/routine_record'}> */}
-                <Link to={`/${rowData.recordType.name==='Random'?'random_record':'routine_record'}/
+                {/* <Link to={`/${rowData.recordType.name==='Random'?'random_record':'routine_record'}/
                 `}
-                >
-                    <Button icon="pi pi-folder" className="p-button-rounded p-button-success mr-2" style={{height:'2rem',width:'2rem',marginRight:'5px'}} onClick={() => editProduct(rowData)} />
-                </Link>
+                > */}
+                    <Button icon="pi pi-folder" className="p-button-rounded p-button-success mr-2" style={{height:'2rem',width:'2rem',marginRight:'5px'}} onClick={() => fileRoute(rowData.recordType.name,rowData.recordName,rowData.docId)} />
+                {/* </Link> */}
                 <Button icon="pi pi-pencil" className="p-button-rounded p-button-success mr-2" style={{height:'2rem',width:'2rem',marginRight:'5px'}} onClick={() => editProduct(rowData)} />
                 <Button icon="pi pi-trash" className="p-button-rounded p-button-warning" style={{height:'2rem',width:'2rem'}} onClick={() => confirmDeleteProduct(rowData)} />
             </React.Fragment>

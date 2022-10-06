@@ -7,8 +7,11 @@ import RandomTable from './RandomTable/RandomTable';
 
 import { collection,onSnapshot,doc } from "firebase/firestore";
 import { auth, db }  from '../../firebase/firebase'
-
+import { useNavigate,useParams } from 'react-router-dom'
 const RandomComp = () => {
+    const history = useNavigate()
+    const params = useParams();
+
     const [allRecords, setallRecords] = useState(JSON.parse(localStorage.getItem("random-records")) || []);
     const [selectedRecordId, setSelectedRecordId] = useState(null)
     useEffect(() => {
@@ -19,7 +22,10 @@ const RandomComp = () => {
                      rec.push({...doc.data(),docId:doc.id});
                 }
             });
-            setallRecords(rec)
+            setallRecords(rec);
+            if(params){
+                setSelectedRecordId(params.id)
+            }
         });
         // productService.getProducts2().then(data => console.log(data));
         return unsub;
@@ -34,15 +40,20 @@ const RandomComp = () => {
         e.preventDefault();
         console.log(selectedRecordId)
       }
-
+      useEffect(() => {
+        if(selectedRecordId)
+            history(`/random_record/${selectedRecordId}`)
+        else if(selectedRecordId==='')
+        history(`/random_record/`)
+        }, [selectedRecordId]);
 
   return (
     <RoutineCom>
         <div className="cont">
             <h1>Random Records Section</h1>
             <form onSubmit={onSetRecord} className="form">
-                    <Form.Select size="md" style={{width:'fit-content'}} onChange={(e)=>setSelectedRecordId(e.target.value)}>
-                    <option>Select a file</option>
+                    <Form.Select size="md" value={selectedRecordId} style={{width:'fit-content'}} onChange={(e)=>setSelectedRecordId(e.target.value)}>
+                    <option value=''>Select a file</option>
                     {
                         allRecords.map((i,k) => {
                             return(

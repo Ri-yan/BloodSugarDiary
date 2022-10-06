@@ -29,7 +29,7 @@ function App() {
        
 
          <Route path="/welcome" element={<><PrivateRoute><NavBar/><WelcomePage/></PrivateRoute></>}></Route>
-         <Route path="/routine_record/" element={<><PrivateRoute><NavBar/>
+         <Route path="/routine_record/:id" element={<><PrivateRoute><NavBar/>
          {/* <h1>Blood Sugar Report</h1> */}
          <RoutineComp/>
          {/* <Routine2/> */}
@@ -37,12 +37,14 @@ function App() {
          {/* <RoutineChartList/> */}
          </PrivateRoute>
          </>}></Route>
-         <Route path="/random_record/" element={<><PrivateRoute><NavBar/>
+         <Route path="/routine_record" element={<><PrivateRoute><NavBar/> <RoutineComp/></PrivateRoute></>}></Route>
+         <Route path="/random_record/:id" element={<><PrivateRoute><NavBar/>
          {/* <h1>Random Blood Sugar Report</h1><Random2/> */}
          {/* <RandomTable/> */}
          {/* <RandomPieChart/> */}
          <RandomComp/>
          </PrivateRoute></>}></Route>
+         <Route path="/random_record/" element={<><PrivateRoute><NavBar/><RandomComp/></PrivateRoute></>}></Route>
          <Route path="/profile/" element={<><PrivateRoute><NavBar/><Profile/></PrivateRoute></>}></Route>
          <Route path="/addreadings/" element={<><PrivateRoute><NavBar/><ReadingAdd/></PrivateRoute></>}></Route>
          <Route path="/listrecords/" element={<><PrivateRoute><NavBar/><RecordList/></PrivateRoute></>}></Route>
