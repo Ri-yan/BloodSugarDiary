@@ -1,6 +1,6 @@
 {
-  "short_name": "Blood Sugar Diary App",
-  "name": "A simple way to organise test results.",
+  "short_name": "BS Diary",
+  "name": "Blood Sugar Diary App",
   "icons": [
     {
       "src": "/favicon/favicon.ico",

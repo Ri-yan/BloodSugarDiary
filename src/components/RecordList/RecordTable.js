@@ -30,7 +30,7 @@ import { auth, db }  from '../../firebase/firebase'
         lastUpdated:''
     };
     const [loading, setLoading] = useState(false)
-    const [products, setProducts] = useState(null);
+    const [products, setProducts] = useState(JSON.parse(localStorage.getItem("record-list")) || null);
     const [productDialog, setProductDialog] = useState(false);
     const [deleteProductDialog, setDeleteProductDialog] = useState(false);
     const [deleteProductsDialog, setDeleteProductsDialog] = useState(false);
@@ -41,10 +41,6 @@ import { auth, db }  from '../../firebase/firebase'
     const [recordType, setrecordType] = useState('random')
     const toast = useRef(null);
     const dt = useRef(null);
-
-    // useEffect(() => {
-    //     productService.getProducts2().then(data => setProducts(data));
-    // }, []); // eslint-disable-line react-hooks/exhaustive-deps
     
     useEffect(() => {
         const unsub = onSnapshot(collection(doc(db, "allRecord",auth.currentUser.uid),'records'), (docs) => {
@@ -52,9 +48,13 @@ import { auth, db }  from '../../firebase/firebase'
             docs.forEach((doc) => {
                 rec.push({...doc.data(),docId:doc.id});
             });
+            if(rec){
             setProducts(rec)
+            localStorage.setItem("record-list", JSON.stringify(rec));
+        }
+            else
+            setProducts(JSON.parse(localStorage.getItem("record-list")))
         });
-        // productService.getProducts2().then(data => console.log(data));
         return unsub;
       }, []);
 
@@ -259,7 +259,7 @@ import { auth, db }  from '../../firebase/firebase'
             <Button label="Yes" icon="pi pi-check" className="p-button-text" onClick={deleteSelectedProducts} />
         </React.Fragment>
     );
-    
+
     return (
         <ListComp>
         <div className="datatable-crud-demo">
