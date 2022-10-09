@@ -209,7 +209,23 @@ import { auth, db }  from '../../../firebase/firebase'
         _product[`${name}`] = val;
         setProduct(_product);
     }
-
+   
+    const cols = [
+        { field: 'id', header: 'ID' },
+        { field: 'testDate', header: 'Date' },
+        { field: 'testTime', header: 'Time' },
+        { field: 'result', header: 'Test result' }
+    ];
+    const exportColumns = cols.map(col => ({ title: col.header, dataKey: col.field }));
+    const exportPdf = () => {
+        import('jspdf').then(jsPDF => {
+            import('jspdf-autotable').then(() => {
+                const doc = new jsPDF.default(0, 0);
+                doc.autoTable(exportColumns, products);
+                doc.save('Random.pdf');
+            })
+        })
+    }
     const onInputNumberChange = (e, name) => {
         const val = e.value || 0;
         let _product = {...product};
@@ -223,6 +239,7 @@ import { auth, db }  from '../../../firebase/firebase'
             <React.Fragment>
                 <Button label="New" style={{height:'2em',marginRight: '1em'}} icon="pi pi-plus" className="p-button-success mr-2" onClick={openNew} />
                 <Button label="Delete" style={{height:'2em'}} icon="pi pi-trash" className="p-button-danger" onClick={confirmDeleteSelected} disabled={!selectedProducts || !selectedProducts.length} />
+                <Button label="Print" type="button" style={{height:'2em',marginRight: '1em',marginLeft: '1em'}} icon="pi pi-file-pdf" onClick={exportPdf} className="p-button-warning mr-2" data-pr-tooltip="PDF" />
             </React.Fragment>
         )
     }
@@ -441,7 +458,12 @@ input[type="number"]::-webkit-inner-spin-button {
 @media screen and (max-width: 960px) {
     .datatable-crud-demo .p-toolbar {
         flex-wrap: wrap;
+        overflow-x: scroll;
     }
+    .datatable-crud-demo .p-toolbar::-webkit-scrollbar {
+  width: 8px;     
+  scroll-behavior: smooth;          /* width of the entire scrollbar */
+}
     .datatable-crud-demo .p-toolbar .p-button {
         margin-bottom: 0.25rem;
     }

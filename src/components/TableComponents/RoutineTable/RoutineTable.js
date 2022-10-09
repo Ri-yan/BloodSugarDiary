@@ -221,10 +221,31 @@ import { auth, db }  from '../../../firebase/firebase'
             <React.Fragment>
                 <Button label="New" style={{height:'2em',marginRight: '1em'}} icon="pi pi-plus" className="p-button-success mr-2" onClick={openNew} />
                 <Button label="Delete" style={{height:'2em'}} icon="pi pi-trash" className="p-button-danger" onClick={confirmDeleteSelected} disabled={!selectedProducts || !selectedProducts.length} />
+                <Button label="Print" type="button" style={{height:'2em',marginRight: '1em',marginLeft: '1em'}} icon="pi pi-file-pdf" onClick={exportPdf} className="p-button-warning mr-2" data-pr-tooltip="PDF" />
             </React.Fragment>
         )
     }
 
+    const cols = [
+        { field: 'id', header: 'ID' },
+        { field: 'testDate', header: 'Date' },
+        { field: 'Bfast', header: 'Bfast' },
+        { field: 'Bpp', header: 'Bpp' },
+        { field: 'Lfast', header: 'Lfast' },
+        { field: 'Lpp', header: 'Lpp' },
+        { field: 'Dfast', header: 'Dfast' },
+        { field: 'Dpp', header: 'Dpp' }
+    ];
+    const exportColumns = cols.map(col => ({ title: col.header, dataKey: col.field }));
+    const exportPdf = () => {
+        import('jspdf').then(jsPDF => {
+            import('jspdf-autotable').then(() => {
+                const doc = new jsPDF.default(0, 0);
+                doc.autoTable(exportColumns, products);
+                doc.save('Routine.pdf');
+            })
+        })
+    }
     
 
     const actionBodyTemplate = (rowData) => {
@@ -429,7 +450,12 @@ input[type="number"]::-webkit-inner-spin-button {
 @media screen and (max-width: 960px) {
     .datatable-crud-demo .p-toolbar {
         flex-wrap: wrap;
+        overflow-x: scroll;
     }
+    .datatable-crud-demo .p-toolbar::-webkit-scrollbar {
+  width: 8px;     
+  scroll-behavior: smooth;          /* width of the entire scrollbar */
+}
     .datatable-crud-demo .p-toolbar .p-button {
         margin-bottom: 0.25rem;
     }
