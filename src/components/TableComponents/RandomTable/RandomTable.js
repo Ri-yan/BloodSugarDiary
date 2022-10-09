@@ -23,7 +23,6 @@ import { auth, db }  from '../../../firebase/firebase'
 
  const RandomTable = ({selectedRecordId}) => {
     const {addRandomResult,updateRandomResult,deleteRandomResult} = useAuth()
-
     let emptyProduct = {
         id: null,
         testDate:'',
@@ -266,7 +265,7 @@ import { auth, db }  from '../../../firebase/firebase'
     );
     const productDialogFooter = (
         <React.Fragment>
-            <Button label="Cancel" icon="pi pi-times" className="p-button-text" onClick={hideDialog} />
+            <Button label="Cancel" type="submit" icon="pi pi-times" className="p-button-text" onClick={hideDialog} />
             <Button label="Save" icon="pi pi-check" className="p-button-text" onClick={saveProduct} />
         </React.Fragment>
     );
@@ -326,7 +325,7 @@ import { auth, db }  from '../../../firebase/firebase'
                 </div>
                 <div className="field">
                     <label htmlFor="result">Result</label>
-                    <InputText id="result" type='number' value={product.result} onChange={(e) => onInputChange(e, 'result')} required autoFocus className={classNames({ 'p-invalid': submitted && !product.result })} />
+                    <InputText id="result" type='number' min="10" max="3000"  maxLength = "4"  value={product.result} onChange={(e) => onInputChange(e, 'result')} required autoFocus className={classNames({ 'p-invalid': submitted && !product.result })} />
                     {submitted && !product.result && <small className="p-error">result is required.</small>}
                 </div>
                 <div className="field">

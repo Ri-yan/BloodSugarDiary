@@ -92,7 +92,6 @@ const [selectedRecordId, setSelectedRecordId] = useState(null)
         result:`${resultRef.current.value}`,
         testDate:`${testDateRef.current.value}`,
         testTime:`${testTimeRef.current.value}`,
-        // testNotes:`${notesRef.current.value}`,
         description:`${notesRef.current.value}`,
 
     }
@@ -105,7 +104,6 @@ const [selectedRecordId, setSelectedRecordId] = useState(null)
         else if(result.result===''){
             toast.current.show({ severity: 'warn', summary: 'Warn message', detail: 'Enter the test Result', life: 3000 });
         }else{
-            // alert("Result Added")
             setloading(true);
             await addDirectResult(result)
             setloading(false);
@@ -124,16 +122,6 @@ const [selectedRecordId, setSelectedRecordId] = useState(null)
 
     const [records, setRecords] = useState([])
     const shouldLog = useRef(true)
-
-//     useEffect(() => {
-//         if(shouldLog.current){
-//             shouldLog.current=false;
-//         fetch('data/TotalRecords.json').then(res => res.json()).then(d => setRecords(d.data));
-// }}, []); // eslint-disable-line react-hooks/exhaustive-deps
-
-
-
-
 
     return (
         <AddComp>
@@ -162,11 +150,8 @@ const [selectedRecordId, setSelectedRecordId] = useState(null)
                                 <Form.Label  className='d-none dmd-block d-lg-block '>Select Record</Form.Label>
                                     <Form.Select 
                                     disabled={(readingType==='' || readingType==='Select Type' )?true:false}
-                                    // disabled={recordField}
                                      style={{width:'11em'}}
                                     onChange={(e)=>setRecordFile(e.target.value)}
-                                    //  onChange={(e)=>setRecordId(e.target.value)} 
-                                     
                                      className='m-sm-1 m-md-0 m-lg-0 input fs-6'  ref={recordRef} aria-label="Default select example" required>
                                     <option className='fs-6'>Select Record</option>
                                     {
@@ -178,12 +163,6 @@ const [selectedRecordId, setSelectedRecordId] = useState(null)
                                             return <option className='fs-6' key={k}  value={i.docId}>{i.recordName}</option>
                                         })
                                     }
-                                    {/* <option value="File 1">File 1</option>
-                                    <option value="File 2">File 2</option>
-                                    <option value="File 3">File 2</option>
-                                    <option value="File 4">File 3</option>
-                                    <option value="File 5">File 4</option>
-                                    <option value="File 6">File 5</option> */}
                                     </Form.Select>
                                 </Col>
                                 
@@ -211,11 +190,8 @@ const [selectedRecordId, setSelectedRecordId] = useState(null)
                                 </Col>
                                 <Col>
                                     <Form.Label className='mt-2' ><h2>Enter Reading</h2></Form.Label>
-                                    <Form.Control ref={resultRef}  className='readings' type="number"  min="0"  maxLength = "4" max="3000"  placeholder="00" />
+                                    <Form.Control ref={resultRef}  className='readings' type="number"  min="10"  maxLength = "4" max="3000"  placeholder="00" />
                                 </Col>
-
-
-
                                     <Container className='mt-3'>
                                         <Row>
                                             <Col>
