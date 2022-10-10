@@ -15,7 +15,7 @@ import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
 import { Link,useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
-import { collection,onSnapshot,doc } from "firebase/firestore";
+import { collection,onSnapshot,doc, query, orderBy } from "firebase/firestore";
 import { auth, db }  from '../../firebase/firebase'
 
  const RecordTable = () => {
@@ -43,7 +43,7 @@ import { auth, db }  from '../../firebase/firebase'
     const dt = useRef(null);
     
     useEffect(() => {
-        const unsub = onSnapshot(collection(doc(db, "allRecord",auth.currentUser.uid),'records'), (docs) => {
+        const unsub = onSnapshot(query(collection(doc(db, "allRecord",auth.currentUser.uid),'records'),orderBy('creationDate','desc')), (docs) => {
             const rec = [];
             docs.forEach((doc) => {
                 rec.push({...doc.data(),docId:doc.id});

@@ -19,7 +19,7 @@ import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
 
 import { useAuth } from "../../../context/AuthContext";
-import { collection,onSnapshot,doc } from "firebase/firestore";
+import { collection,onSnapshot,doc, query, orderBy } from "firebase/firestore";
 import { auth, db }  from '../../../firebase/firebase'
  const RoutineTable = ({selectedRecordId}) => {
     const {addRoutineResult,updateRoutineResult,deleteRoutineResult} = useAuth()
@@ -54,7 +54,7 @@ import { auth, db }  from '../../../firebase/firebase'
     // }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     useEffect(() => {
-        const unsub = onSnapshot(collection(doc(db, "allRoutineResult",auth.currentUser.uid),selectedRecordId), (docs) => {
+        const unsub = onSnapshot(query(collection(doc(db, "allRoutineResult",auth.currentUser.uid),selectedRecordId),orderBy('testDate')), (docs) => {
             const rec = [];
             docs.forEach((doc) => {
                 rec.push({...doc.data(),docId:doc.id});

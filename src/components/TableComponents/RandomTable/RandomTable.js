@@ -18,7 +18,7 @@ import { InputText } from 'primereact/inputtext';
 import { FilterMatchMode, FilterOperator } from 'primereact/api';
 
 import { useAuth } from "../../../context/AuthContext";
-import { collection,onSnapshot,doc } from "firebase/firestore";
+import { collection,onSnapshot,doc, query, orderBy } from "firebase/firestore";
 import { auth, db }  from '../../../firebase/firebase'
 
  const RandomTable = ({selectedRecordId}) => {
@@ -52,7 +52,7 @@ import { auth, db }  from '../../../firebase/firebase'
     // }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
     useEffect(() => {
-        const unsub = onSnapshot(collection(doc(db, "allRandomResult",auth.currentUser.uid),selectedRecordId), (docs) => {
+        const unsub = onSnapshot(query(collection(doc(db, "allRandomResult",auth.currentUser.uid),selectedRecordId),orderBy('testDate')), (docs) => {
             const rec = [];
             docs.forEach((doc) => {
                 rec.push({...doc.data(),docId:doc.id});
