@@ -25,7 +25,7 @@ const Login = () => {
             setLoading(true)
             await logIn(loginEmailRef.current.value,loginPasswordRef.current.value)
             // history.push("/")
-            history("/welcome")
+            history("/welcome", { replace: true })
       
           } catch(err) {
             // setError("Failed to log in")

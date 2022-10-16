@@ -19,7 +19,7 @@ const NavBar = () => {
         try {
             console.log('Logout')
           await logOut()
-          history('/')
+          history("/", { replace: true })
         } catch (err) {
           console.log(err.message);
         }

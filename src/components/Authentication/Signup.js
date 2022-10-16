@@ -32,7 +32,7 @@ const Signup = () => {
             setLoading(true)
             await signUp(signEmailRef.current.value, signPasswordRef.current.value)
             await addUser(SigninDetails)
-            history("/welcome")
+            history("/welcome", { replace: true })
           } catch(err) {
             // setError("Failed to create an account")
             setError(err.message)

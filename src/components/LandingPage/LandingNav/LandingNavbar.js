@@ -26,7 +26,7 @@ const LandingNavBar = () => {
                 <p className='me-lg-4 fs-6' > <Nav.Link href="#Service">Services</Nav.Link></p>
                 <p className='me-lg-4 fs-6' ><Nav.Link href="#Features">Features</Nav.Link></p>
                 <p className='me-lg-4 fs-6'  ><Nav.Link href="#about">About</Nav.Link></p> 
-                <Link className='me-lg-4 ' to='/login' ><Button variant="primary" className='fs-6'>Login</Button></Link>
+                <Link className='me-lg-4 ' to='/welcome' ><Button variant="primary" className='fs-6'>Login</Button></Link>
             </Nav>
             </Navbar.Collapse>
         </Container>

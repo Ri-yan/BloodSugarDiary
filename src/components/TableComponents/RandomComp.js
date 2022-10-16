@@ -4,7 +4,6 @@ import styled from 'styled-components'
 import { cover1, cover2, coverrev } from '../../assets';
 import RandomPieChart from './RandomCharts/RandomPieChart';
 import RandomTable from './RandomTable/RandomTable';
-
 import { collection,onSnapshot,doc } from "firebase/firestore";
 import { auth, db }  from '../../firebase/firebase'
 import { useNavigate,useParams } from 'react-router-dom'
@@ -13,7 +12,7 @@ const RandomComp = () => {
     const params = useParams();
 
     const [allRecords, setallRecords] = useState(JSON.parse(localStorage.getItem("random-records")) || []);
-    const [selectedRecordId, setSelectedRecordId] = useState(null)
+    const [selectedRecordId, setSelectedRecordId] = useState('')
     useEffect(() => {
         const unsub = onSnapshot(collection(doc(db, "allRecord",auth.currentUser.uid),'records'), (docs) => {
             const rec = [];
@@ -42,10 +41,10 @@ const RandomComp = () => {
       }
       useEffect(() => {
         if(selectedRecordId)
-            history(`/random_record/${selectedRecordId}`)
+            history(`/random_record/${selectedRecordId}`, { replace: true })
         else if(selectedRecordId==='')
-        history(`/random_record/`)
-        }, [selectedRecordId]);
+        history(`/random_record/`, { replace: true })
+        }, [JSON.stringify(selectedRecordId)]);
 
   return (
     <RoutineCom>
@@ -62,26 +61,16 @@ const RandomComp = () => {
                         })
                         
                     }
-                    {/* <option>File 1</option>
-                    <option>File 2</option>
-                    <option>File 3</option>
-                    <option>File 4</option>
-                    <option>File 5</option>
-                    <option>File 6</option> */}
                 </Form.Select>
                 <button type="submit" className="btn btn-primary btn-md-md btn-lg-lg my-auto up mx-2">Load</button>   
             </form>
             {
                 (selectedRecordId && selectedRecordId!=='Select a file')?
-               <><RandomTable selectedRecordId={selectedRecordId}/><RandomPieChart/></>
+               <><RandomTable selectedRecordId={selectedRecordId}/></>
                 :
                 <h3 className='h-50 w-100 d-flex justify-content-center my-3'>please select your random record</h3>
             }
-            {/* <Random2/> */}
-            {/* <RandomPieChart/> */}
         </div>
-              
-        
     </RoutineCom>
   )
 }

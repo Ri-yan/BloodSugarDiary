@@ -36,9 +36,9 @@ const RoutineComp = () => {
 
     useEffect(() => {
         if(selectedRecordId)
-            history(`/routine_record/${selectedRecordId}`)
+            history(`/routine_record/${selectedRecordId}`, { replace: true })
         else if(selectedRecordId==='')
-        history(`/routine_record/`)
+        history(`/routine_record/`, { replace: true })
         }, [selectedRecordId]);
 
       const onSetRecord=(e)=>{

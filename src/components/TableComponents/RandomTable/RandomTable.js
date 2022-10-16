@@ -20,6 +20,7 @@ import { FilterMatchMode, FilterOperator } from 'primereact/api';
 import { useAuth } from "../../../context/AuthContext";
 import { collection,onSnapshot,doc, query, orderBy } from "firebase/firestore";
 import { auth, db }  from '../../../firebase/firebase'
+import RandomPieChart from "../RandomCharts/RandomPieChart";
 
  const RandomTable = ({selectedRecordId}) => {
     const {addRandomResult,updateRandomResult,deleteRandomResult} = useAuth()
@@ -40,7 +41,7 @@ import { auth, db }  from '../../../firebase/firebase'
     const [deleteProductDialog, setDeleteProductDialog] = useState(false);
     const [deleteProductsDialog, setDeleteProductsDialog] = useState(false);
     const [product, setProduct] = useState(emptyProduct);
-    const [selectedProducts, setSelectedProducts] = useState(null);
+    const [selectedProducts, setSelectedProducts] = useState('');
     const [submitted, setSubmitted] = useState(false);
     const [globalFilter, setGlobalFilter] = useState(null);
     const [recordType, setrecordType] = useState('random')
@@ -196,7 +197,7 @@ import { auth, db }  from '../../../firebase/firebase'
             console.log(error);
         }
         setDeleteProductsDialog(false);
-        setSelectedProducts(null);
+        setSelectedProducts('');
         toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Entries Deleted', life: 3000 });
     }
 
@@ -286,7 +287,7 @@ import { auth, db }  from '../../../firebase/firebase'
             <Button label="Yes" icon="pi pi-check" className="p-button-text" onClick={deleteSelectedProducts} />
         </React.Fragment>
     );
-    
+
     return (
         <ListComp>
         <div className="datatable-crud-demo">
@@ -302,7 +303,6 @@ import { auth, db }  from '../../../firebase/firebase'
                     paginatorTemplate="PrevPageLink PageLinks NextPageLink CurrentPageReport RowsPerPageDropdown"
                     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} results"
                     filterDisplay="menu" emptyMessage="No record found." header={header}>
-
                     <Column  selectionMode="multiple" headerStyle={{ width: '3rem' }} exportable={false}></Column>
                     <Column field="id" header="ID" sortable style={{ minWidth: '5rem',textAlign:'center' }}></Column>
                     <Column  field="testDate" header="Date" sortable filter filterPlaceholder="Search by Date" style={{ minWidth: '7rem',textAlign:'center' }}></Column>
@@ -350,7 +350,7 @@ import { auth, db }  from '../../../firebase/firebase'
 
 
 
-            <Dialog visible={infoDialog} style={{ width: '450px' }} header="Record Details" modal className="p-fluid" footer={infoDialogFooter} onHide={hideDialog}>
+            <Dialog visible={infoDialog} style={{ width: '450px' }} header="Record Details" modal className="p-fluid"  onHide={hideDialog}>
                 <div className="field">
                     <label htmlFor="date">Date</label>
                     <InputText id="date" type='date' disabled={true} value={product.testDate} onChange={(e) => onInputChange(e, 'testDate')} required autoFocus className={classNames({ 'p-invalid': submitted && !product.Date })} />
@@ -371,10 +371,8 @@ import { auth, db }  from '../../../firebase/firebase'
                     <InputTextarea id="description"  disabled={true} value={product.description} onChange={(e) => onInputChange(e, 'description')} required rows={3} cols={20} />
                 </div>
             </Dialog>
-
-
-
         </div>
+        <RandomPieChart selectedRecordId={selectedRecordId} products={products}/>
         </ListComp>
     );
 }
