@@ -37,8 +37,7 @@ const RandomPieChart = ({products,selectedRecordId}) => {
         let n=0;
         let l=0;
         try {
-            
-            pro.forEach(i => {
+            pro.forEach((i) => {
                 if(i.result>=99 && i.result<=140 && i.result!==''){
                     n++;
                 }
@@ -49,9 +48,8 @@ const RandomPieChart = ({products,selectedRecordId}) => {
                     h++;
                 }
             });
-           
-                // console.log(graphData)
-                console.log(selectedRecordId,"",'total',"",h+n+l,'high',"",h,'low',"",l,'normal',"",n)
+            // console.log(graphData)
+            console.log(selectedRecordId,"",'total',"",h+n+l,'high',"",h,'low',"",l,'normal',"",n)
                 
         } catch (error) {
            console.log(error.message) 
