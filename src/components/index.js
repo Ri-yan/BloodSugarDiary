@@ -3,7 +3,6 @@ export{ default as ReadingAdd } from './AddReadings/ReadingAdd'
 export{ default as RoutineChartList } from '../temp/RoutineTable/RoutineCharts/RoutineChartList'
 export{ default as Graphs } from './Graphs/Graphs'
 export{ default as NavBar } from './Navigation/NavBar'
-export{ default as Profile } from './Profile/Profile'
 export{ default as ProfileEdit } from './Profile/ProfileEdit'
 
 export{ default as RandomTable } from './TableComponents/RandomTable/RandomTable'

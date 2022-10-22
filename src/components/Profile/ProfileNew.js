@@ -2,8 +2,9 @@ import {Button, Col, Container, Row,Card,Table,ListGroup } from 'react-bootstrap
 import styled from 'styled-components'
 import { cover1,profile } from '../../assets';
 import { Link } from 'react-router-dom'
+import {MdOutlineEditNote} from 'react-icons/md'
 export const ProfileNew = () => {
-    
+
 
   return (
     <ProfileCom>
@@ -11,7 +12,7 @@ export const ProfileNew = () => {
 
             <Row style={{disply:'flex', justifyContent:'flex-end'}}>
                 <Col style={{textAlign: '-webkit-right',margin:5}} >
-                    <Link to='/profileedit'><Button variant="primary">Edit</Button></Link>
+                    <Link to='/profileedit'><Button variant="primary"><MdOutlineEditNote/> Edit</Button></Link>
                 </Col>
             </Row>
 
@@ -34,27 +35,27 @@ export const ProfileNew = () => {
                 <td>56</td>
                 <th>Sex</th>
                 <td>M</td>
-                </tr>
-                <tr>
+            </tr>
+            <tr>
                 <th colSpan={2}>Blood Group</th>
                 <td colSpan={2}>O</td>
-                </tr>
-                <tr>
+            </tr>
+            <tr>
                 <th colSpan={2}>Diabetes Type</th>
                 <td colSpan={2}>2</td>
-                </tr>
-                <tr>
+            </tr>
+            <tr>
                 <th colSpan={2}>Consultant</th>
                 <td colSpan={3}>Dr Jkrasdfas safasf s</td>
-                </tr>
-                <tr>
+            </tr>
+            <tr>
                 <th>Address</th>
                 <td colSpan={3}>235/67 austion dsg India</td>
-                </tr>
-                <tr>
+            </tr>
+            <tr>
                 <th>Contact</th>
                 <td colSpan={3}>9834533342</td>
-                </tr>
+            </tr>
             </tbody>
             </Table>
                 </Card.Body>
@@ -68,12 +69,14 @@ export const ProfileNew = () => {
                         <Card.Body>
                         <Table  borderless hover responsive size="sm" className='fs-6 fs-sm-7'>
                             <tbody>
-                                <tr><td>Last Appointment
-                                    </td>
-                                    <td>26/06/2021</td></tr>
-                                    <tr><td>Next Appointment
-                                    </td>
-                                    <td>26/08/2021</td></tr>
+                                <tr>
+                                    <td>Last Appointment</td>
+                                    <td>26/06/2021</td>
+                                </tr>
+                                <tr>
+                                    <td>Next Appointment</td>
+                                    <td>26/08/2021</td>
+                                </tr>
                             </tbody>
                         </Table>
                         </Card.Body>

@@ -30,12 +30,12 @@ const NavBar = () => {
        <Container>
         <Row>
         <Col>
-            <Card className='mb-4 mb-xl-0'>
+            <Card className='mt-5 mb-4 mb-xl-0 d-none d-lg-block'>
                 <Card.Header>Profile Sidebar</Card.Header>
                 <Card.Body className='text-center'>
-                    <img className="img-account-profile rounded-circle mb-2" style={{width:'100%'}} src="http://bootdey.com/img/Content/avatar/avatar1.png" alt=""/>
-                    <div className="small font-italic text-muted mb-2">User Name</div>
-                    <LinkContainer  to='/profile' onClick={() => setVisibleRight(false)} className='text-center mt-3'><Nav.Link><button className="btn btn-primary" type="button">View Profile</button></Nav.Link></LinkContainer>
+                        <img className="img-account-profile rounded-circle mb-2 w-100 ps-5 pe-5" src="http://bootdey.com/img/Content/avatar/avatar1.png" alt=""/>
+                        <div className="small font-italic text fs-4 mb-0">John Dove</div>
+                        <LinkContainer  to='/profile' onClick={() => setVisibleRight(false)} className='text-center mt-3'><Nav.Link><button className="btn btn-primary" type="button">View Profile</button></Nav.Link></LinkContainer>
                 </Card.Body>
             </Card>
             </Col>

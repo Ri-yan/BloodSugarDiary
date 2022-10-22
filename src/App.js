@@ -8,6 +8,9 @@ import RandomComp from './components/TableComponents/RandomComp';
 import { AuthProvider } from './context/AuthContext';
 import LogRoute from './components/Authentication/LogRoute';
 import ProfileNew from './components/Profile/ProfileNew';
+import MedicineEdit from './components/Profile/ProfileEdit/MecidineEdit';
+import CareEdit from './components/Profile/ProfileEdit/CareEdit';
+import AppointMentEdit from './components/Profile/ProfileEdit/AppointMentEdit';
 const Footer = lazy(() => import('./components/Footer/Footer'));
 
 
@@ -31,6 +34,9 @@ function App() {
             <Route path="/listrecords/" element={<PrivateRoute><NavBar/><RecordList/></PrivateRoute>}></Route>
             <Route path="/graphs/" element={<PrivateRoute><NavBar/><Graphs/></PrivateRoute>}></Route>
             <Route path="/profileedit/" element={<PrivateRoute><NavBar/><ProfileEdit/></PrivateRoute>}></Route>
+            <Route path="/profileedit/medicineedit" element={<PrivateRoute><NavBar/><MedicineEdit/></PrivateRoute>}></Route>
+            <Route path="/profileedit/carepoints" element={<PrivateRoute><NavBar/><CareEdit/></PrivateRoute>}></Route>
+            <Route path="/profileedit/appointment" element={<PrivateRoute><NavBar/><AppointMentEdit/></PrivateRoute>}></Route>
           </Routes>
           <Suspense fallback={<div>Loading...</div>}>
             <Footer/>

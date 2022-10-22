@@ -1,13 +1,15 @@
-import React from "react";
+import {React,useEffect,useState} from "react";
 import styled from 'styled-components'
-
+import {BiAddToQueue} from 'react-icons/bi'
+import {MdOutlineDelete} from 'react-icons/md'
+import {FiEdit2} from 'react-icons/fi'
 const Todo = () => {
-  const [todos, setTodos] = React.useState([]);
-  const [todo, setTodo] = React.useState("");
-  const [todoEditing, setTodoEditing] = React.useState(null);
-  const [editingText, setEditingText] = React.useState("");
+  const [todos, setTodos] = useState([]);
+  const [todo, setTodo] = useState("");
+  const [todoEditing, setTodoEditing] = useState(null);
+  const [editingText, setEditingText] = useState("");
 
-  React.useEffect(() => {
+  useEffect(() => {
     const json = localStorage.getItem("todos");
     const loadedTodos = JSON.parse(json);
     if (loadedTodos) {
@@ -15,7 +17,7 @@ const Todo = () => {
     }
   }, []);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const json = JSON.stringify(todos);
     localStorage.setItem("todos", json);
   }, [todos]);
@@ -61,15 +63,11 @@ const Todo = () => {
   return (
     <Com>
     <div id="todo-list">
-      <h1>Todo List</h1>
       <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          onChange={(e) => setTodo(e.target.value)}
-          value={todo}
-        />
-        <button type="submit">Add Todo</button>
+        <input type="text" onChange={(e) => setTodo(e.target.value)} value={todo}/>
+        <button type="submit"><BiAddToQueue/></button>
       </form>
+      
       {todos.map((todo) => (
         <div key={todo.id} className="todo">
           <div className="todo-text">
@@ -79,23 +77,24 @@ const Todo = () => {
               checked={todo.completed}
               onChange={() => toggleComplete(todo.id)}
             />
+           
             {todo.id === todoEditing ? (
               <input
                 type="text"
                 onChange={(e) => setEditingText(e.target.value)}
               />
-            ) : (
+            ) : ( 
               <div>{todo.text}</div>
             )}
           </div>
           <div className="todo-actions">
             {todo.id === todoEditing ? (
-              <button onClick={() => submitEdits(todo.id)}>Submit Edits</button>
+              <button className="me-1" onClick={() => submitEdits(todo.id)}>Submit Edits</button>
             ) : (
-              <button onClick={() => setTodoEditing(todo.id)}>Edit</button>
+              <button className="me-1" onClick={() => setTodoEditing(todo.id)}><FiEdit2/></button>
             )}
 
-            <button onClick={() => deleteTodo(todo.id)}>Delete</button>
+            <button onClick={() => deleteTodo(todo.id)}><MdOutlineDelete/></button>
           </div>
         </div>
       ))}
@@ -113,7 +112,7 @@ const Com = styled.div`
 }
 #todo-list {
   width: 500px;
-  margin: 60px auto;
+  margin: 5px auto;
 }
 form, .todo {
   border: 1px solid grey;
@@ -132,12 +131,13 @@ form input {
 }
 .todo {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+    justify-content: space-between;
 }
 
 button {
   font-size: 16px;
-  background-color: rgb(217, 60, 35);
+  background-color: rgb(35, 105, 217);
   color: #fff;
   border-radius: 8px;
   border: none;
@@ -145,10 +145,10 @@ button {
   cursor: pointer;
 }
 button:hover {
-  background-color: rgb(173, 47, 28);
+  background-color: rgb(62, 28, 173);
 }
 button:active {
-  background-color: rgb(130,35,21);
+  background-color: #3c779f;
 }
 button:focus {
   outline: 0;
@@ -175,7 +175,7 @@ input[type='text'] { font-size: 20px; font-family: monospace; }
 }
 .todo-actions {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
 }
 
 `
