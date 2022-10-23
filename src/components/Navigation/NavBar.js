@@ -2,17 +2,17 @@ import {Container,Navbar,Nav,NavDropdown,Button,Row,Col,Card} from 'react-bootst
 import styled from 'styled-components'
 import  {useNavigate}  from "react-router-dom";
 import { IoIosLogOut } from 'react-icons/io';
-
 import { CgProfile } from 'react-icons/cg';
-
 import { useAuth } from '../../context/AuthContext';
 import {LinkContainer} from 'react-router-bootstrap'
 import { Sidebar } from 'primereact/sidebar';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { onSnapshot,query,where,collection } from 'firebase/firestore';
+import { db,auth } from '../../firebase/firebase';
+import { avatarM } from '../../assets';
 const NavBar = () => {
     const history = useNavigate()
     const [visibleRight, setVisibleRight] = useState(false);
-
     // const [error, setError] = useState("")
     const {logOut} =useAuth()
     async function handleLogout() {
@@ -24,6 +24,23 @@ const NavBar = () => {
           console.log(err.message);
         }
       }
+      const [user, setUser] = useState({
+        firstName:'',
+        lastName:'',
+        Avatar:{
+            avatar:`${avatarM}`,
+            avatarPath:''
+        }
+      })
+      useEffect(() => {
+        const unsub = onSnapshot(query(collection(db, "user"),where('uId','==',auth.currentUser.uid)), (docs) => {
+            docs.forEach((doc) => {
+               setUser(doc.data())
+            });
+        });        
+        return unsub;
+      }, []);
+      const {firstName,lastName,Avatar} = user;
   return (
     <NavCom>
         <Sidebar visible={visibleRight} position="right" onHide={() => setVisibleRight(false)}>
@@ -33,8 +50,8 @@ const NavBar = () => {
             <Card className='mt-5 mb-4 mb-xl-0 d-none d-lg-block'>
                 <Card.Header>Profile Sidebar</Card.Header>
                 <Card.Body className='text-center'>
-                        <img className="img-account-profile rounded-circle mb-2 w-100 ps-5 pe-5" src="http://bootdey.com/img/Content/avatar/avatar1.png" alt=""/>
-                        <div className="small font-italic text fs-4 mb-0">John Dove</div>
+                        <img className="img-account-profile rounded-circle mb-2 w-100 ps-5 pe-5" src={Avatar.avatar?Avatar.avatar:avatarM} alt=""/>
+                        <div className="small font-italic text fs-4 mb-0">{firstName+" "+lastName}</div>
                         <LinkContainer  to='/profile' onClick={() => setVisibleRight(false)} className='text-center mt-3'><Nav.Link><button className="btn btn-primary" type="button">View Profile</button></Nav.Link></LinkContainer>
                 </Card.Body>
             </Card>

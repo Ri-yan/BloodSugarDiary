@@ -11,6 +11,7 @@ export{ default as cover2 } from './cover2.png'
 export{ default as authcover } from './authcover.png'
 export{ default as coversvg } from './cover1.png'
 export{ default as groups } from './groups.jpg'
+export{ default as avatarM } from './avatarM.png'
 
 
 // svgs
@@ -28,6 +29,7 @@ export{ default as login } from './WelcomePageSVG/login.svg'
 export{ default as join } from './WelcomePageSVG/join.svg'
 export{ default as backleft } from './WelcomePageSVG/back-left.svg'
 export{ default as newsletter } from './WelcomePageSVG/newsletter.svg'
+export{ default as empty } from './empty.png'
 export{ default as dotloader } from './dotloader.gif'
 
 //////////////////////////////////////////

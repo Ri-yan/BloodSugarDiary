@@ -22,8 +22,25 @@ export const  AuthProvider=({ children })=>{
       function resetPassword(email) {
         return sendPasswordResetEmail(auth,email)
       }
+      const d={
+        dob:"",
+        gender:"",
+        bloodGroup:"",
+        Consultant:"",
+        phNumber:"",
+        location:"",
+        address:"",
+        lastAppointment:"not set",
+        nextAppointment:"not set",
+        carePoints:[],
+        medicineList:[],
+        Avatar:{
+          avatar:'',
+          avatarPath:''
+        }
+      }
       function addUser(user){
-        return addDoc(collection(db, "user"),{...user,jointime:new serverTimestamp(),uid:auth.currentUser.uid});
+        return addDoc(collection(db, "user"),{...user,...d,jointime:new serverTimestamp(),uId:auth.currentUser.uid});
       }
 // All Records CRUD Section ///////////////////////////////////////////////////////////////////////
 
@@ -182,11 +199,81 @@ export const  AuthProvider=({ children })=>{
           }
       }
 
+////////////////////////PROFILE SECTION////////////////////////////////////////
+
+
+async function updateUserProfile (userData){
+  await getDocs(collection(db, "user"))
+          .then((snapshot)=>{
+            snapshot.docs.forEach((user)=>{
+              if((user.data().uId===`${auth.currentUser.uid}`)){
+                console.log(user.id,userData)
+                 updateDoc(doc(db,'user',`${user.id}`),userData)
+                }
+            })
+          }
+          )
+          .catch(err=>{
+            console.log(err.message)
+            return err.message;
+          })
+}
+
+
+async function updateMedicines (Data){
+  await getDocs(collection(db, "user"))
+  .then((snapshot)=>{
+    snapshot.docs.forEach((user)=>{
+      if((user.data().uId===`${auth.currentUser.uid}`)){
+         updateDoc(doc(db,'user',`${user.id}`),{medicineList:Data})
+        }
+    })
+  }
+  )
+  .catch(err=>{
+    console.log(err.message)
+    return err.message;
+  })
+}
+
+
+async function updateProfileImg (Data){
+  await getDocs(collection(db, "user"))
+  .then((snapshot)=>{
+    snapshot.docs.forEach((user)=>{
+      if((user.data().uId===`${auth.currentUser.uid}`)){
+         updateDoc(doc(db,'user',`${user.id}`),{Avatar:Data})
+        }
+    })
+  }
+  )
+  .catch(err=>{
+    console.log(err.message)
+    return err.message;
+  })
+}
+
+async function updateCarePoints(Data){
+  await getDocs(collection(db, "user"))
+          .then((snapshot)=>{
+            snapshot.docs.forEach((user)=>{
+              if((user.data().uId===`${auth.currentUser.uid}`)){
+                 updateDoc(doc(db,'user',`${user.id}`),{carePoints:Data})
+                }
+            })
+          }
+          )
+          .catch(err=>{
+            console.log(err.message)
+            return err.message;
+          })
+}
 
 
 
 
 
+//////////////////////////////////////////////////////////////////////////////////////////////
   useEffect(() => {
       const unsubscribe = onAuthStateChanged(auth,user => {
         setCurrentUser(user)
@@ -199,7 +286,8 @@ export const  AuthProvider=({ children })=>{
   const value = {
     signUp,logIn,logOut,currentUser,addUser,resetPassword,addRecord,updateRecord,deleteRecord,
     addRoutineResult,updateRoutineResult,deleteRoutineResult,addRandomResult,updateRandomResult,
-    deleteRandomResult,addDirectResult,updateCurrentRecord
+    deleteRandomResult,addDirectResult,updateCurrentRecord,updateUserProfile,updateMedicines,
+    updateCarePoints,updateProfileImg
   }
 
   return (

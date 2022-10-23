@@ -1,12 +1,23 @@
-import { useState } from 'react';
 import { Card, Col, Container, Form, Nav, Row,Button } from 'react-bootstrap'
 import styled from 'styled-components'
-import { cover1 } from '../../assets';
+import { cover1, dotloader,avatarM } from '../../assets';
 import {LinkContainer} from 'react-router-bootstrap'
 import { Link } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
+import { useEffect, useState,useRef } from 'react';
+import { onSnapshot,query,where,collection, getDoc } from 'firebase/firestore';
+import { db,auth,storage } from '../../firebase/firebase';
+import { Toast } from 'primereact/toast';
+import {ref,getDownloadURL,uploadBytes} from "firebase/storage"
 
 const ProfileEdit = () => {
+    const [userImg, setUserImg] = useState('')
+    const toast = useRef(null);
+    const {updateUserProfile,updateProfileImg} =useAuth()
+    const [loading, setloading] = useState(false);
+    const [imgLoad, setimgLoad] = useState(false);
     const [userData, setuserData] = useState({
+        uId:"",
         firstName:"",
         lastName:"",
         dob:"",
@@ -16,19 +27,66 @@ const ProfileEdit = () => {
         phNumber:"",
         location:"",
         address:"",
+        lastAppointment:"",
+        nextAppointment:"",
+        Dtype:"",
+        Avatar:{
+            avatar:`${avatarM}`,
+            avatarPath:''
+          }
     })
+    useEffect(() => {
+        const unsub = onSnapshot(query(collection(db, "user"),where('uId','==',`${auth.currentUser.uid}`)), (docs) => {
+            docs.forEach((doc) => {
+               setuserData(doc.data())
+            });
+        });        
+        return unsub;
+      }, []);
+      
     const {firstName,lastName,dob,gender,bloodGroup,Consultant,
-    phNumber,location,address}=userData;
+    phNumber,location,address,uId,Avatar,Dtype}=userData;
 
-  const  handleChange=(e)=>{
-    setuserData({...userData,[e.target.name]:[e.target.value]})
+  const  handleChange=async(e)=>{
+    setuserData({...userData,[e.target.name]:e.target.value})
   };
   const handleSubmit=async(e)=>{
     e.preventDefault();
-    console.log(userData)
+    try {
+        if(userData){
+            setloading(true);
+            await updateUserProfile(userData)
+            setloading(false);
+            toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Added', life: 3000 });
+        }
+    } catch (error) {
+        toast.current.show({ severity: 'warn', summary: 'Successful', detail: error.message, life: 3000 });
+        console.log(error.message)
+    }
   }
+  useEffect(() => {
+    if(userImg){
+        setimgLoad(true)
+        const uploadImg=async ()=>{
+            const imgRef = ref(storage,`avatar/${new Date().getTime()} - ${userImg.name}`);
+            try {
+                const snap = await uploadBytes(imgRef,userImg)
+                const url = await getDownloadURL(ref(storage,snap.ref.fullPath))
+                console.log(snap.ref.fullPath)
+                await updateProfileImg({avatar:url,avatarPath:snap.ref.fullPath})
+                setimgLoad(false)
+            } catch (error) {
+               console.log(error.message) 
+            }
+        }
+        uploadImg();
+    }
+  }, [userImg])
+  
+  console.log(userImg)
   return (
     <ProEdit>
+    <Toast ref={toast} />
    <Container fluid="xl" className='px-4 mt-4'>
    <Nav variant="tabs" border="dark" defaultActiveKey="/profileedit" className='nav-borders'>
       <Nav.Item>
@@ -50,9 +108,35 @@ const ProfileEdit = () => {
             <Card className='mb-4 mb-xl-0'>
                 <Card.Header>Profile Picture</Card.Header>
                 <Card.Body className='text-center'>
-                    <img className="img-account-profile rounded-circle mb-2" src="http://bootdey.com/img/Content/avatar/avatar1.png" alt=""/>
+                    <img className="img-account-profile rounded-circle mb-2" src={Avatar.avatar?Avatar.avatar:avatarM} alt=""/>
                     <div className="small font-italic text-muted mb-4">JPG or PNG no larger than 5 MB</div>
-                    <button className="btn btn-primary" type="button">Upload new image</button>
+                    {/* <button className="btn btn-primary" type="button">Upload new image</button> */}
+                    <label htmlFor="photo">
+                        <p className="btn btn-primary" >
+                            {
+                                imgLoad?<img  width={40} src={dotloader} height={20} alt="load" />:'Upload new image'
+                            }
+                        </p>
+                        <input onChange={(e)=>setUserImg(e.target.files[0])} style={{display:'none'}} type="file" accept='image/*' className="btn btn-primary" name="" id="photo" />
+                    </label>
+                </Card.Body>
+            </Card>
+            <Card className='mt-3 mb-3 mb-xl-0'>
+                <Card.Header>Select Diabeties type</Card.Header>
+                <Card.Body className='text-center'>
+                    <Row className="gx-3 mb-3 ">
+                        <Col>
+                            <Form.Select aria-label="Default select type" name='Dtype' value ={Dtype} onChange={handleChange}>
+                                <option value="null">Select Type</option>
+                                <option value="1">1.Severe Autoimmune Diabetes</option>
+                                <option value="2">2.Severe Insulin-Deficient Diabetes</option>
+                                <option value="3">3.Severe Insulin-Resistant Diabetes</option>
+                                <option value="4">4.Mild Obesity-Related Diabetes</option>
+                                <option value="5">5.Mild Age-Related Diabetes </option>
+                                <option value="none">none</option>
+                            </Form.Select>
+                        </Col>        
+                    </Row>
                 </Card.Body>
             </Card>
         </Col>
@@ -124,7 +208,11 @@ const ProfileEdit = () => {
                         </Row>
                         <div className='d-flex justify-content-around'>
                             <Link to='/profile' replace><button className="btn btn-primary" type="button">Cancel</button></Link>
-                            <button className="btn btn-primary" type="submit">Save Changes</button>
+                            <button className="btn btn-primary" type="submit">
+                                {
+                                    loading?<img width={40} src={dotloader} height={20} alt="" />:'Save Changes'
+                                }
+                            </button>
                         </div>     
                     </Form>
                 </Card.Body>

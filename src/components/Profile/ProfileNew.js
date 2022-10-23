@@ -1,15 +1,48 @@
 import {Button, Col, Container, Row,Card,Table,ListGroup } from 'react-bootstrap'
 import styled from 'styled-components'
-import { cover1,profile } from '../../assets';
+import { avatarM, cover1,empty,profile } from '../../assets';
 import { Link } from 'react-router-dom'
 import {MdOutlineEditNote} from 'react-icons/md'
+import { useEffect, useState } from 'react';
+import { onSnapshot,query,where,collection } from 'firebase/firestore';
+import { db,auth } from '../../firebase/firebase';
 export const ProfileNew = () => {
-
+    const [userData, setuserData] = useState({
+        firstName:"",
+        lastName:"",
+        dob:"",
+        gender:"",
+        bloodGroup:"",
+        Consultant:"",
+        phNumber:"",
+        location:"",
+        address:"",
+        lastAppointment:"not set",
+        nextAppointment:"not set",
+        carePoints:[],
+        medicineList:[],
+        Dtype:"",
+        Avatar:{
+            avatar:`${avatarM}`,
+            avatarPath:''
+          }
+    })
+    useEffect(() => {
+        const unsub = onSnapshot(query(collection(db, "user"),where('uId','==',auth.currentUser.uid)), (docs) => {
+            docs.forEach((doc) => {
+               setuserData(doc.data())
+            });
+        });        
+        return unsub;
+      }, []);
+      
+      const {firstName,lastName,dob,gender,bloodGroup,Consultant,
+        phNumber,address,lastAppointment,nextAppointment,carePoints,medicineList,Avatar,Dtype}=userData;
+        const getAge = birthDate => Math.floor((new Date() - new Date(birthDate).getTime()) / 3.15576e+10)
 
   return (
     <ProfileCom>
         <Container fluid>
-
             <Row style={{disply:'flex', justifyContent:'flex-end'}}>
                 <Col style={{textAlign: '-webkit-right',margin:5}} >
                     <Link to='/profileedit'><Button variant="primary"><MdOutlineEditNote/> Edit</Button></Link>
@@ -17,53 +50,52 @@ export const ProfileNew = () => {
             </Row>
 
             <Row style={{disply:'flex', justifyContent:'center'}}>
-                <Col className="  " xs={10} md={3}>
-
-            <Card className='mb-2 mb-xl-2 mt-3  box'>
-                <Card.Header>User Details</Card.Header>
-                <Card.Body className='text-center'>
-                    <img className="img-account-profile rounded-circle mb-2 w-100 ps-5 pe-5" src="http://bootdey.com/img/Content/avatar/avatar1.png" alt=""/>
-                    <div className="small font-italic text fs-4 mb-0">John Dove</div>
-                </Card.Body>
-            </Card>
-            <Card className='mb-4 mb-xl-0  box'>
-                <Card.Body className='text-center'>
-            <Table  bordered hover responsive size="sm" className='fs-6'>
-            <tbody>
-            <tr className='text-right'>
-                <th>Age</th>
-                <td>56</td>
-                <th>Sex</th>
-                <td>M</td>
-            </tr>
-            <tr>
-                <th colSpan={2}>Blood Group</th>
-                <td colSpan={2}>O</td>
-            </tr>
-            <tr>
-                <th colSpan={2}>Diabetes Type</th>
-                <td colSpan={2}>2</td>
-            </tr>
-            <tr>
-                <th colSpan={2}>Consultant</th>
-                <td colSpan={3}>Dr Jkrasdfas safasf s</td>
-            </tr>
-            <tr>
-                <th>Address</th>
-                <td colSpan={3}>235/67 austion dsg India</td>
-            </tr>
-            <tr>
-                <th>Contact</th>
-                <td colSpan={3}>9834533342</td>
-            </tr>
-            </tbody>
-            </Table>
-                </Card.Body>
-            </Card>
-                   
-                    </Col>
+                <Col xs={10} md={3} xl={3}>
+                
+                    <Card className='mb-2 mb-xl-2 mt-3  box'>
+                        <Card.Header>User Details</Card.Header>
+                        <Card.Body className='text-center'>
+                            <img className="img-account-profile rounded-circle mb-2 w-100 ps-5 pe-5" src={Avatar.avatar?Avatar.avatar:avatarM} alt=""/>
+                            <div className="small font-italic text fs-4 mb-0">{firstName+" "+lastName}</div>
+                        </Card.Body>
+                    </Card>
+                    <Card className='mb-4 mb-xl-0  box'>
+                        <Card.Body className='text-center'>
+                    <Table  bordered hover responsive size="sm" className='fs-6'>
+                    <tbody>
+                    <tr className='text-right'>
+                        <th>Gender</th>
+                        <td>{gender}</td>
+                        <th>Age</th>
+                        <td>{dob!==""?getAge(dob):'-'}</td>
+                    </tr>
+                    <tr>
+                        <th colSpan={2}>Blood Group</th>
+                        <td colSpan={2}>{bloodGroup}</td>
+                    </tr>
+                    <tr>
+                        <th colSpan={2}>Diabetes Type</th>
+                        <td colSpan={2}>{Dtype}</td>
+                    </tr>
+                    <tr>
+                        <th colSpan={1}>Consultant</th>
+                        <td colSpan={3}>{Consultant}</td>
+                    </tr>
+                    <tr>
+                        <th>Address</th>
+                        <td colSpan={3}>{address}</td>
+                    </tr>
+                    <tr>
+                        <th>Contact</th>
+                        <td colSpan={3}>{phNumber}</td>
+                    </tr>
+                    </tbody>
+                    </Table>
+                        </Card.Body>
+                    </Card>
+                </Col>
                 <Col className="text-start side2" xs={10} md={9}>
-                <hr/>
+                <hr className='d-none d-lg-block'/>
                 <Card className=' box '>
                         <Card.Header>Appointments</Card.Header>
                         <Card.Body>
@@ -71,11 +103,11 @@ export const ProfileNew = () => {
                             <tbody>
                                 <tr>
                                     <td>Last Appointment</td>
-                                    <td>26/06/2021</td>
+                                    <td>{lastAppointment}</td>
                                 </tr>
                                 <tr>
                                     <td>Next Appointment</td>
-                                    <td>26/08/2021</td>
+                                    <td>{nextAppointment}</td>
                                 </tr>
                             </tbody>
                         </Table>
@@ -85,10 +117,11 @@ export const ProfileNew = () => {
                     <Card.Header>Medicines Prescribed</Card.Header>
                     <Card.Body>
                         <ListGroup variant="flush" as="ol" numbered>
-                        <ListGroup.Item>Cras justo odio</ListGroup.Item>
-                        <ListGroup.Item>Dapibus ac facilisis in</ListGroup.Item>
-                        <ListGroup.Item>Morbi leo risus</ListGroup.Item>
-                        <ListGroup.Item>Porta ac consectetur ac</ListGroup.Item>
+                            {
+                                medicineList.length>0?medicineList.map((i)=>{
+                                    return <ListGroup.Item key={i.id}>{i.text}</ListGroup.Item>
+                                }):<img src={empty} className='empty' alt="no care points added" />
+                            }
                         </ListGroup>
                     </Card.Body>
                 </Card>
@@ -97,32 +130,31 @@ export const ProfileNew = () => {
                         <Card.Header>Care Points</Card.Header>
                         <Card.Body>
                             <ListGroup variant="flush" as="ol" numbered>
-                            <ListGroup.Item>Routine Checkups</ListGroup.Item>
-                            <ListGroup.Item>Daily Exercise</ListGroup.Item>
-                            <ListGroup.Item>Maintaining reports</ListGroup.Item>
-                            <ListGroup.Item>Controlled diet</ListGroup.Item>
+                                {
+                                    carePoints.length>0?carePoints.map((i)=>{
+                                        return <ListGroup.Item key={i.id}>{i.text}</ListGroup.Item>
+                                    }):<img src={empty} className='empty' alt="no care points added" />
+                                }
                             </ListGroup>
                         </Card.Body>
                     </Card>
                     <hr/>
-                    
                 </Col>
             </Row>
         </Container>
     </ProfileCom>
   )
 }
-export default ProfileNew
+export default ProfileNew;
+
 const ProfileCom = styled.div`
-background: url(${cover1});
+    background: url(${cover1});
     background-size: auto;
     background-repeat: no-repeat;
-padding: 20px;
-height: -webkit-fill-available;
+    padding: 20px;
+    height: -webkit-fill-available;
     width: -webkit-fill-available;
-    @media (max-width: 940px) {
-        padding:  0px;
-    }
+    
     .box{
         background: white;
     border-radius: 13px;
@@ -137,11 +169,26 @@ height: -webkit-fill-available;
         overflow-x:hidden;
     }
     .side2::-webkit-scrollbar {
-  width: 8px;     
-  scroll-behavior: smooth;          /* width of the entire scrollbar */
-}
-.side2::-webkit-scrollbar-track {
-  background: rgba(106, 116, 110, 0.186);        /* color of the tracking area */
-}
-
+        width: 8px;     
+        scroll-behavior: smooth;          /* width of the entire scrollbar */
+    }
+    .side2::-webkit-scrollbar-track {
+        background: rgba(106, 116, 110, 0.186);        /* color of the tracking area */
+    }
+    .img-account-profile{
+        width: -webkit-fill-available;
+        width: 10em;
+        height: 10em;
+    }
+    .empty{
+        width: 400px !important;
+        height: auto;
+        margin: auto;
+    }
+    @media (max-width: 940px) {
+        padding:  0px;
+        .empty{
+            width: -webkit-fill-available !important;
+        }
+    }
 `
