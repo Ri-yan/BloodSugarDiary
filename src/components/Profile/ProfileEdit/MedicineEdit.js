@@ -105,7 +105,7 @@ const MedicineEdit = () => {
                 <LinkContainer  to='/profileedit' replace><Nav.Link href="#" eventKey="link-1" target="__blank">Profile</Nav.Link></LinkContainer>
                 </Nav.Item>
                 <Nav.Item>
-                <LinkContainer  to='/profileedit/medicineedit' replace><Nav.Link href="#" eventKey="link-2" target="__blank">Medecine</Nav.Link></LinkContainer>
+                <LinkContainer  to='/profileedit/MedicineEdit' replace><Nav.Link href="#" eventKey="link-2" target="__blank">Medecine</Nav.Link></LinkContainer>
                 </Nav.Item>
                 <Nav.Item>
                 <LinkContainer  to='/profileedit/carepoints' replace><Nav.Link href="#" eventKey="link-3" target="__blank">Care Points</Nav.Link></LinkContainer>
@@ -142,8 +142,9 @@ const MedicineEdit = () => {
                                         })
                                     }
                                    </ListGroup>
-                                   <div className='d-flex justify-content-around'>
-                                    <Link to='/profile' replace><button className="btn btn-primary" type="button">Cancel</button></Link>
+                                   <div className='d-flex justify-content-around mt-2'>
+                                    <Link to='/profile' replace>
+                                    <button className="btn btn-primary" type="button">Cancel</button></Link>
                                     <button className="btn btn-primary" type="submit">
                                         {
                                             loading?<img  width={40} src={dotloader} height={20} alt="load" />:'Save Changes'
@@ -155,12 +156,14 @@ const MedicineEdit = () => {
                     </Card>
                 </Col>
             </Row>
+            <hr />
+
         </Container>
     </MedEdit>
   )
 }
 
-export default MedicineEdit;
+export default  MedicineEdit;
 
 const MedEdit = styled.div`
     background: url(${cover1});

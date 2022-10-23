@@ -98,7 +98,7 @@ const AppointMentEdit = () => {
                                 <Form.Control name='nextAppointment' value={nextAppointment} onChange={handleChange}  id="nextAppointment" type="date" required/>
                             </Col>
                         </Row>
-                        <div className='d-flex justify-content-around'>
+                        <div className='d-flex justify-content-around mt-2'>
                             <Link to='/profile' replace><button className="btn btn-primary" type="button">Cancel</button></Link>
                             <button className="btn btn-primary" type="submit">
                                 {

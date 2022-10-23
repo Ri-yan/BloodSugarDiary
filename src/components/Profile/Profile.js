@@ -6,7 +6,7 @@ import {MdOutlineEditNote} from 'react-icons/md'
 import { useEffect, useState } from 'react';
 import { onSnapshot,query,where,collection } from 'firebase/firestore';
 import { db,auth } from '../../firebase/firebase';
-export const ProfileNew = () => {
+export const Profile = () => {
     const [userData, setuserData] = useState({
         firstName:"",
         lastName:"",
@@ -38,20 +38,20 @@ export const ProfileNew = () => {
       
       const {firstName,lastName,dob,gender,bloodGroup,Consultant,
         phNumber,address,lastAppointment,nextAppointment,carePoints,medicineList,Avatar,Dtype}=userData;
+
         const getAge = birthDate => Math.floor((new Date() - new Date(birthDate).getTime()) / 3.15576e+10)
 
   return (
     <ProfileCom>
         <Container fluid>
             <Row style={{disply:'flex', justifyContent:'flex-end'}}>
-                <Col style={{textAlign: '-webkit-right',margin:5}} >
-                    <Link to='/profileedit'><Button variant="primary"><MdOutlineEditNote/> Edit</Button></Link>
+                <Col >
+                    <Link to='/profileedit'><Button variant="primary mt-1 float-end mt-sm-1 mb-0"><MdOutlineEditNote/> Edit</Button></Link>
                 </Col>
             </Row>
 
             <Row style={{disply:'flex', justifyContent:'center'}}>
-                <Col xs={10} md={3} xl={3}>
-                
+                <Col xs={11} md={3} xl={3}>
                     <Card className='mb-2 mb-xl-2 mt-3  box'>
                         <Card.Header>User Details</Card.Header>
                         <Card.Body className='text-center'>
@@ -60,8 +60,8 @@ export const ProfileNew = () => {
                         </Card.Body>
                     </Card>
                     <Card className='mb-4 mb-xl-0  box'>
-                        <Card.Body className='text-center'>
-                    <Table  bordered hover responsive size="sm" className='fs-6'>
+                        <Card.Body className='text-start'>
+                    <Table  hover responsive size="sm" className='fs-6'>
                     <tbody>
                     <tr className='text-right'>
                         <th>Gender</th>
@@ -94,12 +94,12 @@ export const ProfileNew = () => {
                         </Card.Body>
                     </Card>
                 </Col>
-                <Col className="text-start side2" xs={10} md={9}>
-                <hr className='d-none d-lg-block'/>
-                <Card className=' box '>
+                <Col className="text-start side2 mt-lg-3" xs={11} md={7}>
+                {/* <hr className='d-none d-lg-block'/> */}
+                <Card className='box '>
                         <Card.Header>Appointments</Card.Header>
                         <Card.Body>
-                        <Table  borderless hover responsive size="sm" className='fs-6 fs-sm-7'>
+                        <Table   hover responsive size="sm" className='fs-6 fs-sm-7'>
                             <tbody>
                                 <tr>
                                     <td>Last Appointment</td>
@@ -113,7 +113,7 @@ export const ProfileNew = () => {
                         </Table>
                         </Card.Body>
                     </Card>
-                <Card className=' box mt-2'>
+                <Card className='box mt-2'>
                     <Card.Header>Medicines Prescribed</Card.Header>
                     <Card.Body>
                         <ListGroup variant="flush" as="ol" numbered>
@@ -145,7 +145,7 @@ export const ProfileNew = () => {
     </ProfileCom>
   )
 }
-export default ProfileNew;
+export default Profile;
 
 const ProfileCom = styled.div`
     background: url(${cover1});
@@ -154,7 +154,8 @@ const ProfileCom = styled.div`
     padding: 20px;
     height: -webkit-fill-available;
     width: -webkit-fill-available;
-    
+    height: fit-content;
+
     .box{
         background: white;
     border-radius: 13px;
@@ -164,7 +165,7 @@ const ProfileCom = styled.div`
         box-shadow: 0 0 11px 1px #bfadadab;
     }
     .side2{
-        height: 100vh;
+        height: 95vh;
         overflow-y: scroll;
         overflow-x:hidden;
     }
@@ -187,6 +188,7 @@ const ProfileCom = styled.div`
     }
     @media (max-width: 940px) {
         padding:  0px;
+        padding-bottom: 4em;
         .empty{
             width: -webkit-fill-available !important;
         }

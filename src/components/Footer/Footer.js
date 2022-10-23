@@ -3,7 +3,23 @@ import styled from 'styled-components'
 import {GrTwitter,GrInstagram } from 'react-icons/gr';
 import { FaFacebookF } from 'react-icons/fa';
 import { logo } from "../../assets";
+import {auth} from "../../firebase/firebase"
+import { useAuth } from '../../context/AuthContext';
+import  {useNavigate}  from "react-router-dom";
+import { Link } from 'react-router-dom';
+
 const Footer = () => {
+    const history = useNavigate()
+    const {logOut}=useAuth()
+    async function handleLogout() {
+        try {
+            console.log('Logout')
+          await logOut()
+          history("/", { replace: true })
+        } catch (err) {
+          console.log(err.message);
+        }
+      }
   return (
     <FCom>
         <Container>
@@ -44,9 +60,10 @@ const Footer = () => {
                     Help
                     </p>
                     <div className="d-flex flex-column text-start" style={{ cursor: 'pointer' }}>
-                    <a href="/">Support</a>
-                    <a href="/login">Sign Up</a>
-                    <a href="/login">Sign In</a>
+                        <a href="/">Support</a>
+                        <Link to='/signup' replace className={auth.currentUser?'d-none':'block'} href="/login">Sign Up</Link>
+                        <Link to='/login' replace className={auth.currentUser?'d-none':'block'} href="/login">Sign In</Link>
+                        <a className={auth.currentUser?'block':'d-none'} onClick={()=>handleLogout()}>Log out</a>
                     </div>
                 </Col>
                 </Col>

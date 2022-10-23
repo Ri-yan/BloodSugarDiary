@@ -1,15 +1,15 @@
 import { Card, Col, Container, Form, Nav, Row,Button } from 'react-bootstrap'
 import styled from 'styled-components'
-import { cover1, dotloader,avatarM } from '../../assets';
+import { cover1, dotloader,avatarM } from '../../../assets';
 import {LinkContainer} from 'react-router-bootstrap'
 import { Link } from 'react-router-dom';
-import { useAuth } from '../../context/AuthContext';
+import { useAuth } from '../../../context/AuthContext';
 import { useEffect, useState,useRef } from 'react';
 import { onSnapshot,query,where,collection, getDoc } from 'firebase/firestore';
-import { db,auth,storage } from '../../firebase/firebase';
+import { db,auth,storage } from '../../../firebase/firebase';
 import { Toast } from 'primereact/toast';
 import {ref,getDownloadURL,uploadBytes} from "firebase/storage"
-
+import {IoMdArrowBack} from 'react-icons/io'
 const ProfileEdit = () => {
     const [userImg, setUserImg] = useState('')
     const toast = useRef(null);
@@ -142,7 +142,7 @@ const ProfileEdit = () => {
         </Col>
         <Col xl={8}>
             <Card className="mb-4">
-            <Card.Header>User Details</Card.Header>
+            <Card.Header>User Details<Link to='/profile' replace className='position-absolute top-0 end-0 py-2 px-2'><IoMdArrowBack/>back</Link></Card.Header>
                 <Card.Body className='text-center'>
                     <Form onSubmit={handleSubmit}>
                         <Row className="gx-3 mb-3">
@@ -227,11 +227,15 @@ const ProfileEdit = () => {
 export default ProfileEdit
 
 const ProEdit = styled.div`
-background: url(${cover1});
+    background: url(${cover1});
     background-size: auto;
     background-repeat: no-repeat;
-height: -webkit-fill-available;
+    height: -webkit-fill-available;
     width: -webkit-fill-available;
+    a{
+        text-decoration: none;
+        color: black;
+    }
     @media (max-width: 940px) {
         padding:  0px;
     }

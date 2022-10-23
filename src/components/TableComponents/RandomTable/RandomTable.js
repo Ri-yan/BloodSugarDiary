@@ -16,11 +16,10 @@ import { InputNumber } from 'primereact/inputnumber';
 import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
 import { FilterMatchMode, FilterOperator } from 'primereact/api';
-
 import { useAuth } from "../../../context/AuthContext";
 import { collection,onSnapshot,doc, query, orderBy } from "firebase/firestore";
 import { auth, db }  from '../../../firebase/firebase'
-import RandomPieChart from "../RandomCharts/RandomPieChart";
+import RandomPieChart from "./RandomCharts/RandomPieChart";
 
  const RandomTable = ({selectedRecordId}) => {
     const {addRandomResult,updateRandomResult,deleteRandomResult} = useAuth()
@@ -44,7 +43,6 @@ import RandomPieChart from "../RandomCharts/RandomPieChart";
     const [selectedProducts, setSelectedProducts] = useState('');
     const [submitted, setSubmitted] = useState(false);
     const [globalFilter, setGlobalFilter] = useState(null);
-    const [recordType, setrecordType] = useState('random')
     const toast = useRef(null);
     const dt = useRef(null);
 
@@ -54,9 +52,11 @@ import RandomPieChart from "../RandomCharts/RandomPieChart";
 
     useEffect(() => {
         const unsub = onSnapshot(query(collection(doc(db, "allRandomResult",auth.currentUser.uid),selectedRecordId),orderBy('testDate')), (docs) => {
-            const rec = [];
+            const rec = []; let l=1
             docs.forEach((doc) => {
-                rec.push({...doc.data(),docId:doc.id});
+                rec.push({...doc.data(),docId:doc.id,k:l++});
+               
+                // console.log(l++)
             });
             setProducts(rec)
         });
@@ -65,10 +65,7 @@ import RandomPieChart from "../RandomCharts/RandomPieChart";
       useEffect(() => {
         localStorage.setItem(`randomfile-${selectedRecordId}`, JSON.stringify(products));
       }, [`randomfile-${selectedRecordId}`]);
-      const onSetRecord=(e)=>{
-        e.preventDefault();
-        console.log(selectedRecordId)
-      }
+      
 
     const openNew = () => {
         setProduct(emptyProduct);
@@ -211,7 +208,8 @@ import RandomPieChart from "../RandomCharts/RandomPieChart";
     }
    
     const cols = [
-        { field: 'id', header: 'ID' },
+        // { field: 'id', header: 'ID' },
+        { field: 'k', header: 'No.' },
         { field: 'testDate', header: 'Date' },
         { field: 'testTime', header: 'Time' },
         { field: 'result', header: 'Test result' }
@@ -304,8 +302,10 @@ import RandomPieChart from "../RandomCharts/RandomPieChart";
                     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} results"
                     filterDisplay="menu" emptyMessage="No record found." header={header}>
                     <Column  selectionMode="multiple" headerStyle={{ width: '3rem' }} exportable={false}></Column>
-                    <Column field="id" header="ID" sortable style={{ minWidth: '5rem',textAlign:'center' }}></Column>
-                    <Column  field="testDate" header="Date" sortable filter filterPlaceholder="Search by Date" style={{ minWidth: '7rem',textAlign:'center' }}></Column>
+                    <Column field="k" header="No." sortable style={{ minWidth: '2rem',textAlign:'center' }}></Column>
+
+                    <Column className="d-none" field="id" header="ID" sortable style={{ minWidth: '5rem',textAlign:'center' }}></Column>
+                    <Column  field="testDate" header="Date" sortable filter filterPlaceholder="Search by Date" style={{ minWidth: '6rem',textAlign:'center' }}></Column>
                     <Column field="testTime" header="Time"  sortable style={{ minWidth: '7rem',textAlign:'center' }}></Column>
                     <Column field="result" header="Test result"  sortable style={{ minWidth: '7rem',textAlign:'center' }}></Column>
                     <Column body={actionBodyTemplate} exportable={false} style={{ minWidth: '8rem',textAlign:'center' }}></Column>

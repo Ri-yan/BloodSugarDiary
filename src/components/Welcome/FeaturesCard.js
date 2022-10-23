@@ -4,7 +4,9 @@ import {Card,Col,Container} from 'react-bootstrap';
 import { cover1 } from '../../assets';
 import { features } from './cardData';
 import  {Link}  from "react-router-dom";
-
+import { onSnapshot,query,where,collection } from 'firebase/firestore';
+import { db,auth } from '../../firebase/firebase';
+import { useEffect, useState } from 'react';
 const FeaturesCard = () => {
     const breakpointColumnsObj = {
         default: 3,
@@ -12,11 +14,19 @@ const FeaturesCard = () => {
         700: 2,
         500: 1
       };
-   
+      const [userName, setuserName] = useState("")
+      useEffect(() => {
+        const unsub = onSnapshot(query(collection(db, "user"),where('uId','==',auth.currentUser.uid)), (docs) => {
+            docs.forEach((doc) => {
+              setuserName(doc.data().firstName+" "+doc.data().lastName)
+            });
+        });        
+        return unsub;
+      }, []);
   return (
     <Com>
     <Container className='conatiner' data-masonry='{"percentPosition": true }'>
-            <h1 className="">Welcome User</h1>
+            <h1 className="ts">Welcome {userName}</h1>
     <Masonry
   breakpointCols={breakpointColumnsObj}
   className="my-masonry-grid"
@@ -24,7 +34,7 @@ const FeaturesCard = () => {
   {features.map((i, idx) => (
             <Col key={idx} className='card-pad'>
             <Link  to={`${i.link}`}>
-              <Card style={{cursor:'pointer'}} >
+              <Card className='Card' style={{cursor:'pointer'}} >
                 <Card.Img variant="top" src={i.cover} className='bg-image hover-zoom' />
                 <Card.Body>
                   <Card.Title>{i.title}</Card.Title>
@@ -96,5 +106,23 @@ h1{
     a{
       text-decoration: none;
       color: black;
+    }
+    .ts{
+      text-shadow: 0px 0px 9px #0000007d;
+    }
+    .ts:hover{
+      transition: 0.8s;
+    transform: scale(0.95);
+    cursor: pointer;
+
+    }
+    .Card:hover{
+      transition: 0.8s;
+      box-shadow: 0px 0px 20px 7px #3273b5;
+    transform: scale(1.02);
+    }
+    .t{
+      transition: 0.5;
+      text-align-last:justify
     }
 `

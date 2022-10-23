@@ -143,7 +143,7 @@ const CareEdit = () => {
                                 })
                             }
                             </ListGroup>
-                        <div className='d-flex justify-content-around'>
+                        <div className='d-flex justify-content-around mt-2'>
                             <Link to='/profile' replace><button className="btn btn-primary" type="button">Cancel</button></Link>
                             <button className="btn btn-primary" type="submit">
                                 {
@@ -156,6 +156,7 @@ const CareEdit = () => {
             </Card>
         </Col>
     </Row>
+    <hr />
    </Container>
     </Careedit>
   )
