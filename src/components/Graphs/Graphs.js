@@ -39,7 +39,7 @@ const options = {
   return (
     <GraphComp>
         <h1>functionalities adding soon</h1>
-        <Chart height='50%' width='50%' style={{background:'white'}} type="line" data={data} options={options} />
+        <Chart height='50%' width='50%' style={{background:'white',margin:'auto'}} type="line" data={data} options={options} />
     </GraphComp>
   )
 }
@@ -47,6 +47,7 @@ const options = {
 export default Graphs;
 
 const GraphComp = styled.div`
+margin: auto;
      width: -webkit-fill-available;
     padding: 30px;
     background: url(${cover1});

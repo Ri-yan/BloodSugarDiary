@@ -1,8 +1,7 @@
 import {useEffect,useState} from 'react'
 import Form from 'react-bootstrap/Form';
 import styled from 'styled-components'
-import { cover1, cover2, coverrev } from '../../assets';
-import RandomPieChart from './RandomTable/RandomCharts/RandomPieChart';
+import {  coverrev } from '../../assets';
 import RandomTable from './RandomTable/RandomTable';
 import { collection,onSnapshot,doc } from "firebase/firestore";
 import { auth, db }  from '../../firebase/firebase'

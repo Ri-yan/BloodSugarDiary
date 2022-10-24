@@ -1,4 +1,3 @@
-import { Button, Col, Container, Row } from 'react-bootstrap'
 import RoutineChart from './RoutineChart'
 
 const RoutineChartList = () => {

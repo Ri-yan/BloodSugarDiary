@@ -1,4 +1,4 @@
-import { Card, Col, Container, Form, Nav, Row,Button } from 'react-bootstrap'
+import { Card, Col, Container, Form, Nav, Row } from 'react-bootstrap'
 import styled from 'styled-components'
 import { cover1,avatarM, dotloader } from '../../../assets';
 import {LinkContainer} from 'react-router-bootstrap'

@@ -2,7 +2,7 @@ import React,{useContext,useEffect,useState,createContext} from "react";
 import { auth, db }  from '../firebase/firebase'
 import { onAuthStateChanged,createUserWithEmailAndPassword,
     signInWithEmailAndPassword,signOut,sendPasswordResetEmail } from "firebase/auth";
-import { addDoc, collection, serverTimestamp,query,updateDoc,where,doc,deleteDoc, setDoc,getDocs,getDoc } from "firebase/firestore";
+import { addDoc, collection, serverTimestamp,updateDoc,doc,deleteDoc,getDocs } from "firebase/firestore";
 const AuthContext = createContext()
 export const  AuthProvider=({ children })=>{
     const [currentUser, setCurrentUser] = useState()
@@ -155,7 +155,7 @@ export const  AuthProvider=({ children })=>{
       .then(
         (snapshot)=>{
         snapshot.docs.forEach((doc)=>{
-          if(doc.data.Date!=result.testDate){
+          if(doc.data.Date!==result.testDate){
             flag=true;
             uid=doc.id;
           }

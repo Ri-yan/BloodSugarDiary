@@ -1,5 +1,5 @@
-import { add_file,add_post,city_life,everyday,opened_tabs,
-    performance_overview,portfolio_update,random_thoughts,throw_away ,
+import { add_file,add_post,everyday,opened_tabs,
+    random_thoughts,throw_away ,
    } from '../../assets';
    
 export const features=[{

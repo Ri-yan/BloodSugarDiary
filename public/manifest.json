@@ -21,5 +21,6 @@
   "start_url": ".",
   "display": "standalone",
   "theme_color": "#000000",
+  "description":"Blood Sugar Diary App",
   "background_color": "#ffffff"
 }

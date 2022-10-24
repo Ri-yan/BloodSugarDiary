@@ -76,17 +76,25 @@ const NavBar = () => {
                 </LinkContainer>
                 <LinkContainer  to='/graphs'><NavDropdown.Item href="#action/3.1">Graphs</NavDropdown.Item></LinkContainer>
                 <NavDropdown.Item >Blogs</NavDropdown.Item>
-                
                 <NavDropdown.Divider />
-                <NavDropdown.Item href="#action/3.4">
+                <NavDropdown.Item href="https://www.linkedin.com/in/mohd-riyan-0330b4225/" target='_blank'>
                     About Us
                 </NavDropdown.Item>
                 </NavDropdown>
             </Nav>
             <Nav>
-                <LinkContainer  to='/profile' className='d-sm-block d-md-block d-lg-none' ><Nav.Link><CgProfile style={{fontSize:'larger',margin:'auto'}}/> Profile</Nav.Link></LinkContainer>
-                <Nav.Link className="mx-start-1 fs-6 ms-1 rightProfile d-sm-none d-md-none d-lg-block" onClick={() => setVisibleRight(true)}><CgProfile style={{fontSize:'larger',margin:'auto'}}/> Profile</Nav.Link>
-                <Button variant="primary"  onClick={()=>handleLogout()}> Logout <IoIosLogOut className='mx-start-1 fs-5 '/></Button>
+                <LinkContainer  to='/profile' className='d-sm-block d-md-block d-lg-none ' >
+                  <Nav.Link>
+                  <CgProfile style={{fontSize:'larger',margin:'auto'}}/> Profile</Nav.Link></LinkContainer>
+                  <Nav.Link className="mx-start-1 fs-6 ms-1 rightProfile d-sm-none d-md-none d-lg-block m-auto" onClick={() => setVisibleRight(true)}>
+                  {
+                    Avatar.avatar?<img src={Avatar.avatar?Avatar.avatar:avatarM} style={{borderRadius:20}} height={20} width={20} className='m-auto me-1' alt="" />
+                    :<CgProfile  className="m-auto me-1" style={{fontSize:'larger',margin:'auto'}}/>
+                  }
+                    {/* <CgProfile style={{fontSize:'larger',margin:'auto'}}/>  */}
+                    Profile
+                  </Nav.Link>
+                <Button variant="primary" className='fs-7 mx-1 my-auto' onClick={()=>handleLogout()}> Logout <IoIosLogOut className='mx-start-1 fs-5'/></Button>
             </Nav>
             </Navbar.Collapse>
         </Container>

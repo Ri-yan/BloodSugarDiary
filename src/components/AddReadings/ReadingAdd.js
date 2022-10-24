@@ -1,7 +1,6 @@
-import { Col, Container, Row,Button,ListGroup } from 'react-bootstrap';
+import { Col, Container, Row,Button,ListGroup,Form } from 'react-bootstrap';
 import styled from 'styled-components'
 import { cover1, dotloader } from '../../assets';
-import Form from 'react-bootstrap/Form';
 import { useState,useRef,useEffect } from 'react';
 import { collection,onSnapshot,doc } from "firebase/firestore";
 import { auth, db }  from '../../firebase/firebase'
@@ -11,7 +10,7 @@ import { Toast } from 'primereact/toast';
 const ReadingAdd = () => {
     const {addDirectResult} =useAuth()
     const toast = useRef(null);
-    const [recordField, setrecordField] = useState(false);
+    // const [recordField, setrecordField] = useState(false);
     const [loading, setloading] = useState(false);
     const [readingType, setReadingType] = useState('')
     const [recordfile, setRecordFile] = useState('')
@@ -37,17 +36,16 @@ const ReadingAdd = () => {
        setDate(event.target.value)
    }
    
-   useEffect(() => {
-     if(recordfile!=='' || recordfile!=='Select Type'){
-        setrecordField(true);
-     }else{
-        setrecordField(false);
-     }
-   }, [readingTypeRef])
+//    useEffect(() => {
+//      if(recordfile!=='' || recordfile!=='Select Type'){
+//         setrecordField(true);
+//      }else{
+//         setrecordField(false);
+//      }
+//    }, [readingTypeRef])
    
 
 const [allRecords, setallRecords] = useState(JSON.parse(localStorage.getItem("random-records")) || []);
-const [selectedRecordId, setSelectedRecordId] = useState(null)
     useEffect(() => {
         const unsub = onSnapshot(collection(doc(db, "allRecord",auth.currentUser.uid),'records'), (docs) => {
             const rec = [];
@@ -107,7 +105,6 @@ const [selectedRecordId, setSelectedRecordId] = useState(null)
             setloading(true);
             await addDirectResult(result)
             setloading(false);
-            console.log(result)
             onClear();
             toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Result Added', life: 3000 });
 
@@ -117,12 +114,6 @@ const [selectedRecordId, setSelectedRecordId] = useState(null)
     }
    
    }
-   
-   
-
-    const [records, setRecords] = useState([])
-    const shouldLog = useRef(true)
-
     return (
         <AddComp>
             <Toast ref={toast} />

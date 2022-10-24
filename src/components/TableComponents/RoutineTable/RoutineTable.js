@@ -1,29 +1,24 @@
 import "primereact/resources/themes/lara-light-indigo/theme.css";  //theme
 import "primereact/resources/primereact.min.css";                  //core css
 import "primeicons/primeicons.css";                                //icons
-import { Dropdown } from 'primereact/dropdown';
 import styled from 'styled-components'
-
 import React, { useState, useEffect, useRef } from 'react';
 import { classNames } from 'primereact/utils';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { Toast } from 'primereact/toast';
 import { Button } from 'primereact/button';
-import { FileUpload } from 'primereact/fileupload';
 import { Toolbar } from 'primereact/toolbar';
 import { InputTextarea } from 'primereact/inputtextarea';
-import { RadioButton } from 'primereact/radiobutton';
-import { InputNumber } from 'primereact/inputnumber';
 import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
-
 import { useAuth } from "../../../context/AuthContext";
 import { collection,onSnapshot,doc, query, orderBy } from "firebase/firestore";
 import { auth, db }  from '../../../firebase/firebase'
+import RoutineChartList from "../RoutineCharts/RoutineChartList";
  const RoutineTable = ({selectedRecordId}) => {
-    const {addRoutineResult,updateRoutineResult,deleteRoutineResult} = useAuth()
 
+    const {addRoutineResult,updateRoutineResult,deleteRoutineResult} = useAuth()
     let emptyProduct = {
         id: null,
         testDate:'',
@@ -372,6 +367,7 @@ import { auth, db }  from '../../../firebase/firebase'
                     {product && <span>Are you sure you want to delete the selected test results?</span>}
                 </div>
             </Dialog>
+            <RoutineChartList products={products}/>
         </div>
         </ListComp>
     );

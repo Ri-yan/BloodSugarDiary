@@ -10,7 +10,7 @@ import { useState,useRef } from 'react';
 import { useAuth } from '../../../context/AuthContext';
 import { Toast } from 'primereact/toast';
 import { useEffect } from 'react';
-import { onSnapshot,doc,collection,query,where } from 'firebase/firestore';
+import { onSnapshot,collection,query,where } from 'firebase/firestore';
 import { db,auth } from '../../../firebase/firebase';
 
 const MedicineEdit = () => {

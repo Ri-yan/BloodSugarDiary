@@ -9,7 +9,7 @@ import { Dialog } from 'primereact/dialog';
 import { Toast } from 'primereact/toast';
 import {BiAddToQueue} from 'react-icons/bi'
 import { useAuth } from '../../../context/AuthContext';
-import { onSnapshot,doc,collection,query,where } from 'firebase/firestore';
+import { onSnapshot,collection,query,where } from 'firebase/firestore';
 import { db,auth } from '../../../firebase/firebase';
 
 const CareEdit = () => {

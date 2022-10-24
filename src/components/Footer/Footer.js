@@ -50,8 +50,8 @@ const Footer = () => {
                 </p>
                 <div className="d-flex flex-column text-start mb-5" style={{ cursor: 'pointer' }}>
                     <a href="/">Resources</a>
-                    <a href="/">About Us</a>
-                    <a href="/">Contact</a>
+                    <a href="https://www.linkedin.com/in/mohd-riyan-0330b4225/" target='_blank'  rel="noreferrer">About Us</a>
+                    <a href="https://www.linkedin.com/in/mohd-riyan-0330b4225/" target='_blank'  rel="noreferrer">Contact</a>
                     <a href="/">Blog</a>
                 </div>
                 </Col>

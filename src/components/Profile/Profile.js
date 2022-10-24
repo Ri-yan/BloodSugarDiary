@@ -1,6 +1,6 @@
 import {Button, Col, Container, Row,Card,Table,ListGroup } from 'react-bootstrap'
 import styled from 'styled-components'
-import { avatarM, cover1,empty,profile } from '../../assets';
+import { avatarM, cover1,empty } from '../../assets';
 import { Link } from 'react-router-dom'
 import {MdOutlineEditNote} from 'react-icons/md'
 import { useEffect, useState } from 'react';

@@ -1,11 +1,11 @@
-import { Card, Col, Container, Form, Nav, Row,Button } from 'react-bootstrap'
+import { Card, Col, Container, Form, Nav, Row } from 'react-bootstrap'
 import styled from 'styled-components'
 import { cover1, dotloader,avatarM } from '../../../assets';
 import {LinkContainer} from 'react-router-bootstrap'
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../../context/AuthContext';
 import { useEffect, useState,useRef } from 'react';
-import { onSnapshot,query,where,collection, getDoc } from 'firebase/firestore';
+import { onSnapshot,query,where,collection } from 'firebase/firestore';
 import { db,auth,storage } from '../../../firebase/firebase';
 import { Toast } from 'primereact/toast';
 import {ref,getDownloadURL,uploadBytes} from "firebase/storage"
@@ -45,7 +45,7 @@ const ProfileEdit = () => {
       }, []);
       
     const {firstName,lastName,dob,gender,bloodGroup,Consultant,
-    phNumber,location,address,uId,Avatar,Dtype}=userData;
+    phNumber,location,address,Avatar,Dtype}=userData;
 
   const  handleChange=async(e)=>{
     setuserData({...userData,[e.target.name]:e.target.value})
@@ -68,7 +68,8 @@ const ProfileEdit = () => {
     if(userImg){
         setimgLoad(true)
         const uploadImg=async ()=>{
-            const imgRef = ref(storage,`avatar/${new Date().getTime()} - ${userImg.name}`);
+            // const imgRef = ref(storage,`avatar/${new Date().getTime()} - ${userImg.name}`);
+            const imgRef = ref(storage,`avatar/${auth.currentUser.uid} - ${userImg.name}`);
             try {
                 const snap = await uploadBytes(imgRef,userImg)
                 const url = await getDownloadURL(ref(storage,snap.ref.fullPath))
@@ -83,7 +84,6 @@ const ProfileEdit = () => {
     }
   }, [userImg])
   
-  console.log(userImg)
   return (
     <ProEdit>
     <Toast ref={toast} />

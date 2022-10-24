@@ -8,8 +8,6 @@ const RecordList = () => {
             <h1 className='mb-5'>All Record Section</h1> 
             <RecordTable/>   
         </div>
-              
-        
     </ListComp>
   )
 }

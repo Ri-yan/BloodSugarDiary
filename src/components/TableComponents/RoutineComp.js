@@ -2,7 +2,6 @@ import {useEffect,useState} from 'react'
 import Form from 'react-bootstrap/Form';
 import styled from 'styled-components'
 import {  coverrev } from '../../assets';
-import RoutineChartList from './RoutineCharts/RoutineChartList';
 import RoutineTable from './RoutineTable/RoutineTable';
 import { collection,onSnapshot,doc } from "firebase/firestore";
 import { auth, db }  from '../../firebase/firebase'
@@ -11,7 +10,6 @@ import {  useNavigate,useParams } from 'react-router-dom'
 const RoutineComp = () => {
     const history = useNavigate()
     const params = useParams();
-    
     const [allRecords, setallRecords] = useState(JSON.parse(localStorage.getItem("routine-records")) || []);
     const [selectedRecordId, setSelectedRecordId] = useState(null)
     useEffect(() => {
@@ -37,7 +35,7 @@ const RoutineComp = () => {
     useEffect(() => {
         if(selectedRecordId)
             history(`/routine_record/${selectedRecordId}`, { replace: true })
-        else if(selectedRecordId==='')
+        else if(selectedRecordId==='null')
         history(`/routine_record/`, { replace: true })
         }, [selectedRecordId]);
 
@@ -53,7 +51,7 @@ const RoutineComp = () => {
             <h1>Routine Record Section</h1>
             <form onSubmit={onSetRecord} className="form">
                     <Form.Select size="md" value={selectedRecordId} style={{width:'fit-content'}} onChange={(e)=>{setSelectedRecordId(e.target.value)}}>
-                    <option value=''>Select a file</option>
+                    <option value='null'>Select a file</option>
                     {
                         allRecords.map((i,k) => {
                             return(
@@ -62,24 +60,15 @@ const RoutineComp = () => {
                         })
                         
                     }
-                    {/* <option>File 1</option>
-                    <option>File 2</option>
-                    <option>File 3</option>
-                    <option>File 4</option>
-                    <option>File 5</option>
-                    <option>File 6</option> */}
                 </Form.Select>
                 <button type="submit" className="btn btn-primary btn-md-md btn-lg-lg my-auto up mx-2">Load</button>   
             </form>
             {
                 (selectedRecordId && selectedRecordId!=='Select a file')?
-               <><RoutineTable selectedRecordId={selectedRecordId}/>
-               <RoutineChartList/></>
+               <><RoutineTable selectedRecordId={selectedRecordId}/></>
                 :
                 <h3 className='h-50 w-100 d-flex justify-content-center my-3'>please select your routine record</h3>
             }
-            {/* <Routine2/>
-            <RoutineChartList/> */}
         </div>
               
         

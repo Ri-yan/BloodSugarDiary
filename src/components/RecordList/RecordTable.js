@@ -13,7 +13,7 @@ import { Toolbar } from 'primereact/toolbar';
 import { InputTextarea } from 'primereact/inputtextarea';
 import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
-import { Link,useNavigate } from "react-router-dom";
+import {useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { collection,onSnapshot,doc, query, orderBy } from "firebase/firestore";
 import { auth, db }  from '../../firebase/firebase'
@@ -38,7 +38,6 @@ import { auth, db }  from '../../firebase/firebase'
     const [selectedProducts, setSelectedProducts] = useState(null);
     const [submitted, setSubmitted] = useState(false);
     const [globalFilter, setGlobalFilter] = useState(null);
-    const [recordType, setrecordType] = useState('random')
     const toast = useRef(null);
     const dt = useRef(null);
     
@@ -126,7 +125,7 @@ import { auth, db }  from '../../firebase/firebase'
     }
 
     const deleteProduct = () => {
-        let _products = products.filter(val => val.id !== product.id);
+        // let _products = products.filter(val => val.id !== product.id);
         // setProducts(_products);
         try {
             console.log("Entire Document has been deleted successfully.")
@@ -161,10 +160,6 @@ import { auth, db }  from '../../firebase/firebase'
         return id;
     }
 
-    
-    const exportCSV = () => {
-        dt.current.exportCSV();
-    }
 
     const confirmDeleteSelected = () => {
         setDeleteProductsDialog(true);

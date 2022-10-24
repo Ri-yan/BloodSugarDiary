@@ -1,7 +1,7 @@
 import { Container,Row,Col } from 'react-bootstrap'
 import styled from 'styled-components'
 import {  cover2, coversvg } from '../../../assets'
-import {BsArrowRight} from "react-icons/bs"
+import {FiChevronsRight} from "react-icons/fi"
 
 const WelcomePage = () => {
   return (
@@ -13,7 +13,7 @@ const WelcomePage = () => {
               <h3 className='mt-3 up'>We offer modern solutions for managing your blood glucose test results.</h3>
               {/* <Link to={'/login'}> */}
                 <a href="#Service">
-                <button  type="button" className="btn btn-primary btn-md-md btn-lg-lg mt-4 up">Get Started  <BsArrowRight className='mx-2 fs-4'/></button>
+                <button  type="button" className="btn btn-primary btn-md-md btn-lg-lg mt-4 up">Get Started <FiChevronsRight className='ms-1 my-auto fs-4'/></button>
              </a> 
              {/* </Link> */}
             </Col>
