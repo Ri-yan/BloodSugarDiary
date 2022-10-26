@@ -1,6 +1,5 @@
 export{ default as WelcomePage } from './Welcome/WelcomePage'
 export{ default as ReadingAdd } from './AddReadings/ReadingAdd'
-export{ default as RoutineChartList } from '../temp/RoutineTable/RoutineCharts/RoutineChartList'
 export{ default as Graphs } from './Graphs/Graphs'
 export{ default as NavBar } from './Navigation/NavBar'
 export{ default as ProfileEdit } from './Profile/ProfileEdit/ProfileEdit'
@@ -14,7 +13,6 @@ export{ default as Profile } from './Profile/Profile'
 export{ default as AppointMentEdit } from './Profile/ProfileEdit/AppointMentEdit'
 export{ default as CareEdit } from './Profile/ProfileEdit/CareEdit'
 export{ default as MedicineEdit } from './Profile/ProfileEdit/MedicineEdit'
-
 export{ default as LandingPage } from './LandingPage/LandingPage'
 
 export{ default as Login } from './Authentication/Login'

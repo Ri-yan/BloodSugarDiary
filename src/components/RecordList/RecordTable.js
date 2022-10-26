@@ -3,7 +3,7 @@ import "primereact/resources/primereact.min.css";                  //core css
 import "primeicons/primeicons.css";                                //icons
 import { Dropdown } from 'primereact/dropdown';
 import styled from 'styled-components'
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef,Fragment } from 'react';
 import { classNames } from 'primereact/utils';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
@@ -30,12 +30,12 @@ import { auth, db }  from '../../firebase/firebase'
         lastUpdated:''
     };
     const [loading, setLoading] = useState(false)
-    const [products, setProducts] = useState(JSON.parse(localStorage.getItem("record-list")) || null);
-    const [productDialog, setProductDialog] = useState(false);
-    const [deleteProductDialog, setDeleteProductDialog] = useState(false);
-    const [deleteProductsDialog, setDeleteProductsDialog] = useState(false);
-    const [product, setProduct] = useState(emptyFile);
-    const [selectedProducts, setSelectedProducts] = useState(null);
+    const [records, setRecords] = useState(JSON.parse(localStorage.getItem("record-list")) || null);
+    const [recordDialog, setRecordDialog] = useState(false);
+    const [deleteRecordDialog,setDeleteRecordDialog] = useState(false);
+    const [deleteRecordsDialog,setDeleteRecordsDialog] = useState(false);
+    const [record, setRecord] = useState(emptyFile);
+    const [selectedRecords, setSelectedRecords] = useState(null);
     const [submitted, setSubmitted] = useState(false);
     const [globalFilter, setGlobalFilter] = useState(null);
     const toast = useRef(null);
@@ -43,51 +43,50 @@ import { auth, db }  from '../../firebase/firebase'
     
     useEffect(() => {
         const unsub = onSnapshot(query(collection(doc(db, "allRecord",auth.currentUser.uid),'records'),orderBy('creationDate','desc')), (docs) => {
-            const rec = [];
+            const rec = []; let l=1;
             docs.forEach((doc) => {
-                rec.push({...doc.data(),docId:doc.id});
+                rec.push({...doc.data(),docId:doc.id,k:l++});
             });
             if(rec){
-            setProducts(rec)
+            setRecords(rec)
             localStorage.setItem("record-list", JSON.stringify(rec));
         }
             else
-            setProducts(JSON.parse(localStorage.getItem("record-list")))
+            setRecords(JSON.parse(localStorage.getItem("record-list")))
         });
         return unsub;
       }, []);
 
     const openNew = () => {
-        setProduct(emptyFile);
+        setRecord(emptyFile);
         setSubmitted(false);
-        setProductDialog(true);
+        setRecordDialog(true);
     }
 
     const hideDialog = () => {
         setSubmitted(false);
-        setProductDialog(false);
+        setRecordDialog(false);
     }
 
-    const hideDeleteProductDialog = () => {
-        setDeleteProductDialog(false);
+    const hideDeleteRecordDialog = () => {
+        setDeleteRecordDialog(false);
     }
 
-    const hideDeleteProductsDialog = () => {
-        setDeleteProductsDialog(false);
+    const hideDeleteRecordsDialog = () => {
+        setDeleteRecordsDialog(false);
     }
 
-    const saveProduct = async () => {
+    const saveRecord = async () => {
         setSubmitted(true);
-
-        if (product.recordName.trim()) {
-            let _products = [...products];
-            let _product = {...product};
-            if (product.id) {
-                const index = findIndexById(product.id);
-                _products[index] = _product;
+        if (record.recordName.trim()) {
+            let _records = [...records];
+            let _record = {...record};
+            if (record.id) {
+                const index = findIndexById(record.id);
+                _records[index] = _record;
                 try {
                     setLoading(true);
-                    await updateRecord(_product);
+                    await updateRecord(_record);
                     setLoading(false);
                 } catch (error) {
                     console.log(error.message)
@@ -95,11 +94,11 @@ import { auth, db }  from '../../firebase/firebase'
                 toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Record Updated', life: 3000 });
             }
             else {
-                _product.id = createId();
-                _products.push(_product);
+                _record.id = createId();
+                _records.push(_record);
                 try {
                     setLoading(true);
-                    await addRecord(_product);
+                    await addRecord(_record);
                     setLoading(false);
 
                 } catch (error) {
@@ -109,45 +108,44 @@ import { auth, db }  from '../../firebase/firebase'
             }
 
             // setProducts(_products);
-            setProductDialog(false);
-            setProduct(emptyFile);
+            setRecordDialog(false);
+            setRecord(emptyFile);
         }
     }
 
-    const editProduct = (product) => {
-        setProduct({...product});
-        setProductDialog(true);
+    const editRecord = (result) => {
+        setRecord({...result});
+        setRecordDialog(true);
     }
 
-    const confirmDeleteProduct = (product) => {
-        setProduct(product);
-        setDeleteProductDialog(true);
+    const confirmDeleteResult = (result) => {
+        setRecord(result);
+        setDeleteRecordDialog(true);
     }
 
-    const deleteProduct = () => {
+    const deleteRecordFile = () => {
         // let _products = products.filter(val => val.id !== product.id);
         // setProducts(_products);
         try {
             console.log("Entire Document has been deleted successfully.")
-            deleteRecord(product.docId)
+            deleteRecord(record.docId)
         }
         catch(error) {
             console.log(error);
         }
-        setDeleteProductDialog(false);
-        setProduct(emptyFile);
+        setDeleteRecordDialog(false);
+        setRecord(emptyFile);
         toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Record Deleted', life: 3000 });
     }
 
     const findIndexById = (id) => {
         let index = -1;
-        for (let i = 0; i < products.length; i++) {
-            if (products[i].id === id) {
+        for (let i = 0; i < records.length; i++) {
+            if (records[i].id === id) {
                 index = i;
                 break;
             }
         }
-
         return index;
     }
 
@@ -162,12 +160,11 @@ import { auth, db }  from '../../firebase/firebase'
 
 
     const confirmDeleteSelected = () => {
-        setDeleteProductsDialog(true);
+        setDeleteRecordsDialog(true);
     }
 
-    const deleteSelectedProducts = () => {
-        // let _products = products.filter(val => !selectedProducts.includes(val));
-        let _multiRecords = products.filter(val => selectedProducts.includes(val));
+    const deleteSelectedRecords = () => {
+        let _multiRecords = records.filter(val => selectedRecords.includes(val));
         try {
             console.log("Entire Document has been deleted successfully.")
             _multiRecords.forEach(i => {
@@ -177,29 +174,28 @@ import { auth, db }  from '../../firebase/firebase'
         catch(error) {
             console.log(error);
         }
-        // setProducts(_products);
-        setDeleteProductsDialog(false);
-        setSelectedProducts(null);
-        toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Products Deleted', life: 3000 });
+        setDeleteRecordsDialog(false);
+        setSelectedRecords(null);
+        toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Records Deleted', life: 3000 });
     }
 
     
 
     const onInputChange = (e, name) => {
         const val = (e.target && e.target.value) || '';
-        let _product = {...product};
-        _product[`${name}`] = val;
+        let _record = {...record};
+        _record[`${name}`] = val;
 
-        setProduct(_product);
+        setRecord(_record);
     }
 
    
     const leftToolbarTemplate = () => {
         return (
-            <React.Fragment>
+            <Fragment>
                 <Button label="New" style={{height:'2em',marginRight: '1em'}} icon="pi pi-plus" className="p-button-success mr-2" onClick={openNew} />
-                <Button label="Delete" style={{height:'2em'}} icon="pi pi-trash" className="p-button-danger" onClick={confirmDeleteSelected} disabled={!selectedProducts || !selectedProducts.length} />
-            </React.Fragment>
+                <Button label="Delete" style={{height:'2em'}} icon="pi pi-trash" className="p-button-danger" onClick={confirmDeleteSelected} disabled={!selectedRecords || !selectedRecords.length} />
+            </Fragment>
         )
     }
 
@@ -214,16 +210,11 @@ import { auth, db }  from '../../firebase/firebase'
      }
     const actionBodyTemplate = (rowData) => {
         return (
-            <React.Fragment>
-                {/* <Link to={'/routine_record'}> */}
-                {/* <Link to={`/${rowData.recordType.name==='Random'?'random_record':'routine_record'}/
-                `}
-                > */}
-                    <Button icon="pi pi-folder" className="p-button-rounded p-button-success mr-2" style={{height:'2rem',width:'2rem',marginRight:'5px'}} onClick={() => fileRoute(rowData.recordType.name,rowData.recordName,rowData.docId)} />
-                {/* </Link> */}
-                <Button icon="pi pi-pencil" className="p-button-rounded p-button-success mr-2" style={{height:'2rem',width:'2rem',marginRight:'5px'}} onClick={() => editProduct(rowData)} />
-                <Button icon="pi pi-trash" className="p-button-rounded p-button-warning" style={{height:'2rem',width:'2rem'}} onClick={() => confirmDeleteProduct(rowData)} />
-            </React.Fragment>
+            <Fragment>
+                <Button icon="pi pi-folder" className="p-button-rounded p-button-success mr-2" style={{height:'2rem',width:'2rem',marginRight:'5px'}} onClick={() => fileRoute(rowData.recordType.name,rowData.recordName,rowData.docId)} />
+                <Button icon="pi pi-pencil" className="p-button-rounded p-button-success mr-2" style={{height:'2rem',width:'2rem',marginRight:'5px'}} onClick={() => editRecord(rowData)} />
+                <Button icon="pi pi-trash" className="p-button-rounded p-button-warning" style={{height:'2rem',width:'2rem'}} onClick={() => confirmDeleteResult(rowData)} />
+            </Fragment>
         );
     }
 
@@ -236,23 +227,23 @@ import { auth, db }  from '../../firebase/firebase'
             </span>
         </div>
     );
-    const productDialogFooter = (
-        <React.Fragment>
+    const recordDialogFooter = (
+        <Fragment>
             <Button label="Cancel" icon="pi pi-times" className="p-button-text" onClick={hideDialog} />
-            <Button disabled={loading} label="Save" icon="pi pi-check" className="p-button-text" onClick={saveProduct} />
-        </React.Fragment>
+            <Button disabled={loading} label="Save" icon="pi pi-check" className="p-button-text" onClick={saveRecord} />
+        </Fragment>
     );
-    const deleteProductDialogFooter = (
-        <React.Fragment>
-            <Button label="No" icon="pi pi-times" className="p-button-text" onClick={hideDeleteProductDialog} />
-            <Button label="Yes" icon="pi pi-check" className="p-button-text" onClick={deleteProduct} />
-        </React.Fragment>
+    const deleteRecordDialogFooter = (
+        <Fragment>
+            <Button label="No" icon="pi pi-times" className="p-button-text" onClick={hideDeleteRecordDialog} />
+            <Button label="Yes" icon="pi pi-check" className="p-button-text" onClick={deleteRecordFile} />
+        </Fragment>
     );
-    const deleteProductsDialogFooter = (
-        <React.Fragment>
-            <Button label="No" icon="pi pi-times" className="p-button-text" onClick={hideDeleteProductsDialog} />
-            <Button label="Yes" icon="pi pi-check" className="p-button-text" onClick={deleteSelectedProducts} />
-        </React.Fragment>
+    const deleteRecordsDialogFooter = (
+        <Fragment>
+            <Button label="No" icon="pi pi-times" className="p-button-text" onClick={hideDeleteRecordsDialog} />
+            <Button label="Yes" icon="pi pi-check" className="p-button-text" onClick={deleteSelectedRecords} />
+        </Fragment>
     );
 
     return (
@@ -261,62 +252,61 @@ import { auth, db }  from '../../firebase/firebase'
             <Toast ref={toast} />
             <div className="card">
                 <Toolbar className="mb-3" left={leftToolbarTemplate} ></Toolbar>
-                <DataTable size='small' responsiveLayout="scroll" scrollHeight='500px' stripedRows ref={dt} value={products} selection={selectedProducts} onSelectionChange={(e) => setSelectedProducts(e.value)}
+                <DataTable size='small' responsiveLayout="scroll" scrollHeight='500px' stripedRows ref={dt} value={records} selection={selectedRecords} onSelectionChange={(e) => setSelectedRecords(e.value)}
                     dataKey="id" paginator rows={10} rowsPerPageOptions={[10, 20,30, 50]}
                     paginatorTemplate=" PrevPageLink PageLinks NextPageLink CurrentPageReport RowsPerPageDropdown"
                     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} records"
                     filterDisplay="menu" emptyMessage="No record found."
                     globalFilter={globalFilter} header={header}>
                     <Column  selectionMode="multiple" headerStyle={{ width: '3rem' }} exportable={false}></Column>
-                    <Column field="id" header="ID" sortable style={{ minWidth: '5rem' }}></Column>
+                    <Column field="id" header="ID" className="d-none" sortable style={{ minWidth: '5rem' }}></Column>
+                    <Column field="k" header="No." sortable style={{ minWidth: '5rem',textAlign:'center' }}></Column>
                     <Column field="recordName" header="Record Name" sortable filter filterPlaceholder="Search by name" style={{ minWidth: '12rem' }} ></Column>
-                    <Column field="recordType.name" header="Record Type" sortable filter filterPlaceholder="Search by type" style={{ minWidth: '10rem' }} ></Column>
-                    <Column field="creationDate" header="Creation Date" type='date' sortable filter filterPlaceholder="Search by creation date"  style={{ minWidth: '8rem' }}></Column>
-                    <Column field="lastUpdated" header="Last Accessed" type='date' sortable filter filterPlaceholder="Search by Last Accessed" style={{ minWidth: '8rem' }}></Column>
+                    <Column field="recordType.name" header="Record Type" sortable filter filterPlaceholder="Search by type" style={{ minWidth: '12rem' }} ></Column>
+                    <Column field="creationDate" header="Creation Date" type='date' sortable filter filterPlaceholder="Search by creation date"  style={{ minWidth: '12rem' }}></Column>
+                    <Column field="lastUpdated" header="Last Accessed" type='date' sortable filter filterPlaceholder="Search by Last Accessed" style={{ minWidth: '12rem' }}></Column>
                     <Column body={actionBodyTemplate} exportable={false} style={{ minWidth: '8rem' }}></Column>
                 </DataTable>
             </div>
 
-            <Dialog visible={productDialog} style={{ width: '450px' }} header="Record Details" modal className="p-fluid" footer={productDialogFooter} onHide={hideDialog}>
+            <Dialog visible={recordDialog} style={{ width: '450px' }} header="Record Details" modal className="p-fluid" footer={recordDialogFooter} onHide={hideDialog}>
                 <div className="field">
                     <label htmlFor="name">Name</label>
-                    <InputText id="name" value={product.recordName} onChange={(e) => onInputChange(e, 'recordName')} required autoFocus className={classNames({ 'p-invalid': submitted && !product.recordName })} />
-                    {submitted && !product.recordName && <small className="p-error">Name is required.</small>}
+                    <InputText id="name" value={record.recordName} onChange={(e) => onInputChange(e, 'recordName')} required autoFocus className={classNames({ 'p-invalid': submitted && !record.recordName })} />
+                    {submitted && !record.recordName && <small className="p-error">Name is required.</small>}
                 </div>
-                
-
                 <div className="formgrid grid">
                     <div className="field col">
                         <label htmlFor="type">Record type</label>             
                             <Dropdown  optionLabel="name" id="type"
-                            value={product.recordType}
-                            disabled={product.recordType?true:false}
+                            value={record.recordType}
+                            disabled={record.recordType?true:false}
                              options={[
                                 {name: 'Random', code: 'ran'},
                                 {name: 'Routine', code: 'rou'}
                             ]} required 
                             // onChange={(e) => setrecordType(e.target.value)}
                             onChange={(e) => onInputChange(e, 'recordType')}
-                            placeholder={product.recordType}/>
+                            placeholder={record.recordType}/>
                     </div>
                 </div>
                 <div className="field">
                     <label htmlFor="description">Description</label>
-                    <InputTextarea id="description" value={product.description} onChange={(e) => onInputChange(e, 'description')} required rows={3} cols={20} />
+                    <InputTextarea id="description" value={record.description} onChange={(e) => onInputChange(e, 'description')} required rows={3} cols={20} />
                 </div>
             </Dialog>
 
-            <Dialog visible={deleteProductDialog} style={{ width: '450px' }} header="Confirm" modal footer={deleteProductDialogFooter} onHide={hideDeleteProductDialog}>
+            <Dialog visible={deleteRecordDialog} style={{ width: '450px' }} header="Confirm" modal footer={deleteRecordDialogFooter} onHide={hideDeleteRecordDialog}>
                 <div className="confirmation-content">
                     <i className="pi pi-exclamation-triangle mr-3" style={{ fontSize: '2rem'}} />
-                    {product && <span>Are you sure you want to delete <b>{product.recordName}</b>?</span>}
+                    {record && <span>Are you sure you want to delete <b>{record.recordName}</b>?</span>}
                 </div>
             </Dialog>
 
-            <Dialog visible={deleteProductsDialog} style={{ width: '450px' }} header="Confirm" modal footer={deleteProductsDialogFooter} onHide={hideDeleteProductsDialog}>
+            <Dialog visible={deleteRecordsDialog} style={{ width: '450px' }} header="Confirm" modal footer={deleteRecordsDialogFooter} onHide={hideDeleteRecordsDialog}>
                 <div className="confirmation-content">
                     <i className="pi pi-exclamation-triangle mr-3" style={{ fontSize: '2rem'}} />
-                    {product && <span>Are you sure you want to delete the selected records?</span>}
+                    {record && <span>Are you sure you want to delete the selected records?</span>}
                 </div>
             </Dialog>
         </div>

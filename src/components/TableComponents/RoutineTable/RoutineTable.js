@@ -2,7 +2,7 @@ import "primereact/resources/themes/lara-light-indigo/theme.css";  //theme
 import "primereact/resources/primereact.min.css";                  //core css
 import "primeicons/primeicons.css";                                //icons
 import styled from 'styled-components'
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef,Fragment } from 'react';
 import { classNames } from 'primereact/utils';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
@@ -15,11 +15,10 @@ import { InputText } from 'primereact/inputtext';
 import { useAuth } from "../../../context/AuthContext";
 import { collection,onSnapshot,doc, query, orderBy } from "firebase/firestore";
 import { auth, db }  from '../../../firebase/firebase'
-import RoutineChartList from "../RoutineCharts/RoutineChartList";
+import RoutineChartList from "./RoutineCharts/RoutineChartList";
  const RoutineTable = ({selectedRecordId}) => {
-
     const {addRoutineResult,updateRoutineResult,deleteRoutineResult} = useAuth()
-    let emptyProduct = {
+    let emptyResult = {
         id: null,
         testDate:'',
         Bfast:'',
@@ -32,12 +31,12 @@ import RoutineChartList from "../RoutineCharts/RoutineChartList";
     };
 
     const [loading, setLoading] = useState(false)
-    const [products, setProducts] = useState(JSON.parse(localStorage.getItem(`randomfile-${selectedRecordId}`)) || []);
-    const [productDialog, setProductDialog] = useState(false);
-    const [deleteProductDialog, setDeleteProductDialog] = useState(false);
-    const [deleteProductsDialog, setDeleteProductsDialog] = useState(false);
-    const [product, setProduct] = useState(emptyProduct);
-    const [selectedProducts, setSelectedProducts] = useState(null);
+    const [results, setResults] = useState(JSON.parse(localStorage.getItem(`randomfile-${selectedRecordId}`)) || []);
+    const [resultDialog, setResultDialog] = useState(false);
+    const [deleteResultDialog, setDeleteResultDialog] = useState(false);
+    const [deleteResultsDialog, setDeleteResultsDialog] = useState(false);
+    const [result, setResult] = useState(emptyResult);
+    const [selectedResults, setSelectedResults] = useState(null);
     const [submitted, setSubmitted] = useState(false);
     const [globalFilter, setGlobalFilter] = useState(null);
     const toast = useRef(null);
@@ -50,55 +49,50 @@ import RoutineChartList from "../RoutineCharts/RoutineChartList";
 
     useEffect(() => {
         const unsub = onSnapshot(query(collection(doc(db, "allRoutineResult",auth.currentUser.uid),selectedRecordId),orderBy('testDate')), (docs) => {
-            const rec = [];
+            const rec = [];let l=1
             docs.forEach((doc) => {
-                rec.push({...doc.data(),docId:doc.id});
+                rec.push({...doc.data(),docId:doc.id,k:l++});
             });
-            setProducts(rec)
+            setResults(rec)
         });
-        // productService.getProducts2().then(data => console.log(data));
         return unsub;
       }, [selectedRecordId]);
    
       useEffect(() => {
-        localStorage.setItem(`routinefile-${selectedRecordId}`, JSON.stringify(products));
+        localStorage.setItem(`routinefile-${selectedRecordId}`, JSON.stringify(results));
       }, [`routinefile-${selectedRecordId}`]);
-      const onSetRecord=(e)=>{
-        e.preventDefault();
-        console.log(selectedRecordId)
-      }
+     
 
     const openNew = () => {
-        setProduct(emptyProduct);
+        setResult(emptyResult);
         setSubmitted(false);
-        setProductDialog(true);
+        setResultDialog(true);
     }
 
     const hideDialog = () => {
         setSubmitted(false);
-        setProductDialog(false);
+        setResultDialog(false);
     }
 
     const hideDeleteProductDialog = () => {
-        setDeleteProductDialog(false);
+        setDeleteResultDialog(false);
     }
 
     const hideDeleteProductsDialog = () => {
-        setDeleteProductsDialog(false);
+        setDeleteResultsDialog(false);
     }
 
-    const saveProduct = async () => {
+    const saveResult = async () => {
         setSubmitted(true);
-
-        if (product.testDate.trim()) {
-            let _products = [...products];
-            let _product = {...product};
-            if (product.id) {
-                const index = findIndexById(product.id);
-                _products[index] = _product;
+        if (result.testDate.trim()) {
+            let _results = [...results];
+            let _result = {...result};
+            if (result.id) {
+                const index = findIndexById(result.id);
+                _results[index] = _result;
                 try {
                     setLoading(true);
-                    await updateRoutineResult(_product,selectedRecordId);
+                    await updateRoutineResult(_result,selectedRecordId);
                     setLoading(false);
                 } catch (error) {
                     console.log(error.message)
@@ -106,11 +100,11 @@ import RoutineChartList from "../RoutineCharts/RoutineChartList";
                 toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Entry Updated', life: 3000 });
             }
             else {
-                _product.id = createId();
-                _products.push(_product);
+                _result.id = createId();
+                _results.push(_result);
                 try {
                     setLoading(true);
-                    await addRoutineResult(_product,selectedRecordId);
+                    await addRoutineResult(_result,selectedRecordId);
                     setLoading(false);
 
                 } catch (error) {
@@ -119,41 +113,40 @@ import RoutineChartList from "../RoutineCharts/RoutineChartList";
                 toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Entry Created', life: 3000 });
             }
 
-            setProducts(_products);
-            setProductDialog(false);
-            setProduct(emptyProduct);
+            setResults(_results);
+            setResultDialog(false);
+            setResult(emptyResult);
         }
     }
 
-    const editProduct = (product) => {
-        setProduct({...product});
-        setProductDialog(true);
+    const editResult = (product) => {
+        setResult({...product});
+        setResultDialog(true);
     }
 
-    const confirmDeleteProduct = (product) => {
-        setProduct(product);
-        setDeleteProductDialog(true);
+    const confirmDeleteResult = (product) => {
+        setResult(product);
+        setDeleteResultDialog(true);
     }
 
-    const deleteProduct = async() => {
-        let _products = products.filter(val => val.id !== product.id);
-        // setProducts(_products);
+    const deleteResult = async() => {
+        // let _products = results.filter(val => val.id !== result.id);
         try {
-            await deleteRoutineResult(product.docId,selectedRecordId)
+            await deleteRoutineResult(result.docId,selectedRecordId)
             console.log("Entire Document has been deleted successfully.")
         }
         catch(error) {
             console.log(error);
         }
-        setDeleteProductDialog(false);
-        setProduct(emptyProduct);
+        setDeleteResultDialog(false);
+        setResult(emptyResult);
         toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Entry Deleted', life: 3000 });
     }
 
     const findIndexById = (id) => {
         let index = -1;
-        for (let i = 0; i < products.length; i++) {
-            if (products[i].id === id) {
+        for (let i = 0; i < results.length; i++) {
+            if (results[i].id === id) {
                 index = i;
                 break;
             }
@@ -172,13 +165,13 @@ import RoutineChartList from "../RoutineCharts/RoutineChartList";
     }
 
     const confirmDeleteSelected = () => {
-        setDeleteProductsDialog(true);
+        setDeleteResultsDialog(true);
     }
 
-    const deleteSelectedProducts = () => {
+    const deleteSelectedResults = () => {
         // let _products = products.filter(val => !selectedProducts.includes(val));
         // setProducts(_products);
-        let _multiRecords = products.filter(val => selectedProducts.includes(val));
+        let _multiRecords = results.filter(val => selectedResults.includes(val));
         try {
             console.log("Entire Document has been deleted successfully.")
             _multiRecords.forEach(i => {
@@ -188,8 +181,8 @@ import RoutineChartList from "../RoutineCharts/RoutineChartList";
         catch(error) {
             console.log(error);
         }
-        setDeleteProductsDialog(false);
-        setSelectedProducts(null);
+        setDeleteResultsDialog(false);
+        setSelectedResults(null);
         toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Entries Deleted', life: 3000 });
     }
 
@@ -197,32 +190,25 @@ import RoutineChartList from "../RoutineCharts/RoutineChartList";
 
     const onInputChange = (e, name) => {
         const val = (e.target && e.target.value) || '';
-        let _product = {...product};
+        let _product = {...result};
         _product[`${name}`] = val;
 
-        setProduct(_product);
-    }
-
-    const onInputNumberChange = (e, name) => {
-        const val = e.value || 0;
-        let _product = {...product};
-        _product[`${name}`] = val;
-
-        setProduct(_product);
+        setResult(_product);
     }
 
     const leftToolbarTemplate = () => {
         return (
-            <React.Fragment>
+            <Fragment>
                 <Button label="New" style={{height:'2em',marginRight: '1em'}} icon="pi pi-plus" className="p-button-success mr-2" onClick={openNew} />
-                <Button label="Delete" style={{height:'2em'}} icon="pi pi-trash" className="p-button-danger" onClick={confirmDeleteSelected} disabled={!selectedProducts || !selectedProducts.length} />
+                <Button label="Delete" style={{height:'2em'}} icon="pi pi-trash" className="p-button-danger" onClick={confirmDeleteSelected} disabled={!selectedResults || !selectedResults.length} />
                 <Button label="Print" type="button" style={{height:'2em',marginRight: '1em',marginLeft: '1em'}} icon="pi pi-file-pdf" onClick={exportPdf} className="p-button-warning mr-2" data-pr-tooltip="PDF" />
-            </React.Fragment>
+            </Fragment>
         )
     }
 
     const cols = [
-        { field: 'id', header: 'ID' },
+        // { field: 'id', header: 'ID' },
+        { field: 'k', header: 'No.' },
         { field: 'testDate', header: 'Date' },
         { field: 'Bfast', header: 'Bfast' },
         { field: 'Bpp', header: 'Bpp' },
@@ -236,7 +222,7 @@ import RoutineChartList from "../RoutineCharts/RoutineChartList";
         import('jspdf').then(jsPDF => {
             import('jspdf-autotable').then(() => {
                 const doc = new jsPDF.default(0, 0);
-                doc.autoTable(exportColumns, products);
+                doc.autoTable(exportColumns, results);
                 doc.save('Routine.pdf');
             })
         })
@@ -245,10 +231,10 @@ import RoutineChartList from "../RoutineCharts/RoutineChartList";
 
     const actionBodyTemplate = (rowData) => {
         return (
-            <React.Fragment>
-                <Button icon="pi pi-pencil" className="p-button-rounded p-button-success mr-2 p-0" style={{height:'2rem',width:'2rem',marginRight:'5px'}} onClick={() => editProduct(rowData)} />
-                <Button icon="pi pi-trash" className="p-button-rounded p-button-warning" style={{height:'2rem',width:'2rem'}} onClick={() => confirmDeleteProduct(rowData)} />
-            </React.Fragment>
+            <Fragment>
+                <Button icon="pi pi-pencil" className="p-button-rounded p-button-success mr-2 p-0" style={{height:'2rem',width:'2rem',marginRight:'5px'}} onClick={() => editResult(rowData)} />
+                <Button icon="pi pi-trash" className="p-button-rounded p-button-warning" style={{height:'2rem',width:'2rem'}} onClick={() => confirmDeleteResult(rowData)} />
+            </Fragment>
         );
     }
 
@@ -262,40 +248,40 @@ import RoutineChartList from "../RoutineCharts/RoutineChartList";
         </div>
     );
     const productDialogFooter = (
-        <React.Fragment>
+        <Fragment>
             <Button label="Cancel" icon="pi pi-times" className="p-button-text" onClick={hideDialog} />
-            <Button disabled={loading} label="Save" icon="pi pi-check" className="p-button-text" onClick={saveProduct} />
-        </React.Fragment>
+            <Button disabled={loading} label="Save" icon="pi pi-check" className="p-button-text" onClick={saveResult} />
+        </Fragment>
     );
     const deleteProductDialogFooter = (
-        <React.Fragment>
+        <Fragment>
             <Button label="No" icon="pi pi-times" className="p-button-text" onClick={hideDeleteProductDialog} />
-            <Button label="Yes" icon="pi pi-check" className="p-button-text" onClick={deleteProduct} />
-        </React.Fragment>
+            <Button label="Yes" icon="pi pi-check" className="p-button-text" onClick={deleteResult} />
+        </Fragment>
     );
     const deleteProductsDialogFooter = (
-        <React.Fragment>
+        <Fragment>
             <Button label="No" icon="pi pi-times" className="p-button-text" onClick={hideDeleteProductsDialog} />
-            <Button label="Yes" icon="pi pi-check" className="p-button-text" onClick={deleteSelectedProducts} />
-        </React.Fragment>
+            <Button label="Yes" icon="pi pi-check" className="p-button-text" onClick={deleteSelectedResults} />
+        </Fragment>
     );
     
     return (
         <ListComp>
         <div className="datatable-crud-demo">
             <Toast ref={toast} />
-
             <div className="card">
                 <Toolbar className="mb-3" left={leftToolbarTemplate} 
                 ></Toolbar>
-                <DataTable size="small" showGridlines responsiveLayout="scroll" scrollHeight='500px' stripedRows ref={dt} value={products} selection={selectedProducts} onSelectionChange={(e) => setSelectedProducts(e.value)}
+                <DataTable size="small" showGridlines responsiveLayout="scroll" scrollHeight='500px' stripedRows ref={dt} value={results} selection={selectedResults} onSelectionChange={(e) => setSelectedResults(e.value)}
                     dataKey="id" paginator rows={10} rowsPerPageOptions={[10, 20,30, 50]}
                     paginatorTemplate="PrevPageLink PageLinks NextPageLink CurrentPageReport RowsPerPageDropdown"
                     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} results"
                     filterDisplay="menu" emptyMessage="No record found."
                     globalFilter={globalFilter} header={header} >
                     <Column  selectionMode="multiple" headerStyle={{ width: '3rem' }} exportable={false}></Column>
-                    <Column field="id" header="ID" sortable style={{ minWidth: '3rem' }}></Column>
+                    <Column field="k" header="No." sortable style={{ minWidth: '2rem',textAlign:'center' }}></Column>
+                    <Column field="id" className="d-none" header="ID" sortable style={{ minWidth: '3rem' }}></Column>
                     <Column field="testDate" header="Date" sortable filter filterPlaceholder="Search by Date" style={{ minWidth: '9rem' }}></Column>
                     <Column field="Bfast" header="Bfast"  sortable style={{ minWidth: '5rem' }}></Column>
                     <Column field="Bpp" header="Bpp"  sortable style={{ minWidth: '5rem' }}></Column>
@@ -307,11 +293,11 @@ import RoutineChartList from "../RoutineCharts/RoutineChartList";
                 </DataTable>
             </div>
 
-            <Dialog visible={productDialog} style={{ width: '450px' }} header="Record Details" modal className="p-fluid" footer={productDialogFooter} onHide={hideDialog}>
+            <Dialog visible={resultDialog} style={{ width: '450px' }} header="Record Details" modal className="p-fluid" footer={productDialogFooter} onHide={hideDialog}>
                 <div className="field">
                     <label htmlFor="date">Date</label>
-                    <InputText id="date" type='date' value={product.testDate} onChange={(e) => onInputChange(e, 'testDate')} required autoFocus className={classNames({ 'p-invalid': submitted && !product.Date })} />
-                    {submitted && !product.testDate && <small className="p-error">Date is required.</small>}
+                    <InputText id="date" type='date' value={result.testDate} onChange={(e) => onInputChange(e, 'testDate')} required autoFocus className={classNames({ 'p-invalid': submitted && !result.Date })} />
+                    {submitted && !result.testDate && <small className="p-error">Date is required.</small>}
                 </div>
                 
 
@@ -319,55 +305,55 @@ import RoutineChartList from "../RoutineCharts/RoutineChartList";
                     <div className="row">
                         <div className="field col">
                             <label htmlFor="Bfast">Before BreakFast</label>
-                            <InputText id="Bfast"  value={product.Bfast} onChange={(e) => onInputChange(e, 'Bfast')} required rows={3} cols={20} />
+                            <InputText id="Bfast"  value={result.Bfast} onChange={(e) => onInputChange(e, 'Bfast')} required rows={3} cols={20} />
                         </div>
                         <div className="field col">
                             <label htmlFor="Bpp">After BreakFast</label>
-                            <InputText id="Bpp"  value={product.Bpp} onChange={(e) => onInputChange(e, 'Bpp')} required rows={3} cols={20} />
+                            <InputText id="Bpp"  value={result.Bpp} onChange={(e) => onInputChange(e, 'Bpp')} required rows={3} cols={20} />
                         </div>
                     </div>
                     <div className="row">
                         <div className="field col">
                             <label htmlFor="Lfast">Before Lunch</label>
-                            <InputText id="Lfast"  value={product.Lfast} onChange={(e) => onInputChange(e, 'Lfast')} required rows={3} cols={20} />
+                            <InputText id="Lfast"  value={result.Lfast} onChange={(e) => onInputChange(e, 'Lfast')} required rows={3} cols={20} />
                         </div>
                         <div className="field col">
                             <label htmlFor="Lpp">Before Lunch</label>
-                            <InputText id="Lpp"  value={product.Lpp} onChange={(e) => onInputChange(e, 'Lpp')} required rows={3} cols={20} />
+                            <InputText id="Lpp"  value={result.Lpp} onChange={(e) => onInputChange(e, 'Lpp')} required rows={3} cols={20} />
                         </div>
                     </div>
                     <div className="row">
                         <div className="field col">
                             <label htmlFor="Dfast">Before Dinner</label>
-                            <InputText id="Dfast"  value={product.Dfast} onChange={(e) => onInputChange(e, 'Dfast')} required rows={3} cols={20} />
+                            <InputText id="Dfast"  value={result.Dfast} onChange={(e) => onInputChange(e, 'Dfast')} required rows={3} cols={20} />
                         </div>
                         <div className="field col">
                             <label htmlFor="Dpp">Before Dinner</label>
-                            <InputText id="Dpp"  value={product.Dpp} onChange={(e) => onInputChange(e, 'Dpp')} required rows={3} cols={20} />
+                            <InputText id="Dpp"  value={result.Dpp} onChange={(e) => onInputChange(e, 'Dpp')} required rows={3} cols={20} />
                         </div>
                     </div>
                     <div className="field">
                     <label htmlFor="description">Description</label>
-                    <InputTextarea id="description" value={product.description} onChange={(e) => onInputChange(e, 'description')} required rows={3} cols={20} />
+                    <InputTextarea id="description" value={result.description} onChange={(e) => onInputChange(e, 'description')} required rows={3} cols={20} />
                 </div>
                 </div>
                 
             </Dialog>
 
-            <Dialog visible={deleteProductDialog} style={{ width: '450px' }} header="Confirm" modal footer={deleteProductDialogFooter} onHide={hideDeleteProductDialog}>
+            <Dialog visible={deleteResultDialog} style={{ width: '450px' }} header="Confirm" modal footer={deleteProductDialogFooter} onHide={hideDeleteProductDialog}>
                 <div className="confirmation-content">
                     <i className="pi pi-exclamation-triangle mr-3" style={{ fontSize: '2rem'}} />
-                    {product && <span>Are you sure you want to delete <b>{product.recordName}</b>?</span>}
+                    {result && <span>Are you sure you want to delete <b>{result.recordName}</b>?</span>}
                 </div>
             </Dialog>
 
-            <Dialog visible={deleteProductsDialog} style={{ width: '450px' }} header="Confirm" modal footer={deleteProductsDialogFooter} onHide={hideDeleteProductsDialog}>
+            <Dialog visible={deleteResultsDialog} style={{ width: '450px' }} header="Confirm" modal footer={deleteProductsDialogFooter} onHide={hideDeleteProductsDialog}>
                 <div className="confirmation-content">
                     <i className="pi pi-exclamation-triangle mr-3" style={{ fontSize: '2rem'}} />
-                    {product && <span>Are you sure you want to delete the selected test results?</span>}
+                    {result && <span>Are you sure you want to delete the selected test results?</span>}
                 </div>
             </Dialog>
-            <RoutineChartList products={products}/>
+            <RoutineChartList products={results}/>
         </div>
         </ListComp>
     );

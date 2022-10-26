@@ -1,6 +1,6 @@
 import {Button, Col, Container, Row } from 'react-bootstrap'
 import styled from 'styled-components'
-import { cover1,profile } from '../assets';
+import { cover1,profile } from '../src/assets';
 import { Link } from 'react-router-dom'
 export const Profile = () => {
   return (

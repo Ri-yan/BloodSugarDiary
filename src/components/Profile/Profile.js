@@ -55,7 +55,7 @@ export const Profile = () => {
                     <Card className='mb-2 mb-xl-2 mt-3  box'>
                         <Card.Header>User Details</Card.Header>
                         <Card.Body className='text-center'>
-                            <img className="img-account-profile rounded-circle mb-2 w-100 ps-5 pe-5" src={Avatar.avatar?Avatar.avatar:avatarM} alt=""/>
+                            <img className="img-account-profile rounded-circle mb-2" src={Avatar.avatar?Avatar.avatar:avatarM} alt=""/>
                             <div className="small font-italic text fs-4 mb-0">{firstName+" "+lastName}</div>
                         </Card.Body>
                     </Card>
@@ -177,9 +177,9 @@ const ProfileCom = styled.div`
         background: rgba(106, 116, 110, 0.186);        /* color of the tracking area */
     }
     .img-account-profile{
-        width: -webkit-fill-available;
-        width: 10em;
-        height: 10em;
+        width: -webkit-fill-available !important;
+        width: 9.5em !important;
+        height: 9.5em !important;
     }
     .empty{
         width: 400px !important;

@@ -42,9 +42,8 @@ export const  AuthProvider=({ children })=>{
       function addUser(user){
         return addDoc(collection(db, "user"),{...user,...d,jointime:new serverTimestamp(),uId:auth.currentUser.uid});
       }
+
 // All Records CRUD Section ///////////////////////////////////////////////////////////////////////
-
-
 
       function addRecord(record){
         let defaultDate = new Date()
@@ -64,9 +63,9 @@ export const  AuthProvider=({ children })=>{
       
       function deleteRecord(record){
         const docRef = doc(db, "allRecord",auth.currentUser.uid,'records', record);
-        // if(record.readingType.name==='Random'){
+        if(record.readingType.name==='Random'){
           
-        // }
+        }
         return deleteDoc(docRef)
       }
 

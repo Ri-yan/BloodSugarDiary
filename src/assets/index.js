@@ -33,3 +33,10 @@ export{ default as empty } from './empty.png'
 export{ default as dotloader } from './dotloader.gif'
 
 //////////////////////////////////////////
+//features
+export{ default as f1 } from './features/f1.png'
+export{ default as f2 } from './features/f2.png'
+export{ default as f3 } from './features/f3.png'
+export{ default as f4 } from './features/f4.png'
+export{ default as f5 } from './features/f5.png'
+export{ default as f6 } from './features/f6.png'

@@ -67,13 +67,12 @@ const ProfileEdit = () => {
   useEffect(() => {
     if(userImg){
         setimgLoad(true)
-        const uploadImg=async ()=>{
+        const uploadImg=async()=>{
             // const imgRef = ref(storage,`avatar/${new Date().getTime()} - ${userImg.name}`);
             const imgRef = ref(storage,`avatar/${auth.currentUser.uid} - ${userImg.name}`);
             try {
                 const snap = await uploadBytes(imgRef,userImg)
                 const url = await getDownloadURL(ref(storage,snap.ref.fullPath))
-                console.log(snap.ref.fullPath)
                 await updateProfileImg({avatar:url,avatarPath:snap.ref.fullPath})
                 setimgLoad(false)
             } catch (error) {

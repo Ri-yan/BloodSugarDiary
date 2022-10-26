@@ -36,7 +36,7 @@ const RandomComp = () => {
 
       const onSetRecord=(e)=>{
         e.preventDefault();
-        console.log(selectedRecordId)
+        // console.log(selectedRecordId)
       }
       useEffect(() => {
         if(selectedRecordId)

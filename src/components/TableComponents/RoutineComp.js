@@ -10,8 +10,8 @@ import {  useNavigate,useParams } from 'react-router-dom'
 const RoutineComp = () => {
     const history = useNavigate()
     const params = useParams();
-    const [allRecords, setallRecords] = useState(JSON.parse(localStorage.getItem("routine-records")) || []);
-    const [selectedRecordId, setSelectedRecordId] = useState(null)
+    const [allrecords, setAllrecords] = useState(JSON.parse(localStorage.getItem("routine-records")) || []);
+    const [selectedRecordId, setSelectedRecordId] = useState(params.id)
     useEffect(() => {
         const unsub = onSnapshot(collection(doc(db, "allRecord",auth.currentUser.uid),'records'), (docs) => {
             const rec = [];
@@ -20,28 +20,28 @@ const RoutineComp = () => {
                      rec.push({...doc.data(),docId:doc.id});
                 }
             });
-            setallRecords(rec)
+            setAllrecords(rec)
             if(params){
                 setSelectedRecordId(params.id)
             }
         });
         return unsub;
-      }, []);
+      },[]);
 
-      useEffect(() => {
-        localStorage.setItem("routine-records", JSON.stringify(allRecords));
-      }, [allRecords]);
+    useEffect(() => {
+        localStorage.setItem("routine-records", JSON.stringify(allrecords));
+      }, [allrecords]);
 
     useEffect(() => {
         if(selectedRecordId)
             history(`/routine_record/${selectedRecordId}`, { replace: true })
-        else if(selectedRecordId==='null')
+        else if(selectedRecordId==='')
         history(`/routine_record/`, { replace: true })
         }, [selectedRecordId]);
 
       const onSetRecord=(e)=>{
         e.preventDefault();
-        console.log(selectedRecordId)
+        // console.log(selectedRecordId)
       }
 
 
@@ -51,9 +51,9 @@ const RoutineComp = () => {
             <h1>Routine Record Section</h1>
             <form onSubmit={onSetRecord} className="form">
                     <Form.Select size="md" value={selectedRecordId} style={{width:'fit-content'}} onChange={(e)=>{setSelectedRecordId(e.target.value)}}>
-                    <option value='null'>Select a file</option>
+                    <option value=''>Select a file</option>
                     {
-                        allRecords.map((i,k) => {
+                        allrecords.map((i,k) => {
                             return(
                                 <option key={k} value={i.docId}>{i.recordName}</option> 
                             )

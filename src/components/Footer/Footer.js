@@ -60,10 +60,11 @@ const Footer = () => {
                     Help
                     </p>
                     <div className="d-flex flex-column text-start" style={{ cursor: 'pointer' }}>
+                        <Link to='/profile' replace className={auth.currentUser?'block':'d-none'}>Profile</Link>
                         <a href="/">Support</a>
-                        <Link to='/signup' replace className={auth.currentUser?'d-none':'block'} href="/login">Sign Up</Link>
-                        <Link to='/login' replace className={auth.currentUser?'d-none':'block'} href="/login">Sign In</Link>
-                        <a className={auth.currentUser?'block':'d-none'} onClick={()=>handleLogout()}>Log out</a>
+                        <Link to='/signup' replace className={auth.currentUser?'d-none':'block'} >Sign Up</Link>
+                        <Link to='/login' replace className={auth.currentUser?'d-none':'block'} >Sign In</Link>
+                        <p className={auth.currentUser?'block':'d-none'} onClick={()=>handleLogout()}>Log out</p>
                     </div>
                 </Col>
                 </Col>
