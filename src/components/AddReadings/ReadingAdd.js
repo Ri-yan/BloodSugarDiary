@@ -191,7 +191,8 @@ const ReadingAdd = () => {
                                 {i.recordName}
                               </option>
                             );
-                        } else if (i.recordType.name !== "Random")
+                        } 
+                        else if (i.recordType.name !== "Random")
                           return (
                             <option className="fs-6" key={k} value={i.docId}>
                               {i.recordName}

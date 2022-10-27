@@ -181,7 +181,7 @@ const RecordTable = () => {
         detail: "Record Deleted",
         life: 3000,
       });
-    } else if (answer == "")
+    } else if (answer === "")
       toast.current.show({
         severity: "error",
         summary: "Warning",
@@ -241,7 +241,7 @@ const RecordTable = () => {
         detail: "Records Deleted",
         life: 3000,
       });
-    } else if (answer == "")
+    } else if (answer === "")
       toast.current.show({
         severity: "error",
         summary: "Warning",

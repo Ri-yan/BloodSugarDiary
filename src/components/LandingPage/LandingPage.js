@@ -7,7 +7,7 @@ import Feature from './Features/Feature'
 import LandingNavbar from './LandingNav/LandingNavbar'
 import Services from './OurServices/Services'
 import ScrollButton from './ScrollButton'
-import Subscribe from './Subscribe/Subscribe'
+import Response from './Response/Response'
 import WelcomePage from './Welcome/WelcomePage'
 import WhoweAre from './WhoweAre/WhoweAre'
 const LandingPage = () => {
@@ -28,7 +28,7 @@ const LandingPage = () => {
                 </Button>
             </Link>
           </div>
-        <Subscribe/>
+        <Response/>
         <ScrollButton/>
     </Landing>
   )

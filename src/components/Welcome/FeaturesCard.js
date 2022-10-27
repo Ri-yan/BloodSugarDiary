@@ -110,19 +110,20 @@ const Com = styled.div`
   /* .Card{
     width: 13rem;
   } */
-  .my-masonry-grid_column{
+  .my-masonry-grid_column {
     width: 30% !important;
   }
-  .my-masonry-grid{
+  .my-masonry-grid {
     justify-content: center;
   }
-  
+
   a {
     text-decoration: none;
     color: black;
   }
   .ts {
     text-shadow: 0px 0px 9px #0000007d;
+    border-radius: 15px;
   }
   .ts:hover {
     transition: 0.8s;
@@ -138,7 +139,7 @@ const Com = styled.div`
     transition: 0.5;
     text-align-last: justify;
   }
-  .bg-image{
+  .bg-image {
     /* height: 12rem; */
   }
   @media screen and (max-width: 960px) {
@@ -146,11 +147,11 @@ const Com = styled.div`
       font-size: 2em;
       letter-spacing: 5px;
     }
-    .my-masonry-grid_column{
-    width: 100% !important;
-  }
-  .my-masonry-grid{
-    justify-content: unset;
-  }
+    .my-masonry-grid_column {
+      width: 100% !important;
+    }
+    .my-masonry-grid {
+      justify-content: unset;
+    }
   }
 `;

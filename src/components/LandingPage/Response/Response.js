@@ -1,11 +1,11 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { Container, Row, Col, Form } from "react-bootstrap";
 import styled from "styled-components";
 import { newsletter, wavy1 } from "../../../assets";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
 import { useAuth } from "../../../context/AuthContext";
 import { BsEmojiSmile } from "react-icons/bs";
-const Subscribe = () => {
+const Response = () => {
   const { sentResponse } = useAuth();
   const [load, setload] = useState(false);
   const [thankU, setthankU] = useState(true);
@@ -18,10 +18,6 @@ const Subscribe = () => {
   const handleChange = async (e) => {
     setresponseData({ ...responseData, [e.target.name]: e.target.value });
   };
-  const emailRef = useRef();
-  const nameRef = useRef();
-  const subjectRef = useRef();
-  const messageRef = useRef();
   const reviewSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -35,10 +31,12 @@ const Subscribe = () => {
     reviewClear();
   };
   const reviewClear = () => {
-    nameRef.current.value = "";
-    emailRef.current.value = "";
-    subjectRef.current.value = "";
-    messageRef.current.value = "";
+    setresponseData({
+      email: "",
+      name: "",
+      subject: "",
+      message: "",
+    });
   };
   const { email, name, subject, message } = responseData;
 
@@ -80,7 +78,7 @@ const Subscribe = () => {
                           type="text"
                           name="name"
                           placeholder="name"
-                          ref={nameRef}
+                          value={name}
                           onChange={handleChange}
                           required
                         />
@@ -97,7 +95,7 @@ const Subscribe = () => {
                           name="email"
                           onChange={handleChange}
                           placeholder="name@example.com"
-                          ref={emailRef}
+                          value={email}
                           required
                         />
                       </FloatingLabel>
@@ -114,7 +112,7 @@ const Subscribe = () => {
                           type="text"
                           name="subject"
                           placeholder="subject"
-                          ref={subjectRef}
+                          value={subject}
                           onChange={handleChange}
                           required
                         />
@@ -130,11 +128,12 @@ const Subscribe = () => {
                       >
                         <Form.Control
                           as="textarea"
-                          ref={messageRef}
+                          rows="4"
+                          value={message}
+                          resize="none"
                           name="message"
-                          rows={4}
                           placeholder="Leave a comment here"
-                          style={{ height: "100px" }}
+                          style={{ height: "110px" }}
                           onChange={handleChange}
                           required
                         />
@@ -168,7 +167,7 @@ const Subscribe = () => {
   );
 };
 
-export default Subscribe;
+export default Response;
 
 const SubCom = styled.div`
   background: url(${wavy1});
