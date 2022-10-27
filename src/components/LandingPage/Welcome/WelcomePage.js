@@ -76,6 +76,9 @@ h2{
     font-weight: 300;
     font-family: 'Nunito Sans', sans-serif;
 }
+h3{
+  font-weight: 400;
+}
 .cover{
     height: auto;
     width: auto;

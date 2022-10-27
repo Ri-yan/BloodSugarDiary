@@ -115,7 +115,7 @@ const CareEdit = () => {
             </Nav.Item>
         </Nav>
         <Dialog header="Add Medicines" visible={displayResponsive} onHide={() => onHide('displayResponsive')} breakpoints={{'960px': '75vw'}} style={{width: '50vw'}} footer={renderFooter('displayResponsive')}>
-            <Form.Label className="small mb-1" htmlFor="medicinename">Medecine Name</Form.Label>
+            <Form.Label className="small mb-1" htmlFor="medicinename">Medicine Name</Form.Label>
             <Form.Control name='medicinename' onChange={(e)=>setPoint(e.target.value)} type='text'  id="medicinename"/>
         </Dialog>
     <hr className="mt-0 mb-4"/>

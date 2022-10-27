@@ -247,19 +247,19 @@ import RoutineChartList from "./RoutineCharts/RoutineChartList";
             </span>
         </div>
     );
-    const productDialogFooter = (
+    const recordDialogFooter = (
         <Fragment>
             <Button label="Cancel" icon="pi pi-times" className="p-button-text" onClick={hideDialog} />
             <Button disabled={loading} label="Save" icon="pi pi-check" className="p-button-text" onClick={saveResult} />
         </Fragment>
     );
-    const deleteProductDialogFooter = (
+    const deleteRecordDialogFooter = (
         <Fragment>
             <Button label="No" icon="pi pi-times" className="p-button-text" onClick={hideDeleteProductDialog} />
             <Button label="Yes" icon="pi pi-check" className="p-button-text" onClick={deleteResult} />
         </Fragment>
     );
-    const deleteProductsDialogFooter = (
+    const deleteRecordsDialogFooter = (
         <Fragment>
             <Button label="No" icon="pi pi-times" className="p-button-text" onClick={hideDeleteProductsDialog} />
             <Button label="Yes" icon="pi pi-check" className="p-button-text" onClick={deleteSelectedResults} />
@@ -293,7 +293,7 @@ import RoutineChartList from "./RoutineCharts/RoutineChartList";
                 </DataTable>
             </div>
 
-            <Dialog visible={resultDialog} style={{ width: '450px' }} header="Record Details" modal className="p-fluid" footer={productDialogFooter} onHide={hideDialog}>
+            <Dialog visible={resultDialog} style={{ width: '450px' }} header="Record Details" modal className="p-fluid" footer={recordDialogFooter} onHide={hideDialog}>
                 <div className="field">
                     <label htmlFor="date">Date</label>
                     <InputText id="date" type='date' value={result.testDate} onChange={(e) => onInputChange(e, 'testDate')} required autoFocus className={classNames({ 'p-invalid': submitted && !result.Date })} />
@@ -340,14 +340,14 @@ import RoutineChartList from "./RoutineCharts/RoutineChartList";
                 
             </Dialog>
 
-            <Dialog visible={deleteResultDialog} style={{ width: '450px' }} header="Confirm" modal footer={deleteProductDialogFooter} onHide={hideDeleteProductDialog}>
+            <Dialog visible={deleteResultDialog} style={{ width: '450px' }} header="Confirm" modal footer={deleteRecordDialogFooter} onHide={hideDeleteProductDialog}>
                 <div className="confirmation-content">
                     <i className="pi pi-exclamation-triangle mr-3" style={{ fontSize: '2rem'}} />
                     {result && <span>Are you sure you want to delete <b>{result.recordName}</b>?</span>}
                 </div>
             </Dialog>
 
-            <Dialog visible={deleteResultsDialog} style={{ width: '450px' }} header="Confirm" modal footer={deleteProductsDialogFooter} onHide={hideDeleteProductsDialog}>
+            <Dialog visible={deleteResultsDialog} style={{ width: '450px' }} header="Confirm" modal footer={deleteRecordsDialogFooter} onHide={hideDeleteProductsDialog}>
                 <div className="confirmation-content">
                     <i className="pi pi-exclamation-triangle mr-3" style={{ fontSize: '2rem'}} />
                     {result && <span>Are you sure you want to delete the selected test results?</span>}

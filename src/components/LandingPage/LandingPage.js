@@ -6,6 +6,7 @@ import { cover2, wavy } from '../../assets'
 import Feature from './Features/Feature'
 import LandingNavbar from './LandingNav/LandingNavbar'
 import Services from './OurServices/Services'
+import ScrollButton from './ScrollButton'
 import Subscribe from './Subscribe/Subscribe'
 import WelcomePage from './Welcome/WelcomePage'
 import WhoweAre from './WhoweAre/WhoweAre'
@@ -28,6 +29,7 @@ const LandingPage = () => {
             </Link>
           </div>
         <Subscribe/>
+        <ScrollButton/>
     </Landing>
   )
 }

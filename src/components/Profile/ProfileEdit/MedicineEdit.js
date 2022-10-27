@@ -105,7 +105,7 @@ const MedicineEdit = () => {
                 <LinkContainer  to='/profileedit' replace><Nav.Link href="#" eventKey="link-1" target="__blank">Profile</Nav.Link></LinkContainer>
                 </Nav.Item>
                 <Nav.Item>
-                <LinkContainer  to='/profileedit/MedicineEdit' replace><Nav.Link href="#" eventKey="link-2" target="__blank">Medecine</Nav.Link></LinkContainer>
+                <LinkContainer  to='/profileedit/MedicineEdit' replace><Nav.Link href="#" eventKey="link-2" target="__blank">Medicine</Nav.Link></LinkContainer>
                 </Nav.Item>
                 <Nav.Item>
                 <LinkContainer  to='/profileedit/carepoints' replace><Nav.Link href="#" eventKey="link-3" target="__blank">Care Points</Nav.Link></LinkContainer>
@@ -115,7 +115,7 @@ const MedicineEdit = () => {
             </Nav>
             <hr className="mt-0 mb-4"/>
             <Dialog header="Add Medicines" visible={displayResponsive} onHide={() => onHide('displayResponsive')} breakpoints={{'960px': '75vw'}} style={{width: '50vw'}} footer={renderFooter('displayResponsive')}>
-                <Form.Label className="small mb-1" htmlFor="medicinename">Medecine Name</Form.Label>
+                <Form.Label className="small mb-1" htmlFor="medicinename">Medicine Name</Form.Label>
                 <Form.Control name='medicinename' onChange={(e)=>setMedicine(e.target.value)} type='text'  id="medicinename"/>
             </Dialog>
             <Row>

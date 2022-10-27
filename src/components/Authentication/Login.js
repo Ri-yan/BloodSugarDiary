@@ -43,7 +43,7 @@ const Login = () => {
             <div className="row">
                 <Col sm={6}>
                     <div className="logo">
-                        <Link to={'/'} className='home'><span className="logo-font">Blood Sugar</span>Diary </Link>  
+                        <Link to={'/'} replace className='home'><span className="logo-font">Blood Sugar</span>Diary </Link>  
                     </div>
                 </Col>
             </div>
