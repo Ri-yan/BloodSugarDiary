@@ -24,11 +24,14 @@ const MedicineEdit = () => {
         avatar:`${avatarM}`,
         avatarPath:''
       })
+    const [currentuser, setCurrentuser] = useState({name:''})
+
     useEffect(() => {
         const unsub = onSnapshot(query(collection(db, "user"),where('uId','==',`${auth.currentUser.uid}`)), (docs) => {
             docs.forEach((doc) => {
                setMedicines(doc.data().medicineList || [])
                setAvatar(doc.data().Avatar)
+               setCurrentuser({name:`${doc.data().firstName+" "+doc.data().lastName}`})
             });
         });        
         return unsub;
@@ -124,13 +127,13 @@ const MedicineEdit = () => {
                         <Card.Header>Profile Picture</Card.Header>
                         <Card.Body className='text-center'>
                             <img className="img-account-profile rounded-circle mb-2 w-100 ps-5 pe-5" src={avatar.avatar?avatar.avatar:avatarM} alt="avatar"/>
-                            <div className="small font-italic text fs-4 mb-0">John Dove</div>
+                            <div className="small font-italic text fs-4 mb-0">{currentuser.name}</div>
                         </Card.Body>
                     </Card>
                 </Col>
                 <Col xl={9} md={9}>
                     <Card className="mb-4">
-                    <Card.Header>Medecines
+                    <Card.Header>Medicines
                         <Button variant='white' className='float-end fs-6' onClick={() => onClick('displayResponsive')}><BiAddToQueue /> add</Button>
                     </Card.Header>
                         <Card.Body className='text-start'>

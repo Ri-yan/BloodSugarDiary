@@ -74,6 +74,9 @@ const NavBar = () => {
                 <LinkContainer  to='/random_record'>
                     <NavDropdown.Item>Random Records</NavDropdown.Item>
                 </LinkContainer>
+                <NavDropdown.Item href="https://www.linkedin.com/in/mohd-riyan-0330b4225/" target='_blank'>
+                    Locate hospital
+                </NavDropdown.Item>
                 <LinkContainer  to='/graphs'><NavDropdown.Item href="#action/3.1">Graphs</NavDropdown.Item></LinkContainer>
                 <NavDropdown.Item >Blogs</NavDropdown.Item>
                 <NavDropdown.Divider />

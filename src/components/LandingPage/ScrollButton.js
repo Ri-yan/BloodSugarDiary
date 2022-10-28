@@ -47,4 +47,7 @@ font-size: 2.1rem;
 z-index: 1;
 cursor: pointer;
 color: #0098e3;
+@media only screen and (max-width: 767px) {
+	left: 43%;
+}
 `

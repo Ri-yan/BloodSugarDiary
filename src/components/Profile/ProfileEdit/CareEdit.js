@@ -23,11 +23,14 @@ const CareEdit = () => {
         avatar:`${avatarM}`,
         avatarPath:''
       })
+      const [currentname, setCurrentname] = useState({name:''})
+
     useEffect(() => {
         const unsub = onSnapshot(query(collection(db, "user"),where('uId','==',`${auth.currentUser.uid}`)), (docs) => {
             docs.forEach((doc) => {
                setPoints(doc.data().carePoints || [])
                setAvatar(doc.data().Avatar)
+               setCurrentname({name:`${doc.data().firstName+" "+doc.data().lastName}`})
             });
         });        
         return unsub;
@@ -125,7 +128,7 @@ const CareEdit = () => {
                 <Card.Header>Profile Picture</Card.Header>
                 <Card.Body className='text-center'>
                     <img className="img-account-profile rounded-circle mb-2 w-100 ps-5 pe-5" src={avatar.avatar?avatar.avatar:avatarM} alt="avatar"/>
-                    <div className="small font-italic text fs-4 mb-0">John Dove</div>
+                    <div className="small font-italic text fs-4 mb-0">{currentname.name}</div>
                 </Card.Body>
             </Card>
         </Col>
