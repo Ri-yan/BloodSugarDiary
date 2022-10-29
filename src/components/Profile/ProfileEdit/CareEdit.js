@@ -11,6 +11,7 @@ import {BiAddToQueue} from 'react-icons/bi'
 import { useAuth } from '../../../context/AuthContext';
 import { onSnapshot,collection,query,where } from 'firebase/firestore';
 import { db,auth } from '../../../firebase/firebase';
+import EditNav from './EditNav';
 
 const CareEdit = () => {
     const toast = useRef(null);
@@ -102,21 +103,7 @@ const CareEdit = () => {
     <Careedit>
         <Toast ref={toast} />
         <Container fluid="xl" className='px-4 mt-4'>
-        <Nav variant="tabs" border="dark" defaultActiveKey="/profileedit" className='nav-borders'>
-            <Nav.Item>
-            <LinkContainer  to='/profileedit' replace><Nav.Link href="#" eventKey="link-1" target="__blank">Profile</Nav.Link></LinkContainer>
-            </Nav.Item>
-            <Nav.Item>
-            <LinkContainer  to='/profileedit/medicineedit' replace><Nav.Link href="#" eventKey="link-2" target="__blank">Medecine</Nav.Link></LinkContainer>
-            </Nav.Item>
-            <Nav.Item>
-            <LinkContainer  to='/profileedit/carepoints' replace><Nav.Link href="#" eventKey="link-3" target="__blank">Care Points</Nav.Link></LinkContainer>
-            </Nav.Item>
-            <Nav.Item>
-            <LinkContainer  to='/profileedit/appointment' replace><Nav.Link href="#" eventKey="link-4" target="__blank">Scheduleings</Nav.Link>
-            </LinkContainer>
-            </Nav.Item>
-        </Nav>
+        <EditNav/>
         <Dialog header="Add Medicines" visible={displayResponsive} onHide={() => onHide('displayResponsive')} breakpoints={{'960px': '75vw'}} style={{width: '50vw'}} footer={renderFooter('displayResponsive')}>
             <Form.Label className="small mb-1" htmlFor="medicinename">Medicine Name</Form.Label>
             <Form.Control name='medicinename' onChange={(e)=>setPoint(e.target.value)} type='text'  id="medicinename"/>

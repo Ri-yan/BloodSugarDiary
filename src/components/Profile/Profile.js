@@ -45,8 +45,11 @@ export const Profile = () => {
     <ProfileCom>
         <Container fluid>
             <Row style={{disply:'flex', justifyContent:'flex-end'}}>
+                {/* <Col >
+                    <Link to='/profileedit'><Button variant="primary mt-3 mt-md-1 mt-lg-1 float-start mb-0 ms-4"><MdOutlineEditNote/>Log Out</Button></Link>
+                </Col> */}
                 <Col >
-                    <Link to='/profileedit'><Button variant="primary mt-1 float-end mt-sm-1 mb-0"><MdOutlineEditNote/> Edit</Button></Link>
+                    <Link to='/profileedit'><Button variant="primary  mt-3 mt-md-1 mt-lg-1 float-end  mb-0"><MdOutlineEditNote/> Edit</Button></Link>
                 </Col>
             </Row>
 

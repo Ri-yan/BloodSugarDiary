@@ -10,7 +10,7 @@ export{ default as wavy3 } from './wavy3.jpg'
 export{ default as cover2 } from './cover2.png'
 export{ default as authcover } from './authcover.png'
 export{ default as coversvg } from './cover1.png'
-export{ default as groups } from './groups.jpg'
+export{ default as groups } from './groups.png'
 export{ default as avatarM } from './avatarM.png'
 
 

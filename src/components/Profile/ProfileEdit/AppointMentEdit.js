@@ -8,6 +8,7 @@ import { useEffect, useState,useRef } from 'react';
 import { onSnapshot,query,where,collection } from 'firebase/firestore';
 import { db,auth } from '../../../firebase/firebase';
 import { Toast } from 'primereact/toast';
+import EditNav from './EditNav';
 
 const AppointMentEdit = () => {
     const toast = useRef(null);
@@ -59,19 +60,7 @@ const AppointMentEdit = () => {
     <Appedit>
      <Toast ref={toast} />
         <Container fluid="xl" className='px-4 mt-4  '>
-        <Nav variant="tabs" border="dark" defaultActiveKey="/profileedit" className='nav-borders'>
-            <Nav.Item>
-            <LinkContainer  to='/profileedit' replace><Nav.Link href="#" eventKey="link-1" target="__blank">Profile</Nav.Link></LinkContainer>
-            </Nav.Item>
-            <Nav.Item>
-            <LinkContainer  to='/profileedit/medicineedit' replace><Nav.Link href="#" eventKey="link-2" target="__blank">Medicine</Nav.Link></LinkContainer>
-            </Nav.Item>
-            <Nav.Item>
-            <LinkContainer  to='/profileedit/carepoints' replace><Nav.Link href="#" eventKey="link-3" target="__blank">Care Points</Nav.Link></LinkContainer>
-            </Nav.Item>
-            <Nav.Item>
-            <LinkContainer  to='/profileedit/appointment' replace><Nav.Link href="#" eventKey="link-4" target="__blank">Scheduleings</Nav.Link></LinkContainer>  </Nav.Item>
-        </Nav>
+        <EditNav/>
     <hr className="mt-0 mb-4"/>
     <Row>
         <Col xl={3} md={3}>
