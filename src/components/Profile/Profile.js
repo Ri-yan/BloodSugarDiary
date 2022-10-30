@@ -1,12 +1,25 @@
 import {Button, Col, Container, Row,Card,Table,ListGroup } from 'react-bootstrap'
 import styled from 'styled-components'
 import { avatarM, cover1,empty } from '../../assets';
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import {MdOutlineEditNote} from 'react-icons/md'
 import { useEffect, useState } from 'react';
 import { onSnapshot,query,where,collection } from 'firebase/firestore';
 import { db,auth } from '../../firebase/firebase';
+import { useAuth } from '../../context/AuthContext';
+
 export const Profile = () => {
+    const {logOut} =useAuth()
+    const history = useNavigate()
+    async function handleLogout() {
+        try {
+            console.log('Logout')
+          await logOut()
+          history("/", { replace: true })
+        } catch (err) {
+          console.log(err.message);
+        }
+      }
     const [userData, setuserData] = useState({
         firstName:"",
         lastName:"",
@@ -45,18 +58,21 @@ export const Profile = () => {
     <ProfileCom>
         <Container fluid>
             <Row style={{disply:'flex', justifyContent:'flex-end'}}>
-                {/* <Col >
-                    <Link to='/profileedit'><Button variant="primary mt-3 mt-md-1 mt-lg-1 float-start mb-0 ms-4"><MdOutlineEditNote/>Log Out</Button></Link>
-                </Col> */}
-                <Col >
-                    <Link to='/profileedit'><Button variant="primary  mt-3 mt-md-1 mt-lg-1 float-end  mb-0"><MdOutlineEditNote/> Edit</Button></Link>
+                <Col className='d-block d-md-none d-lg-none '>
+                    <Button onClick={()=>handleLogout()} className='mt-3 mt-md-1 mt-lg-1 float-end mb-0 fs-7 mx-1' variant="primary ">Log Out</Button>
+                </Col>
+                <Col className='d-none d-md-block d-lg-block ' >
+                    <Link to='/profileedit'><Button className='mt-3 mt-md-1 mt-lg-1 float-end mb-0' variant="primary  "><MdOutlineEditNote/> Edit</Button></Link>
                 </Col>
             </Row>
 
             <Row style={{disply:'flex', justifyContent:'center'}}>
                 <Col xs={11} md={3} xl={3}>
                     <Card className='mb-2 mb-xl-2 mt-3  box'>
-                        <Card.Header>User Details</Card.Header>
+                        <Card.Header>User Details
+                        <Link to='/profileedit'><Button variant="primary edit d-block d-md-none d-lg-none "><MdOutlineEditNote/> Edit</Button>
+                        </Link>
+                        </Card.Header>
                         <Card.Body className='text-center'>
                             <img className="img-account-profile rounded-circle mb-2" src={Avatar.avatar?Avatar.avatar:avatarM} alt=""/>
                             <div className="small font-italic text fs-4 mb-0">{firstName+" "+lastName}</div>
@@ -158,7 +174,13 @@ const ProfileCom = styled.div`
     height: -webkit-fill-available;
     width: -webkit-fill-available;
     height: fit-content;
-
+    .edit{
+        position: absolute !important;
+        right: 10px !important;
+        top: 8px !important;
+        padding: 1px 6px !important;
+        font-size: small !important;
+    }
     .box{
         background: white;
     border-radius: 13px;

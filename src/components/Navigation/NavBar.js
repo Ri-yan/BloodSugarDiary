@@ -97,7 +97,7 @@ const NavBar = () => {
                     {/* <CgProfile style={{fontSize:'larger',margin:'auto'}}/>  */}
                     Profile
                   </Nav.Link>
-                <Button variant="primary" className='fs-7 mx-1 my-auto' onClick={()=>handleLogout()}> Logout <IoIosLogOut className='d-none mx-start-1 fs-5'/></Button>
+                <Button variant="primary" className='fs-7 mx-1 my-auto d-none d-md-block d-lg-block ' onClick={()=>handleLogout()}> Logout <IoIosLogOut className='d-none mx-start-1 fs-5'/></Button>
             </Nav>
             </Navbar.Collapse>
         </Container>

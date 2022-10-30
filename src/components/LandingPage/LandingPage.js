@@ -21,10 +21,10 @@ const LandingPage = () => {
         <Feature/>
         <WhoweAre/>
         <div className="home" id='Home'>
-            <h1>Lets get started</h1>
+            <h1 className='mb-4'>Lets get started</h1>
             <Link to={'/login'}>
                 <Button variant="primary" className='mt-2' size="lg">
-                Click To Login
+                Click To Start
                 </Button>
             </Link>
           </div>
@@ -38,7 +38,14 @@ export default LandingPage
 
 const Landing = styled.div`
  width: -webkit-fill-available;
-
+ h1{
+    font-size: 54px;
+    font-weight: 700;
+    color: #012970;
+    margin: 0px;
+    font-family: 'PT Sans Narrow', sans-serif;
+    line-height: 1.2;
+}
 .land{
  width: -webkit-fill-available;
  padding: 20px;

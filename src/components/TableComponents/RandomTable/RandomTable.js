@@ -394,7 +394,10 @@ input[type="number"]::-webkit-inner-spin-button {
 /* .p-column-filter {
     width: 100%;
 } */
-
+.p-column-filter-menu {
+    display: inline-flex;
+    margin-left: 10px;
+}
 
 .datatable-crud-demo .table-header {
     display: flex;
