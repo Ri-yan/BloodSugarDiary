@@ -16,7 +16,8 @@ import { useAuth } from "../../../context/AuthContext";
 import { collection,onSnapshot,doc, query, orderBy } from "firebase/firestore";
 import { auth, db }  from '../../../firebase/firebase'
 import RoutineChartList from "./RoutineCharts/RoutineChartList";
- const RoutineTable = ({selectedRecordId}) => {
+ 
+const RoutineTable = ({selectedRecordId}) => {
     const {addRoutineResult,updateRoutineResult,deleteRoutineResult} = useAuth()
     let emptyResult = {
         id: null,
@@ -31,7 +32,7 @@ import RoutineChartList from "./RoutineCharts/RoutineChartList";
     };
 
     const [loading, setLoading] = useState(false)
-    const [results, setResults] = useState(JSON.parse(localStorage.getItem(`randomfile-${selectedRecordId}`)) || []);
+    const [results, setResults] = useState(JSON.parse(localStorage.getItem(`routinefile-${selectedRecordId}`)) || []);
     const [resultDialog, setResultDialog] = useState(false);
     const [deleteResultDialog, setDeleteResultDialog] = useState(false);
     const [deleteResultsDialog, setDeleteResultsDialog] = useState(false);
@@ -54,13 +55,14 @@ import RoutineChartList from "./RoutineCharts/RoutineChartList";
                 rec.push({...doc.data(),docId:doc.id,k:l++});
             });
             setResults(rec)
+            selectedRecordId!==''?localStorage.setItem(`routinefile-${selectedRecordId}`, JSON.stringify(rec)):console.log();
         });
         return unsub;
       }, [selectedRecordId]);
    
-      useEffect(() => {
-        localStorage.setItem(`routinefile-${selectedRecordId}`, JSON.stringify(results));
-      }, [`routinefile-${selectedRecordId}`]);
+    //   useEffect(() => {
+    //     localStorage.setItem(`routinefile-${selectedRecordId}`, JSON.stringify(results));
+    //   }, [`routinefile-${selectedRecordId}`]);
      
 
     const openNew = () => {
@@ -130,7 +132,6 @@ import RoutineChartList from "./RoutineCharts/RoutineChartList";
     }
 
     const deleteResult = async() => {
-        // let _products = results.filter(val => val.id !== result.id);
         try {
             await deleteRoutineResult(result.docId,selectedRecordId)
             console.log("Entire Document has been deleted successfully.")
@@ -169,8 +170,6 @@ import RoutineChartList from "./RoutineCharts/RoutineChartList";
     }
 
     const deleteSelectedResults = () => {
-        // let _products = products.filter(val => !selectedProducts.includes(val));
-        // setProducts(_products);
         let _multiRecords = results.filter(val => selectedResults.includes(val));
         try {
             console.log("Entire Document has been deleted successfully.")
@@ -273,7 +272,8 @@ import RoutineChartList from "./RoutineCharts/RoutineChartList";
             <div className="card">
                 <Toolbar className="mb-3" left={leftToolbarTemplate} 
                 ></Toolbar>
-                <DataTable size="small" showGridlines responsiveLayout="scroll" scrollHeight='500px' stripedRows ref={dt} value={results} selection={selectedResults} onSelectionChange={(e) => setSelectedResults(e.value)}
+                <DataTable size="small" showGridlines responsiveLayout="scroll" scrollHeight='500px' stripedRows
+                    ref={dt} value={results} selection={selectedResults} onSelectionChange={(e) => setSelectedResults(e.value)}
                     dataKey="id" paginator rows={10} rowsPerPageOptions={[10, 20,30, 50]}
                     paginatorTemplate="PrevPageLink PageLinks NextPageLink CurrentPageReport RowsPerPageDropdown"
                     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} results"

@@ -282,7 +282,7 @@ const RandomTable = ({selectedRecordId}) => {
                     <Column className="d-none" field="id" header="ID" sortable style={{ minWidth: '5rem',textAlign:'center' }}></Column>
                     <Column  field="testDate" header="Date" sortable filter filterPlaceholder="Search by Date" style={{ minWidth: '6rem',textAlign:'center' }}></Column>
                     <Column field="testTime" header="Time"  sortable style={{ minWidth: '7rem',textAlign:'center' }}></Column>
-                    <Column field="result" header="Test result"  sortable style={{ minWidth: '7rem',textAlign:'center' }}></Column>
+                    <Column field="result" header="Test result"  sortable style={{ minWidth: '8rem',textAlign:'center' }}></Column>
                     <Column body={actionBodyTemplate} exportable={false} style={{ minWidth: '8rem',textAlign:'center' }}></Column>
                 </DataTable>
             </div>

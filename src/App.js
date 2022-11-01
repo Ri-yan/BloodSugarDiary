@@ -1,12 +1,10 @@
 import './App.css';
+import { AuthProvider } from './context/AuthContext';
 import { Suspense,lazy } from 'react';
 import {BrowserRouter,Routes,Route,} from "react-router-dom";
-import {WelcomePage, Profile ,ReadingAdd ,
-  RecordList,Graphs,NavBar,Signup,Login, LandingPage, ProfileEdit, ForgotPassword,
-  MedicineEdit,CareEdit,AppointMentEdit, PrivateRoute,LogRoute} from './components';
-import RoutineComp from './components/TableComponents/RoutineComp';
-import RandomComp from './components/TableComponents/RandomComp';
-import { AuthProvider } from './context/AuthContext';
+import {HomePage,Profile,ReadingAdd,RecordList,Graphs,NavBar,Signup,Login,
+   LandingPage,ProfileEdit,ForgotPassword,MedicineEdit,CareEdit,AppointMentEdit,
+    PrivateRoute,LogRoute,RoutineComp,RandomComp} from './components';
 const Footer = lazy(() => import('./components/Footer/Footer'));
 
 
@@ -20,7 +18,7 @@ function App() {
             <Route path="/login" element={<LogRoute><Login/></LogRoute>} />
             <Route path="/signup" element={<LogRoute><Signup/></LogRoute>} />
             <Route path="/forgot-password" element={<LogRoute><ForgotPassword/></LogRoute>} />
-            <Route path="/welcome" element={<PrivateRoute><NavBar/><WelcomePage/></PrivateRoute>}></Route>
+            <Route path="/welcome" element={<PrivateRoute><NavBar/><HomePage/></PrivateRoute>}></Route>
             <Route path="/routine_record/:id" element={<PrivateRoute><NavBar/><RoutineComp/></PrivateRoute>}></Route>
             <Route path="/routine_record" element={<PrivateRoute><NavBar/> <RoutineComp/></PrivateRoute>}></Route>
             <Route path="/random_record/:id" element={<PrivateRoute><NavBar/><RandomComp/></PrivateRoute>}></Route>

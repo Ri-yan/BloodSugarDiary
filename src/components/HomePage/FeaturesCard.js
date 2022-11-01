@@ -2,12 +2,11 @@ import Masonry from "react-masonry-css";
 import styled from "styled-components";
 import { Card, Col, Container } from "react-bootstrap";
 import { cover1 } from "../../assets";
-import { features } from "./cardData";
 import { Link } from "react-router-dom";
 import { onSnapshot, query, where, collection } from "firebase/firestore";
 import { db, auth } from "../../firebase/firebase";
 import { useEffect, useState } from "react";
-const FeaturesCard = () => {
+const FeaturesCard = ({features}) => {
   const breakpointColumnsObj = {
     default: 3,
     1100: 3,

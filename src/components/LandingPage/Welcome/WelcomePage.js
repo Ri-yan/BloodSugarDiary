@@ -13,7 +13,7 @@ const WelcomePage = () => {
               <h3 className='mt-3 up'>We offer modern solutions for managing your blood glucose test results.</h3>
               {/* <Link to={'/login'}> */}
                 <a href="#Service">
-                <button  type="button" className="btn btn-primary btn-md-md btn-lg-lg mt-4 up">Know more. <FiChevronsRight className='ms-1 my-auto fs-4'/></button>
+                <button  type="button" className="btn btn-primary btn-md-md btn-lg-lg mt-4 up">Know more <FiChevronsRight className='ms-1 my-auto fs-4'/></button>
              </a> 
              {/* </Link> */}
             </Col>

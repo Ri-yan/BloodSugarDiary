@@ -83,7 +83,7 @@ const RoutineComp = () => {
             <RoutineTable selectedRecordId={selectedRecordId} />
           </>
         ) : (
-          <h3 className="h-50 w-100 d-flex justify-content-center my-3">
+          <h3 className="sel h-50 w-100 d-flex justify-content-center my-3">
             please select your routine record
           </h3>
         )}
@@ -117,10 +117,23 @@ const RoutineCom = styled.div`
     margin: auto;
     margin-bottom: 1rem;
   }
+  .sel{
+    margin-top: 4rem!important;
+    margin-bottom: 1rem!important;
+    font-size: xx-large;
+    font-variant: small-caps;
+    margin: auto;
+    font-weight: 400;
+    font-family: monospace;
+  }
   @media (max-width: 780px) {
     .cont,
     .for {
       padding: 2em 0.5em;
     }
+    .sel{
+      font-size: larger;
+    }
   }
+  
 `;

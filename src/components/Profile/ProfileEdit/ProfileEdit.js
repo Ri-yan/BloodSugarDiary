@@ -93,7 +93,7 @@ const ProfileEdit = () => {
         <Col xl={4}>
             <Card className='mb-4 mb-xl-0'>
                 <Card.Header>Profile Picture
-                <Link to='/profile' replace className='position-absolute top-0 start-0 py-2 px-2 d-block d-md-none d-lg-none'><IoMdArrowBack/>back</Link>
+                <Link to='/profile' replace={true} className='position-absolute top-0 start-0 py-2 px-2 d-block d-md-none d-lg-none'><IoMdArrowBack/>back</Link>
                 </Card.Header>
                 <Card.Body className='text-center'>
                     <img className="img-account-profile rounded-circle mb-2" src={Avatar.avatar?Avatar.avatar:avatarM} alt=""/>
