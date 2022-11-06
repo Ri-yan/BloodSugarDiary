@@ -10,6 +10,7 @@ import ScrollButton from './ScrollButton'
 import Response from './Response/Response'
 import WelcomePage from './Welcome/WelcomePage'
 import WhoweAre from './WhoweAre/WhoweAre'
+import { auth } from '../../firebase/firebase'
 const LandingPage = () => {
   return (
     <Landing>
@@ -21,8 +22,10 @@ const LandingPage = () => {
         <Feature/>
         <WhoweAre/>
         <div className="home" id='Home'>
-            <h1 className='mb-4 start'>Lets get started</h1>
-            <Link to={'/login'}>
+            <h1 className='mb-4 start'>
+              {auth.currentUser.uid?'Navigate to Home':'Lets get started'}
+              </h1>
+            <Link to={'/welcome'}>
                 <Button variant="primary" className='mt-2' size="lg">
                 Click To Start
                 </Button>
@@ -63,7 +66,7 @@ const Landing = styled.div`
     background-size: cover;
     background-position: center;
     padding: 20px;
-    margin: 10px auto;
+    margin: 0px auto;
     min-height: 700px;
     
     }

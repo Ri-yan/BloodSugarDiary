@@ -10,7 +10,10 @@ const WhoweAre = () => {
                     <Container className='about text-start'>
                         <h3>Who we are</h3>
                         <h2>we are a small talented hardwoking group of people who aspire to assist IT industry with new innovations.</h2>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio eligendi ipsam repudiandae qui, labore quibusdam, quas, tempore a perferendis voluptatibus porro esse asperiores iusto blanditiis autem quos temporibus debitis nostrum?</p>
+                        <p className='text-justify'>The idea behind this concept is to provide a helpful and easy alternative above the traditional unmanagable records. this concept can be very helpful for those diabetic individuals who are required to take the blood glucose test frequently in a day.
+                            the information generated from this web app can be used by pharma companies in order to find thier medicines efficiency.
+                        </p>
+                        <p className='text-end mt-0 mb-0 text-uppercase font-italic'>- Mohd Riyan.</p>
                         <button type="button" className="btn btn-primary btn-md-md btn-lg-lg mt-4">More..</button>
                     </Container>
                 </Col>
