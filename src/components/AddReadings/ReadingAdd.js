@@ -310,7 +310,7 @@ const ReadingAdd = () => {
             <Col
               xs={10}
               md={10}
-              className="box"
+              className="box ins"
               style={{ width: "fit-content" }}
             >
               <Col>
@@ -387,6 +387,10 @@ const AddComp = styled.div`
     .readings {
       font-size: 6em;
       margin: 10px auto;
+    }
+    .ins{
+      margin: auto 2em;
+      padding-bottom: 2em;
     }
   }
 `;

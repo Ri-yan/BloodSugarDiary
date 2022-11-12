@@ -10,10 +10,7 @@ import ScrollButton from './ScrollButton'
 import Response from './Response/Response'
 import WelcomePage from './Welcome/WelcomePage'
 import WhoweAre from './WhoweAre/WhoweAre'
-// import { auth } from '../../firebase/firebase'
-import { useAuth } from '../../context/AuthContext'
 const LandingPage = () => {
-  const {currentUser} =useAuth()
   return (
     <Landing>
         <div className="land">
