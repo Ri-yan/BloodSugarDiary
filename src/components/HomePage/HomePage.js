@@ -6,43 +6,43 @@ import { add_file,add_post,everyday,opened_tabs,
  
 const features=[{
   id:5,
-  title:'List all records',
+  title:' All Records',
   cover:`${opened_tabs}`,
-  disc:'view list of saved records.',
+  disc:'View list of saved records.',
   link:'/listrecords'
  },{
   id:1,
-  title:'Add a new Test result',
+  title:'Add Test Result',
   cover:`${add_file}`,
-  disc:'Add a new record in database.',
+  disc:'Add a new test result in record.',
   link:'/addreadings'
  },
  {
   id:2,
-  title:'Edit a record',
+  title:'Edit Records',
   cover:`${add_post}`,
-  disc:'edit or update records.',
+  disc:'Edit and Update records.',
   link:'/listrecords'
  },
  {
   id:6,
   title:'Routine Records',
   cover:`${everyday}`,
-  disc:'get complete insight of routine record',
+  disc:'Get complete insight of routine records',
   link:'/routine_record'
  },
  {
   id:3,
-  title:'Delete a record',
+  title:'Delete Records',
   cover:`${throw_away}`,
-  disc:'delete a record from database.',
+  disc:'Delete a record from database.',
   link:'/listrecords'
  },       
  {
   id:7,
   title:'Random Record',
   cover:`${random_thoughts}`,
-  disc:'view rondom readings.',
+  disc:'Get complete insight of random records.',
   link:'/random_record'
  }]
 const HomePage = () => {

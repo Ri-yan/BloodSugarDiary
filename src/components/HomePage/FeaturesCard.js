@@ -48,7 +48,7 @@ const FeaturesCard = ({features}) => {
                   />
                   <Card.Body>
                     <Card.Title>{i.title}</Card.Title>
-                    <Card.Text>{i.disc}</Card.Text>
+                    <Card.Text className="cText" >{i.disc}</Card.Text>
                   </Card.Body>
                 </Card>
               </Link>
@@ -74,6 +74,9 @@ const Com = styled.div`
     .card-pad {
       padding: 0em 1em !important;
     }
+  }
+  .cText{
+  color:#6c757d !important;
   }
   .my-masonry-grid {
     display: -webkit-box; /* Not needed if autoprefixing */

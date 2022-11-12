@@ -74,8 +74,8 @@ const ReadingAdd = () => {
   };
 
   const onClear = (e) => {
-    readingTypeRef.current.value = "";
-    recordRef.current.value = "";
+    readingTypeRef.current.value = "Select Type";
+    recordRef.current.value = "Select Record";
     resultRef.current.value = "";
     notesRef.current.value = "";
     setDate(defaultDate.toLocaleDateString("en-CA"));
@@ -155,7 +155,7 @@ const ReadingAdd = () => {
                       aria-label="Default select example"
                       required
                     >
-                      <option value="">Select Type</option>
+                      <option value="Select Type">Select Type</option>
                       <option value="Random">Random</option>
                       <option value="Bfast">Before BreakFast</option>
                       <option value="Bpp">After BreakFast</option>
@@ -171,7 +171,7 @@ const ReadingAdd = () => {
                     </Form.Label>
                     <Form.Select
                       disabled={
-                        (readingType === "" || readingType === "Select Type")
+                        readingType === "" || readingType === "Select Type"
                           ? true
                           : false
                       }
@@ -182,8 +182,9 @@ const ReadingAdd = () => {
                       aria-label="Default select example"
                       required
                     >
-                      <option className="fs-6" value="">Select Record</option>
-                      {allRecords.map((i, k) => {
+                      <option className="fs-6">Select Record</option>
+                      {
+                      allRecords.map((i, k) => {
                         if (readingType === "Random") {
                           if (i.recordType.name === "Random")
                             return (
@@ -191,13 +192,15 @@ const ReadingAdd = () => {
                                 {i.recordName}
                               </option>
                             );
-                        } else if (i.recordType.name !== "Random")
+                        } 
+                        else if (i.recordType.name !== "Random")
                           return (
                             <option className="fs-6" key={k} value={i.docId}>
                               {i.recordName}
                             </option>
                           );
-                      })}
+                      })
+                      }
                     </Form.Select>
                   </Col>
 
@@ -293,7 +296,7 @@ const ReadingAdd = () => {
                   <Form.Control
                     as="textarea"
                     ref={notesRef}
-                    placeholder="Leave a note here"
+                    placeholder="Leave a comment here"
                     style={{ height: "250px" }}
                   />
                 </Col>
@@ -307,14 +310,9 @@ const ReadingAdd = () => {
 
         <Container className="mt-5 mb-5">
           <Row style={{ disply: "flex", justifyContent: "center" }}>
-            <Col
-              xs={10}
-              md={10}
-              className="box"
-              style={{ width: "fit-content" }}
-            >
+            <Col xs={10} md={10} className="box">
               <Col>
-                <h1>Instructions</h1>
+                <h1>Intsructions</h1>
               </Col>
               <p>
                 To make proper entries in records please follow following
@@ -322,14 +320,15 @@ const ReadingAdd = () => {
               </p>
               <ListGroup as="ol" style={{ textAlign: "left" }} numbered>
                 <ListGroup.Item as="li">
-                  Select the correct reading type amoung the given choices..
-                </ListGroup.Item>
-                <ListGroup.Item as="li">
                   Check for the record name before adding test results.
                 </ListGroup.Item>
                 <ListGroup.Item as="li">
-                  Enter correct test results date and time.(by default current
-                  date/time will be taken.)
+                  Choose the correct type. by default random will be taken as
+                  choice.
+                </ListGroup.Item>
+                <ListGroup.Item as="li">
+                  Enter correct test results date and time. time is optional
+                  choice.
                 </ListGroup.Item>
                 <ListGroup.Item as="li">
                   Adding a note with reading can be helpful while reading data.

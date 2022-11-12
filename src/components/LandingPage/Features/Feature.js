@@ -60,8 +60,8 @@ const Feature = () => {
         <Row>
           <Col>
             <p className="section-subtitle text-muted text-center px-lg-5 pt-4 font-secondary">
-              Just to ease the management and maintainance of file records we
-              made it simple by digitalizing it.
+              To replace the traditional management and maintainance of test records we
+              provide you the digital alternative.
             </p>
           </Col>
         </Row>

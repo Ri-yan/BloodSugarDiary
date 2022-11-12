@@ -1,7 +1,6 @@
-import { Card, Col, Container, Form, Nav, Row,Button,ListGroup } from 'react-bootstrap'
+import { Card, Col, Container, Form, Row,Button,ListGroup } from 'react-bootstrap'
 import styled from 'styled-components'
 import { cover1, dotloader, empty,avatarM } from '../../../assets';
-import {LinkContainer} from 'react-router-bootstrap'
 import {AiOutlineDelete} from "react-icons/ai"
 import { Link } from 'react-router-dom';
 import { useState,useRef,useEffect} from 'react';

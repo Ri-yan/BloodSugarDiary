@@ -33,7 +33,7 @@ const EditNav = () => {
       <Nav.Item>
         <LinkContainer to="/profileedit/appointment" replace>
           <Nav.Link href="#" eventKey="link-4" target="__blank">
-            Scheduleings
+            Appointments
           </Nav.Link>
         </LinkContainer>
       </Nav.Item>

@@ -1,7 +1,6 @@
-import { Card, Col, Container, Form, Nav, Row } from 'react-bootstrap'
+import { Card, Col, Container, Form,Row } from 'react-bootstrap'
 import styled from 'styled-components'
 import { cover1,avatarM, dotloader } from '../../../assets';
-import {LinkContainer} from 'react-router-bootstrap'
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../../context/AuthContext';
 import { useEffect, useState,useRef } from 'react';
@@ -74,7 +73,7 @@ const AppointMentEdit = () => {
         </Col>
         <Col xl={9} md={9}>
             <Card className="mb-4">
-            <Card.Header>Appointment Edit</Card.Header>
+            <Card.Header>Set and Update Appointments</Card.Header>
                 <Card.Body className='text-center'>
                     <Form onSubmit={handleSubmit}>
                         <Row className="gx-3 mb-3">

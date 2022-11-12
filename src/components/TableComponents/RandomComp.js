@@ -69,12 +69,6 @@ const RandomComp = () => {
               );
             })}
           </Form.Select>
-          {/* <button
-            type="submit"
-            className="btn btn-primary btn-md-md btn-lg-lg my-auto up mx-2"
-          >
-            Load
-          </button> */}
         </form>
         {selectedRecordId && selectedRecordId !== "Select a file" ? (
           <>

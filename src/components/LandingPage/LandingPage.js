@@ -10,8 +10,10 @@ import ScrollButton from './ScrollButton'
 import Response from './Response/Response'
 import WelcomePage from './Welcome/WelcomePage'
 import WhoweAre from './WhoweAre/WhoweAre'
-import { auth } from '../../firebase/firebase'
+// import { auth } from '../../firebase/firebase'
+import { useAuth } from '../../context/AuthContext'
 const LandingPage = () => {
+  const {currentUser} =useAuth()
   return (
     <Landing>
         <div className="land">
@@ -23,7 +25,7 @@ const LandingPage = () => {
         <WhoweAre/>
         <div className="home" id='Home'>
             <h1 className='mb-4 start'>
-              {auth.currentUser.uid?'Navigate to Home':'Lets get started'}
+              Navigate to Home
               </h1>
             <Link to={'/welcome'}>
                 <Button variant="primary" className='mt-2' size="lg">
