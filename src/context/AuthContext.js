@@ -225,9 +225,11 @@ export const AuthProvider = ({ children }) => {
       await getDocs(q)
         .then((snapshot) => {
           snapshot.docs.forEach((doc) => {
-            if (doc.data.Date !== result.testDate) {
+            // if (doc.data().testDate === result.testDate) { // line was buggy
+            if (doc.data().testDate === result.testDate) {
               flag = true;
               uid = doc.id;
+              console.log(uid)
             }
           });
         })
@@ -257,12 +259,7 @@ export const AuthProvider = ({ children }) => {
         );
       } else {
         console.log("Doc exist");
-        const recRef = doc(
-          db,
-          "allRoutineResult",
-          auth.currentUser.uid,
-          result.docId,
-          uid
+        const recRef = doc(db,"allRoutineResult",auth.currentUser.uid,result.docId,uid
         );
         if (result.readingType === "Bfast")
           return updateDoc(recRef, {

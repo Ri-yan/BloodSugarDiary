@@ -94,14 +94,14 @@ const ReadingAdd = () => {
       description: `${notesRef.current.value}`,
     };
     try {
-      if (result.readingType === "Select Type") {
+      if (result.readingType === "Select Type" || result.readingType === "") {
         toast.current.show({
           severity: "warn",
           summary: "Warn message",
           detail: "Select Type",
           life: 3000,
         });
-      } else if (result.recordName === "Select Record") {
+      } else if (result.recordName === "Select Record" || result.recordName === "") {
         toast.current.show({
           severity: "warn",
           summary: "Warn message",
@@ -117,6 +117,7 @@ const ReadingAdd = () => {
         });
       } else {
         setloading(true);
+        console.log(result)
         await addDirectResult(result);
         setloading(false);
         onClear();

@@ -52,6 +52,8 @@ const Who = styled.div`
   justify-content: center;
   align-items: center;
   align-content: center;
+  background-attachment: fixed;
+
   img {
     width: 480px;
     height: 350px;
