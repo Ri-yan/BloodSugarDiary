@@ -99,10 +99,10 @@ const RandomTable = ({selectedRecordId}) => {
             }
             else {
                 _result.id = createId();
-                _results.push(_result);
                 try {
                     setLoading(true);
                     await addRandomResult(_result,selectedRecordId);
+                    _results.push({..._result,k:_results.length+1});
                     setLoading(false);
 
                 } catch (error) {

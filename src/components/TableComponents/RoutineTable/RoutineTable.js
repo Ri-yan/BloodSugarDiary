@@ -107,6 +107,7 @@ const RoutineTable = ({selectedRecordId}) => {
                 try {
                     setLoading(true);
                     await addRoutineResult(_result,selectedRecordId);
+                    _results.push({..._result,k:_results.length+1});
                     setLoading(false);
 
                 } catch (error) {

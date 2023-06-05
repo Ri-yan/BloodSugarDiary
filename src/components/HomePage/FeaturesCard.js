@@ -12,6 +12,7 @@ const FeaturesCard = ({features}) => {
     1100: 3,
     700: 2,
     500: 1,
+    400:2,
   };
   const [userName, setuserName] = useState("");
   useEffect(() => {
@@ -72,6 +73,11 @@ const Com = styled.div`
   }
   @media (max-width: 450px) {
     .card-pad {
+      padding: 0em 0em !important;
+    }
+  }
+  @media (max-width: 400px) {
+    .card-pad {
       padding: 0em 1em !important;
     }
   }
@@ -79,8 +85,8 @@ const Com = styled.div`
   color:#6c757d !important;
   }
   .my-masonry-grid {
-    display: -webkit-box; /* Not needed if autoprefixing */
-    display: -ms-flexbox; /* Not needed if autoprefixing */
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
     margin-left: -30px; /* gutter size offset */
     width: auto;
@@ -90,7 +96,6 @@ const Com = styled.div`
     background-clip: padding-box;
   }
 
-  /* Style your items */
   .my-masonry-grid_column > div {
     /* change div to reference your elements you put in <Masonry> */
     /* background: #0000000; */
@@ -141,9 +146,9 @@ const Com = styled.div`
     transition: 0.5;
     text-align-last: justify;
   }
-  .bg-image {
-    /* height: 12rem; */
-  }
+  /* .bg-image {
+    height: 10rem;
+  } */
   @media screen and (max-width: 960px) {
     h1 {
       font-size: 2em;

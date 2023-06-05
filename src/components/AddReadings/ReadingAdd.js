@@ -246,7 +246,7 @@ const ReadingAdd = () => {
                       type="number"
                       min="10"
                       maxLength="4"
-                      max="3000"
+                      max="1000"
                       placeholder="00"
                     />
                   </Col>

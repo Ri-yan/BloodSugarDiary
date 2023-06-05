@@ -77,8 +77,8 @@ const NavBar = () => {
                 <NavDropdown.Item href="https://www.linkedin.com/in/mohd-riyan-0330b4225/" target='_blank'>
                     Locate hospital
                 </NavDropdown.Item>
-                <LinkContainer  to='/graphs'><NavDropdown.Item href="#action/3.1">Graphs</NavDropdown.Item></LinkContainer>
-                <NavDropdown.Item >Blogs</NavDropdown.Item>
+                {/* <LinkContainer  to='/graphs'><NavDropdown.Item href="#action/3.1">Graphs</NavDropdown.Item></LinkContainer> */}
+                <NavDropdown.Item target="_blank" href='https://bsblogs.netlify.app'>Blogs</NavDropdown.Item>
                 <NavDropdown.Divider />
                 <NavDropdown.Item href="https://www.linkedin.com/in/mohd-riyan-0330b4225/" target='_blank'>
                     About Us
